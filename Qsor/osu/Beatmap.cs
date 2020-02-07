@@ -277,11 +277,11 @@ namespace Qsor.osu
 
                         var sliderType = sliderInfo[0] switch
                         {
-                            "L" => HitSliderType.Linear,
-                            "P" => HitSliderType.Perfect,
-                            "B" => HitSliderType.Bezier,
-                            "C" => HitSliderType.Catmull,
-                            _   => HitSliderType.Linear
+                            "L" => PathType.Linear,
+                            "P" => PathType.PerfectCurve,
+                            "B" => PathType.Bezier,
+                            "C" => PathType.Catmull,
+                            _   => PathType.Linear
                         };
 
                         var curvePoints = new List<Vector2> {new Vector2((float) x, (float) y)};
