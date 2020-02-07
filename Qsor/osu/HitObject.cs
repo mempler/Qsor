@@ -19,12 +19,12 @@ namespace Qsor.osu
         Spinner  = 1 << 3
     }
     
-    public abstract class HitObject : Container
+    public abstract class HitObject : Container, IHasEndTime
     {
         public int BeginTime;
-        public int EndTime => BeginTime + 500; // TODO: Implement AR && OD
+        public double EndTime => BeginTime + 500; // TODO: Implement AR && OD
 
-        public int Duration => EndTime - BeginTime;
+        public double Duration => EndTime - BeginTime;
         public float HitObjectSize { get; }
 
         public ColourInfo HitObjectColour; // we do not use Colour, we use HitObjectColour instead, as Colour would Colour the whole HitCircle. (in theory, not tested)

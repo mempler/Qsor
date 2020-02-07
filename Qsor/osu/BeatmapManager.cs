@@ -8,15 +8,16 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Platform;
+using osuTK;
 using Qsor.Containers;
 
 namespace Qsor.osu
 {
     public class BeatmapManager : Container
     {
-        public Beatmap ActiveBeatmap;
-        public Track Song;
-        public PlayfieldContainer Playfield;
+        public Beatmap ActiveBeatmap { get; private set; }
+        public Track Song { get; private set; }
+        public PlayfieldContainer Playfield { get; private set; }
 
         [Resolved]
         private Storage _Storage { get; set; }
@@ -57,7 +58,8 @@ namespace Qsor.osu
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    FillMode = FillMode.Fill,
+                    FillMode = FillMode.Fit,
+                    Scale = new Vector2(2)
                 });
         }
 

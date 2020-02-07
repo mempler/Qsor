@@ -10,9 +10,8 @@ using osuTK.Graphics;
 namespace Qsor.osu.HitObjects
 {
     // TODO: Fully Implement.
-    public class HitSlider : HitObject
+    public class HitSlider : HitObject, IHasCurve
     {
-        public IReadOnlyList<Vector2> CurvePoints { get; private set; }
         public IReadOnlyList<Vector2> ControlPoints { get; }
         public PathType PathType { get; }
         
@@ -21,8 +20,8 @@ namespace Qsor.osu.HitObjects
         private Path SliderPathInnerFront;
         private Path SliderPathInnerBack;
 
-        private SliderPath _sliderPath;
-        
+        public SliderPath Path { get; }
+
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
             SliderPathInnerFront = new TexturedPath
@@ -44,9 +43,8 @@ namespace Qsor.osu.HitObjects
             };
             
             var curvePoints = new List<Vector2>();
-            _sliderPath.GetPathToProgress(curvePoints, 0, 1);
+            Path.GetPathToProgress(curvePoints, 0, 1);
 
-            CurvePoints = curvePoints;
             foreach (var curvePoint in curvePoints)
             {
                 SliderPathInnerFront.AddVertex(curvePoint);
@@ -64,7 +62,7 @@ namespace Qsor.osu.HitObjects
                 double pixelLength, int repeats,
             float size) : base(new Vector2(0,0), size)
         {
-            _sliderPath = new SliderPath(pathType, controlPoints.ToArray(), pixelLength);
+            Path = new SliderPath(pathType, controlPoints.ToArray(), pixelLength);
             PathType = pathType;
             ControlPoints = controlPoints;
         }
