@@ -321,6 +321,13 @@ namespace Qsor.osu
             
             // Sort by Time
             HitObjects.Sort((a, b) => a.BeginTime - b.BeginTime);
+
+            for (var i = 0; i < HitObjects.Count; i++)
+            {
+                var obj = HitObjects[i];
+
+                obj.Depth = i;
+            }
         }
         
         public void Dispose()

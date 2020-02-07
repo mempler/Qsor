@@ -32,7 +32,7 @@ namespace Qsor.Screens
         
         protected override void LoadComplete()
         {
-            BeatmapManager.LoadBeatmap("./songs/1/TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu");
+            BeatmapManager.LoadBeatmap("./songs/0/UNDEAD CORPORATION - The Empress (Plutia) [STARBOW BREAK!].osu");
             BeatmapManager.PlayBeatmap();
             
             base.LoadComplete();
