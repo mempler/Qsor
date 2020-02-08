@@ -10,7 +10,6 @@ namespace Qsor.osu.HitObjects.Slider
     public abstract class DrawableSliderPath : SmoothPath
     {
         protected const float BorderPortion = 0.128f;
-        protected const float GradientPortion = 2 - BorderPortion;
 
         private const float BorderMaxSize = 8f;
         private const float BorderMinSize = 0f;

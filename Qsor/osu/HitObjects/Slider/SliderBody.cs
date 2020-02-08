@@ -4,9 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Lines;
+using osu.Framework.Utils;
 using osuTK;
 using osuTK.Graphics;
 
@@ -107,16 +109,40 @@ namespace Qsor.osu.HitObjects.Slider
 
         private class DefaultDrawableSliderPath : DrawableSliderPath
         {
-            private const float OpacityAtCentre = 0.3f;
-            private const float OpacityAtEdge = 0.8f;
+            private const float ShadowPortion = 0.06f;
+
+            private new Color4 AccentColour => new Color4(base.AccentColour.R, base.AccentColour.G, base.AccentColour.B, base.AccentColour.A * 0.70f);
 
             protected override Color4 ColourAt(float position)
             {
-                if (CalculatedBorderPortion != 0f && position <= CalculatedBorderPortion)
+                var realBorderPortion = ShadowPortion + CalculatedBorderPortion;
+                var realGradientPortion = 1 - realBorderPortion;
+
+                if (position <= ShadowPortion)
+                    return new Color4(0f, 0f, 0f, 0.25f * position / ShadowPortion);
+
+                if (position <= realBorderPortion)
                     return BorderColour;
 
-                position -= CalculatedBorderPortion;
-                return new Color4(AccentColour.R, AccentColour.G, AccentColour.B, (OpacityAtEdge - (OpacityAtEdge - OpacityAtCentre) * position / GradientPortion) * AccentColour.A);
+                position -= realBorderPortion;
+
+                var outerColour = AccentColour.Darken(0.1f);
+                var innerColour = lighten(AccentColour, 0.5f);
+
+                return Interpolation.ValueAt(position / realGradientPortion, outerColour, innerColour, 0, 1);
+            }
+            
+            /// <summary>
+            /// Lightens a colour in a way more friendly to dark or strong colours.
+            /// </summary>
+            private static Color4 lighten(Color4 color, float amount)
+            {
+                amount *= 0.5f;
+                return new Color4(
+                    Math.Min(1, color.R * (1 + 0.5f * amount) + 1 * amount),
+                    Math.Min(1, color.G * (1 + 0.5f * amount) + 1 * amount),
+                    Math.Min(1, color.B * (1 + 0.5f * amount) + 1 * amount),
+                    color.A);
             }
         }
     }

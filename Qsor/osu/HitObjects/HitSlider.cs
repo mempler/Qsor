@@ -24,10 +24,10 @@ namespace Qsor.osu.HitObjects
 
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
-            _body = new SnakingSliderBody(this) {PathRadius = 25, AccentColour = HitObjectColour};
+            _body = new SnakingSliderBody(this) {PathRadius = 25, AccentColour = Color4.Black}; // lets make it black for now, as almost every Legacy skin uses that.
 
             Anchor = Anchor.TopLeft;
-            Origin = Anchor.TopLeft;
+            Origin = Anchor.Centre;
             
             Add(_body);
         }
