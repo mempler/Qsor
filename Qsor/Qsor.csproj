@@ -17,5 +17,9 @@
         <EmbeddedResource Include="Resources\Textures\**\*" />
         <EmbeddedResource Include="Resources\Tracks\**\*" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Menus\MainMenu\Components" />
+    </ItemGroup>
 
 </Project>

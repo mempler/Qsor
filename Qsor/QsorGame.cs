@@ -2,6 +2,7 @@
 using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
+using osu.Framework.Audio.Track;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
@@ -22,11 +23,14 @@ namespace Qsor
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
             dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
+        public Track ActiveTrack => BeatmapManager.Song;
+
         [BackgroundDependencyLoader]
         private void Load()
         {
             AddInternal(BeatmapManager = new BeatmapManager());
             dependencies.CacheAs(BeatmapManager);
+            dependencies.CacheAs(this);
             
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             

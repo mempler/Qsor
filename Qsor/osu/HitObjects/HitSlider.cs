@@ -6,6 +6,7 @@ using osu.Framework.Graphics.Lines;
 using osu.Framework.Graphics.Textures;
 using osuTK;
 using osuTK.Graphics;
+using Qsor.osu.HitObjects.Slider;
 
 namespace Qsor.osu.HitObjects
 {
@@ -17,47 +18,28 @@ namespace Qsor.osu.HitObjects
         
         public override HitObjectType Type => HitObjectType.Slider;
         
-        private Path SliderPathInnerFront;
-        private Path SliderPathInnerBack;
+        private SnakingSliderBody _body;
 
         public SliderPath Path { get; }
 
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
-            SliderPathInnerFront = new TexturedPath
-            {
-                Anchor = Anchor.TopLeft,
-
-                Texture = store.Get("slider"),
-                
-                Colour = HitObjectColour,
-                PathRadius = 25
-            };
-            
-            SliderPathInnerBack = new SmoothPath
-            {
-                Anchor = Anchor.TopLeft,
-                
-                Colour = Color4.Black,
-                PathRadius = 20,
-            };
-            
-            var curvePoints = new List<Vector2>();
-            Path.GetPathToProgress(curvePoints, 0, 1);
-
-            foreach (var curvePoint in curvePoints)
-            {
-                SliderPathInnerFront.AddVertex(curvePoint);
-                SliderPathInnerBack.AddVertex(curvePoint);
-            }
+            _body = new SnakingSliderBody(this) {PathRadius = 25, AccentColour = HitObjectColour};
 
             Anchor = Anchor.TopLeft;
             Origin = Anchor.TopLeft;
             
-            Add(SliderPathInnerBack);
-            Add(SliderPathInnerFront);
+            Add(_body);
         }
-        
+
+        private double i = 0;
+        protected override void Update()
+        {
+            base.Update();
+            
+            _body.UpdateProgress(i += 0.001);
+        }
+
         public HitSlider(PathType pathType, IReadOnlyList<Vector2> controlPoints,
                 double pixelLength, int repeats,
             float size) : base(new Vector2(0,0), size)
@@ -65,6 +47,10 @@ namespace Qsor.osu.HitObjects
             Path = new SliderPath(pathType, controlPoints.ToArray(), pixelLength);
             PathType = pathType;
             ControlPoints = controlPoints;
+
+            RepeatCount = repeats;
         }
+
+        public int RepeatCount { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Qsor.Containers
             CacheDrawnFrameBuffer = true;
 
             BackgroundColour = Color4.Black;
-            Colour = new Color4(1,1,1, .2f);
+            Colour = new Color4(1,1,1, .5f);
             BlurSigma = new Vector2(5f);
         }
 
