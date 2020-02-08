@@ -13,6 +13,8 @@ namespace Qsor.osu.HitObjects
     // TODO: Fully Implement.
     public class HitSlider : HitObject, IHasCurve
     {
+        public override double EndTime => (BeginTime + this.SpanCount() * Path.Distance / TimingPoint.Velocity);
+
         public IReadOnlyList<Vector2> ControlPoints { get; }
         public PathType PathType { get; }
         

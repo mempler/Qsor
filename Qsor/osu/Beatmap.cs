@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
 using Qsor.osu.HitObjects;
@@ -192,8 +193,9 @@ namespace Qsor.osu
                         KiaiMode = l[7].Trim() == "1"
                     };
                     timingPoint.BPM = timingPoint.MsPerBeat / 60000d;
-
+                    
                     timingPoint.SpeedMultiplier = timingPoint.MsPerBeat < 0 ? 100.0 / -timingPoint.MsPerBeat : 1;
+  
                     var scoringDistance = 100 * Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier;
                     
                     timingPoint.Velocity = scoringDistance / timingPoint.MsPerBeat;
@@ -258,16 +260,6 @@ namespace Qsor.osu
                         circle.BeginTime = timing;
                         circle.HitObjectColour = hitObjectColor;
 
-                        /*
-                        HitObject circle = new HitCircle(new Vector2((float) x,(float) y), 
-                            hitObjectColor,
-                            scale);
-                        */
-                        
-                        // circle.Timing = timing;
-                        // circle.Visible = false;
-                        // circle.Kind = HitObjectKind.Circle;
-                        
                         HitObjects.Add(circle);
                     }
                     
@@ -311,8 +303,6 @@ namespace Qsor.osu
                         slider.BeginTime = timing;
                         slider.TimingPoint = TimingPoints.FirstOrDefault(s => s.Offset >= timing);
                         slider.HitObjectColour = hitObjectColor;
-                        //slider.Visible = false;
-                        //slider.Index = HitObjects.Count;
                         
                         HitObjects.Add(slider);
                     }
@@ -320,7 +310,7 @@ namespace Qsor.osu
             }
             
             // Sort by Time
-            HitObjects.Sort((a, b) => a.BeginTime - b.BeginTime);
+            HitObjects.Sort((a, b) => (int) (a.BeginTime - b.BeginTime));
 
             for (var i = 0; i < HitObjects.Count; i++)
             {

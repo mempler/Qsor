@@ -21,10 +21,10 @@ namespace Qsor.osu
     
     public abstract class HitObject : Container, IHasEndTime
     {
-        public int BeginTime;
-        public double EndTime => BeginTime + 500; // TODO: Implement AR && OD
+        public double BeginTime;
+        public virtual double EndTime => BeginTime + 500;
 
-        public double Duration => EndTime - BeginTime;
+        public virtual double Duration => EndTime - BeginTime;
         public float HitObjectSize { get; }
 
         public ColourInfo HitObjectColour; // we do not use Colour, we use HitObjectColour instead, as Colour would Colour the whole HitCircle. (in theory, not tested)
