@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Qsor\Qsor.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\Fonts\**\*" />
+        <EmbeddedResource Include="Resources\Samples\**\*" />
+        <EmbeddedResource Include="Resources\Skins\**\*" />
+        <EmbeddedResource Include="Resources\Shaders\**\*" />
+        <EmbeddedResource Include="Resources\Textures\**\*" />
+        <EmbeddedResource Include="Resources\Tracks\**\*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Tracks" />
+    </ItemGroup>
+
+</Project>

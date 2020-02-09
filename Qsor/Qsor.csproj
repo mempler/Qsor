@@ -19,6 +19,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <Folder Include="Gameplay" />
       <Folder Include="Menus\MainMenu\Components" />
     </ItemGroup>
 

@@ -8,8 +8,8 @@ using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
 using osu.Framework.Screens;
 using osuTK;
-using Qsor.osu;
-using Qsor.Screens;
+using Qsor.Gameplay.osu;
+using Qsor.Gameplay.osu.Screens;
 
 namespace Qsor
 {

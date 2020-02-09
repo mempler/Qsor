@@ -2,7 +2,7 @@
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 
-namespace Qsor.Containers
+namespace Qsor.Containers.Input
 {
     // TODO: Fully Implement!
     public class VirtualCursorContainer : Container
