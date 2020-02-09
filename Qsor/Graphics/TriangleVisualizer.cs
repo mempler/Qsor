@@ -26,7 +26,7 @@ namespace Qsor.Graphics
             if (Parent == null)
                 return;
 
-            if (Position.Y > Parent.DrawHeight)
+            if (Position.Y > Parent.DrawHeight + 100)
                 (Parent as Container)?.Remove(this);
 
             this.MoveToY((float) (Position.Y + ((SpeedMultiply * SpeedBoost)) * Clock.ElapsedFrameTime));
@@ -60,13 +60,18 @@ namespace Qsor.Graphics
 
                 Position = new Vector2(_rand.Next(0, (int) DrawWidth), -DrawWidth),
                 
-                SpeedMultiply = Math.Min(_rand.NextDouble(), .8f),
+                SpeedMultiply = Math.Max(.3, Math.Min(_rand.NextDouble(), .8f)),
                 Colour = Color4.White.Multiply(colMul)
             };
 
             tri.OriginalScale = tri.Scale;
             
             Add(tri);
+        }
+
+        public void RandomColour()
+        {
+            Colour = new Color4((float) _rand.NextDouble(), (float) _rand.NextDouble(), (float) _rand.NextDouble(), 1);
         }
 
         public void SpawnTriangle(int amount)

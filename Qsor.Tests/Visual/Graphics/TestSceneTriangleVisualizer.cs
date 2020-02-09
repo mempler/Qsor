@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ManagedBass.Fx;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Audio.Track;
@@ -41,7 +43,7 @@ namespace Qsor.Tests.Visual.Graphics
             AddStep("Spawn 400 Triangle", () => TriangleVisualizer.SpawnTriangle(400));
             AddStep("Spawn 800 Triangle", () => TriangleVisualizer.SpawnTriangle(800));
 
-            AddToggleStep("Red Triangles", e => TriangleVisualizer.Colour = e ? Color4.IndianRed : Color4.YellowGreen);
+            AddStep("Random Colour", TriangleVisualizer.RandomColour);
             
             AddToggleStep("Music", e =>
             {
@@ -58,20 +60,28 @@ namespace Qsor.Tests.Visual.Graphics
         
         protected override void Update()
         {
-            var currentAvg = _track?.CurrentAmplitudes.Average ?? 1;
+            var higherFreq = _track?.CurrentAmplitudes.FrequencyAmplitudes.TakeLast(50);
+            var lowerFreq = _track?.CurrentAmplitudes.FrequencyAmplitudes.TakeLast(100);
+
+            var avg = (lowerFreq?.Sum() + higherFreq?.Sum()) ?? 0;
             
-            if (currentAvg >= 1) {
+            if (avg >= .8) {
+                TriangleVisualizer?.RandomColour();
                 TriangleVisualizer?.FlashColour(Color4.White, 100);
                 TriangleVisualizer?
                     .ScaleTriangles(1.1f, 100)
                     .ForEach(s => s.Then(e => e.ScaleTo(e.OriginalScale, 100)));
 
                 TriangleVisualizer?
-                    .SpeedBoostTriangles(5, 100)
+                    .SpeedBoostTriangles(avg * 3, 100)
                     .ForEach(s => s.Then(e => e.SpeedBoostTo(.5, 100)));
                 
-                TriangleVisualizer?.SpawnTriangle(10);
+                TriangleVisualizer?.SpawnTriangle(1);
             }
+            
+            TriangleVisualizer?
+                .ScaleTriangles(avg * 2.5f, 500)
+                .ForEach(s => s.Then(e => e.ScaleTo(e.OriginalScale, 500)));
             
         }
     }
