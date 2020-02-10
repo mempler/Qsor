@@ -1,6 +1,7 @@
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Graphics;
+using osu.Framework.Logging;
 using osu.Framework.Screens;
 using Qsor.Gameplay.osu.Containers;
 
@@ -16,7 +17,7 @@ namespace Qsor.Gameplay.osu.Screens
         
         protected override void LoadComplete()
         {
-            BeatmapManager.LoadBeatmap("./songs/1/TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu");
+            BeatmapManager.LoadBeatmap($"./Songs/{QsorGame.CURRENT_TESTMAP}/{QsorGame.CURRENT_TESTMAP_NAME}"); // TODO: Remove
             BeatmapManager.PlayBeatmap();
             
             base.LoadComplete();

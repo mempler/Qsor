@@ -10,14 +10,19 @@ using osu.Framework.Screens;
 using osuTK;
 using Qsor.Gameplay.osu;
 using Qsor.Gameplay.osu.Screens;
+using Qsor.Online;
 
 namespace Qsor
 {
     public class QsorGame : Game
     {
+        public const uint CURRENT_TESTMAP = 966339; // TODO: Remove
+        public const string CURRENT_TESTMAP_NAME = "umu. - Ai no Sukima (Sotarks) [Reform's Insane].osu"; // TODO: Remove
+        
         private ScreenStack _stack;
 
         private BeatmapManager BeatmapManager;
+        private BeatmapMirrorAccess BeatmapMirrorAccess;
         private DependencyContainer dependencies;
 
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
@@ -28,14 +33,16 @@ namespace Qsor
         [BackgroundDependencyLoader]
         private void Load()
         {
-            AddInternal(BeatmapManager = new BeatmapManager());
-            dependencies.CacheAs(BeatmapManager);
+            dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
+            dependencies.CacheAs(BeatmapManager = new BeatmapManager());
             dependencies.CacheAs(this);
             
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             
             Audio.Frequency.Set(1);
             Audio.Volume.Set(.2);
+            
+            AddInternal(BeatmapManager);
             
             _stack = new ScreenStack
             {
