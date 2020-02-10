@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Logging;
 using osuTK;
@@ -21,6 +23,9 @@ namespace Qsor.Gameplay.osu.HitObjects
         public int RepeatCount { get; set; }
         
         private SnakingSliderBody _body;
+
+        [Resolved]
+        private BeatmapManager BeatmapManager { get; set; }
         
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
@@ -28,6 +33,9 @@ namespace Qsor.Gameplay.osu.HitObjects
 
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
+
+            _body.SnakingIn.Value = true;
+            _body.SnakingOut.Value = true;
             
             Add(_body);
         }
@@ -44,9 +52,12 @@ namespace Qsor.Gameplay.osu.HitObjects
 
         protected override void Update()
         {
-            base.Update();
+            var completionProgress = Math.Clamp((Time.Current - BeginTime) / Duration, 0, 1);
             
-            _body.UpdateProgress(1);
+            if (completionProgress >= 0.5)
+                ((Container) Parent)?.Remove(this);
+            
+            _body.UpdateProgress(completionProgress);
         }
 
         public HitSlider(PathType pathType, IReadOnlyList<Vector2> controlPoints,

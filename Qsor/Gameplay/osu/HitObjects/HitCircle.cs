@@ -56,7 +56,8 @@ namespace Qsor.Gameplay.osu.HitObjects
             Add(_hitCircleOverlay);
 
             Alpha = 0;
-            Size = new Vector2(128, 128) * HitObjectSize;
+            Size = new Vector2(128, 128);
+            Scale = new Vector2((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2);
         }
 
         public override void Hide()
@@ -78,7 +79,7 @@ namespace Qsor.Gameplay.osu.HitObjects
             //base.Show();
 
             this.FadeTo(1, 200);
-            _approachCircle.ScaleTo(0, Duration + (Duration * .3));
+            _approachCircle.ScaleTo((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2, 200);
         }
 
         public HitCircle(Vector2 position, float size) : base(position, size)

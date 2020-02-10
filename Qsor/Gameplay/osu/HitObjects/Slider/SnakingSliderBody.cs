@@ -65,6 +65,9 @@ namespace Qsor.Gameplay.osu.HitObjects.Slider
             _slider = slider;
         }
         
+        [Resolved]
+        private BeatmapManager BeatmapManager { get; set; }
+        
         [BackgroundDependencyLoader]
         private void Load()
         {
