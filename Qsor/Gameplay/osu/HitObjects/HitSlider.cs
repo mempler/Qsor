@@ -35,8 +35,7 @@ namespace Qsor.Gameplay.osu.HitObjects
             Origin = Anchor.Centre;
 
             _body.SnakingIn.Value = true;
-            _body.SnakingOut.Value = true;
-            
+
             Add(_body);
         }
 
@@ -52,9 +51,9 @@ namespace Qsor.Gameplay.osu.HitObjects
 
         protected override void Update()
         {
-            var completionProgress = Math.Clamp((Time.Current - BeginTime) / Duration, 0, 1);
+            var completionProgress = Math.Clamp((BeatmapManager.Song.CurrentTime - BeginTime) / Duration, 0, 1);
             
-            if (completionProgress >= 0.5)
+            if (completionProgress >= .5)
                 ((Container) Parent)?.Remove(this);
             
             _body.UpdateProgress(completionProgress);

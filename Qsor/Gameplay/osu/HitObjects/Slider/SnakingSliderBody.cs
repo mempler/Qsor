@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Logging;
 using osuTK;
 
 namespace Qsor.Gameplay.osu.HitObjects.Slider
@@ -80,7 +81,7 @@ namespace Qsor.Gameplay.osu.HitObjects.Slider
             var spanProgress = _slider.ProgressAt(completionProgress);
 
             double start = 0;
-            var end = SnakingIn.Value ? Math.Clamp((Time.Current - (_slider.BeginTime - _slider.EndTime)) / (_slider.EndTime / 3), 0, 1) : 1;
+            var end = SnakingIn.Value ? Math.Clamp(((BeatmapManager.Song.CurrentTime - (_slider.BeginTime - _slider.EndTime)) / (_slider.EndTime / 3)), 0, 1) : 1;
 
             if (span >= _slider.SpanCount() - 1)
             {

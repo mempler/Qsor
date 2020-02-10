@@ -78,8 +78,8 @@ namespace Qsor.Gameplay.osu.HitObjects
         {
             //base.Show();
 
-            this.FadeTo(1, 200);
-            _approachCircle.ScaleTo((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2, 200);
+            this.FadeTo(1, 200 + Beatmap.Difficulty.ApproachRate);
+            _approachCircle.ScaleTo((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2, 200 + Beatmap.Difficulty.ApproachRate);
         }
 
         public HitCircle(Vector2 position, float size) : base(position, size)
