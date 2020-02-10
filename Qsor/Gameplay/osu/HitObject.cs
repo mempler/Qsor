@@ -31,6 +31,8 @@ namespace Qsor.Gameplay.osu
         
         public TimingPoint TimingPoint { get; set; }
         
+        public Beatmap Beatmap { get; set; }
+        
         public HitObject(Vector2 position, float size)
         {
             Position = position;

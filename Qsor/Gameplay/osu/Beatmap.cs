@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
 using Qsor.Gameplay.osu.HitObjects;
@@ -35,7 +36,7 @@ namespace Qsor.Gameplay.osu
         public int Volume;
         public bool Inherited;
         public bool KiaiMode;
-
+        
         public double BPM;
         public double Velocity;
         public double SpeedMultiplier;
@@ -50,6 +51,8 @@ namespace Qsor.Gameplay.osu
         public readonly Difficulty Difficulty = new Difficulty();
         public readonly List<Color4> Colors = new List<Color4>();
         public List<TimingPoint> TimingPoints = new List<TimingPoint>();
+        
+        private static double LastBPM = 0;
 
         public const int RulesetId = 0;
         
@@ -186,16 +189,23 @@ namespace Qsor.Gameplay.osu
                         SampleSet = int.Parse(l[3].Trim()),
                         SampleIndex = int.Parse(l[4].Trim()),
                         Volume = int.Parse(l[5].Trim()),
-                        Inherited = l[6].Trim() == "1",
+                        Inherited = l[6].Trim() == "0", // this is reversed for some fucking reason. FINALLY!!
                         KiaiMode = l[7].Trim() == "1"
                     };
-                    timingPoint.BPM = timingPoint.MsPerBeat / 60000d;
-                    
-                    timingPoint.SpeedMultiplier = timingPoint.MsPerBeat < 0 ? 100.0 / -timingPoint.MsPerBeat : 1;
+                    timingPoint.BPM = 60000d / timingPoint.MsPerBeat;
+   
+                    if (timingPoint.Inherited)
+                    {
+                        timingPoint.SpeedMultiplier = -100 * LastBPM / timingPoint.MsPerBeat;
+                    }
+                    else
+                    {
+                        timingPoint.SpeedMultiplier = timingPoint.BPM;
+                        LastBPM = timingPoint.SpeedMultiplier;
+                    }
   
-                    var scoringDistance = 100 * Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier;
-                    
-                    timingPoint.Velocity = scoringDistance / timingPoint.MsPerBeat;
+                    timingPoint.Velocity = Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier / 600f;
+
                     TimingPoints.Add(timingPoint);
                 }
 
@@ -254,6 +264,7 @@ namespace Qsor.Gameplay.osu
                     if ((hitObjectType & HitObjectType.Circle) != 0)
                     {
                         HitObject circle = new HitCircle(new Vector2((float) x, (float) y), scale);
+                        circle.Beatmap = this;
                         circle.BeginTime = timing;
                         circle.HitObjectColour = hitObjectColor;
 
@@ -296,6 +307,8 @@ namespace Qsor.Gameplay.osu
                         HitObject slider = new HitSlider(
                             sliderType, curvePoints,
                             pixelLength, repeats, scale);
+
+                        slider.Beatmap = this;
 
                         slider.BeginTime = timing;
                         slider.TimingPoint = TimingPoints.FirstOrDefault(s => s.Offset >= timing);

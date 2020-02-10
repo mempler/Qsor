@@ -2,6 +2,7 @@
 using osu.Framework.Allocation;
 using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics.Containers;
+using osu.Framework.Logging;
 using osuTK;
 
 namespace Qsor.Gameplay.osu.Containers
@@ -25,6 +26,7 @@ namespace Qsor.Gameplay.osu.Containers
             Children // It's faster to iterate through Children. (or should be as there are less objects)
                 .Select(obj => obj as HitObject)
                 .Where(obj => obj != null)
+                .Where(obj => obj.Type == HitObjectType.Circle)
                 .Where(obj => currentTime > obj.EndTime)
                 .ForEach(obj =>
                 {
@@ -33,9 +35,36 @@ namespace Qsor.Gameplay.osu.Containers
                     //Remove(obj);
                 });
             
+            Children // It's faster to iterate through Children. (or should be as there are less objects)
+                .Select(obj => obj as HitObject)
+                .Where(obj => obj != null)
+                .Where(obj => obj.Type == HitObjectType.Slider)
+                .Where(obj => (obj.BeginTime - currentTime) > -(obj.Duration + 200))
+                .Where(obj => -obj.Duration < (obj.BeginTime - currentTime))
+                .ForEach(obj =>
+                {
+                    obj.Hide();
+
+                    //Remove(obj);
+                });
+    
+
             BeatmapManager.ActiveBeatmap.HitObjects
+                .Where(obj => obj.Type == HitObjectType.Circle)
                 .Where(obj => currentTime < obj.EndTime)
-                .Where(obj => currentTime > obj.BeginTime) // TODO: This feels odd, as osu! Shows the circles a bit early.
+                .Where(obj => currentTime > obj.BeginTime - BeatmapManager.ActiveBeatmap.Difficulty.ApproachRate)
+                .Where(obj => !Children.Contains(obj))
+                .ForEach(obj =>
+                {
+                    Add(obj);
+                    
+                    obj.Show();
+                });
+            
+            BeatmapManager.ActiveBeatmap.HitObjects
+                .Where(obj => obj.Type == HitObjectType.Slider)
+                .Where(obj => -obj.Duration < (obj.BeginTime - currentTime))
+                .Where(obj => currentTime > obj.BeginTime - BeatmapManager.ActiveBeatmap.Difficulty.ApproachRate)
                 .Where(obj => !Children.Contains(obj))
                 .ForEach(obj =>
                 {

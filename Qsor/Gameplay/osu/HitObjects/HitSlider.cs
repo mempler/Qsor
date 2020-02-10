@@ -3,6 +3,7 @@ using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
 using Qsor.Gameplay.osu.HitObjects.Slider;
@@ -12,17 +13,15 @@ namespace Qsor.Gameplay.osu.HitObjects
     // TODO: Fully Implement.
     public class HitSlider : HitObject, IHasCurve
     {
-        public override double EndTime => (BeginTime + this.SpanCount() * Path.Distance / TimingPoint.Velocity);
-
+        public override double EndTime => BeginTime + (Path.Distance * this.SpanCount()) / TimingPoint.Velocity;
         public IReadOnlyList<Vector2> ControlPoints { get; }
         public PathType PathType { get; }
-        
         public override HitObjectType Type => HitObjectType.Slider;
+        public SliderPath Path { get; }
+        public int RepeatCount { get; set; }
         
         private SnakingSliderBody _body;
-
-        public SliderPath Path { get; }
-
+        
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
             _body = new SnakingSliderBody(this) {PathRadius = 25, AccentColour = Color4.Black}; // lets make it black for now, as almost every Legacy skin uses that.
@@ -33,12 +32,21 @@ namespace Qsor.Gameplay.osu.HitObjects
             Add(_body);
         }
 
-        private double i = 0;
+        public override void Show()
+        {
+            this.FadeInFromZero(200 + Beatmap.Difficulty.ApproachRate);
+        }
+
+        public override void Hide()
+        {
+            this.FadeOutFromOne(200 + Beatmap.Difficulty.ApproachRate);
+        }
+
         protected override void Update()
         {
             base.Update();
             
-            _body.UpdateProgress(i += 0.001);
+            _body.UpdateProgress(1);
         }
 
         public HitSlider(PathType pathType, IReadOnlyList<Vector2> controlPoints,
@@ -51,7 +59,5 @@ namespace Qsor.Gameplay.osu.HitObjects
 
             RepeatCount = repeats;
         }
-
-        public int RepeatCount { get; set; }
     }
 }
