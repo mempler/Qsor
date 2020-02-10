@@ -22,21 +22,26 @@ namespace Qsor.Gameplay.osu.HitObjects
         public SliderPath Path { get; }
         public int RepeatCount { get; set; }
         
-        private SnakingSliderBody _body;
-
-        [Resolved]
-        private BeatmapManager BeatmapManager { get; set; }
+        public SnakingSliderBody Body { get; private set; }
         
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
-            _body = new SnakingSliderBody(this) {PathRadius = 25, AccentColour = Color4.Black}; // lets make it black for now, as almost every Legacy skin uses that.
+            Body = new SnakingSliderBody(this) {PathRadius = ((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2) * 64, AccentColour = Color4.Black}; // lets make it black for now, as almost every Legacy skin uses that.
 
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
 
-            _body.SnakingIn.Value = true;
-
-            Add(_body);
+            Body.SnakingOut.Value = true;
+            
+            Add(Body);
+            
+            BindableProgress.ValueChanged += prog =>
+            {
+                if (prog.NewValue >= 1)
+                    ((Container) Parent)?.Remove(this);
+            
+                Body.UpdateProgress(prog.NewValue);
+            };
         }
 
         public override void Show()
@@ -48,20 +53,10 @@ namespace Qsor.Gameplay.osu.HitObjects
         {
             this.FadeOutFromOne(200 + Beatmap.Difficulty.ApproachRate);
         }
-
-        protected override void Update()
-        {
-            var completionProgress = Math.Clamp((BeatmapManager.Song.CurrentTime - BeginTime) / Duration, 0, 1);
-            
-            if (completionProgress >= .5)
-                ((Container) Parent)?.Remove(this);
-            
-            _body.UpdateProgress(completionProgress);
-        }
-
-        public HitSlider(PathType pathType, IReadOnlyList<Vector2> controlPoints,
+        
+        public HitSlider(Beatmap beatmap, PathType pathType, IReadOnlyList<Vector2> controlPoints,
                 double pixelLength, int repeats,
-            float size) : base(new Vector2(0,0), size)
+            float size) : base(beatmap, new Vector2(0,0), size)
         {
             Path = new SliderPath(pathType, controlPoints.ToArray(), pixelLength);
             PathType = pathType;

@@ -263,8 +263,7 @@ namespace Qsor.Gameplay.osu
 
                     if ((hitObjectType & HitObjectType.Circle) != 0)
                     {
-                        HitObject circle = new HitCircle(new Vector2((float) x, (float) y), scale);
-                        circle.Beatmap = this;
+                        HitObject circle = new HitCircle(this, new Vector2((float) x, (float) y), scale);
                         circle.BeginTime = timing;
                         circle.HitObjectColour = hitObjectColor;
 
@@ -305,10 +304,9 @@ namespace Qsor.Gameplay.osu
                         var repeats = int.Parse(l[6].Trim());
 
                         HitObject slider = new HitSlider(
+                            this,
                             sliderType, curvePoints,
                             pixelLength, repeats, scale);
-
-                        slider.Beatmap = this;
 
                         slider.BeginTime = timing;
                         slider.TimingPoint = TimingPoints.FirstOrDefault(s => s.Offset >= timing);

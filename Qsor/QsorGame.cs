@@ -16,8 +16,8 @@ namespace Qsor
 {
     public class QsorGame : Game
     {
-        public const uint CURRENT_TESTMAP = 966339; // TODO: Remove
-        public const string CURRENT_TESTMAP_NAME = "umu. - Ai no Sukima (Sotarks) [Reform's Insane].osu"; // TODO: Remove
+        public const uint CURRENT_TESTMAP = 90935; // TODO: Remove
+        public const string CURRENT_TESTMAP_NAME = "IOSYS - Endless Tewi-ma Park (Lanturn) [Tewi 2B Expert Edition].osu"; // TODO: Remove
         
         private ScreenStack _stack;
 

@@ -12,6 +12,7 @@ using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osuTK;
 using Qsor.Containers;
+using Qsor.Containers.Input;
 using Qsor.Gameplay.osu.Containers;
 using Qsor.Online;
 
@@ -31,7 +32,7 @@ namespace Qsor.Gameplay.osu
         
         [Resolved]
         private AudioManager Audio { get; set; }
-        
+
         public BackgroundImageContainer Background;
 
         [BackgroundDependencyLoader]
@@ -95,8 +96,7 @@ namespace Qsor.Gameplay.osu
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    FillMode = FillMode.Fit,
-                    Scale = new Vector2(2)
+                    FillMode = FillMode.Fit
                 });
         }
 

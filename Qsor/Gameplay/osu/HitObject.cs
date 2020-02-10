@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
@@ -31,9 +33,15 @@ namespace Qsor.Gameplay.osu
         
         public TimingPoint TimingPoint { get; set; }
         
-        public Beatmap Beatmap { get; set; }
+        [Resolved]
+        private BeatmapManager BeatmapManager { get; set; }
         
-        public HitObject(Vector2 position, float size)
+        public Beatmap Beatmap { get; }
+
+        public BindableDouble BindableScale = new BindableDouble();
+        public BindableDouble BindableProgress = new BindableDouble();
+        
+        public HitObject(Beatmap beatmap, Vector2 position, float size)
         {
             Position = position;
             
@@ -41,6 +49,18 @@ namespace Qsor.Gameplay.osu
             Origin = Anchor.Centre;
             
             HitObjectSize = size;
+
+            Beatmap = beatmap;
+            
+            BindableScale.Default = (1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2;
+            BindableScale.SetDefault();
+
+            BindableProgress.Value = 1;
+        }
+
+        protected override void Update()
+        {
+            BindableProgress.Value = Math.Clamp((BeatmapManager.Song.CurrentTime - BeginTime) / Duration, 0, 1);
         }
     }
 }

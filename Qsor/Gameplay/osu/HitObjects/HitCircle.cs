@@ -3,6 +3,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Logging;
 using osuTK;
 
 namespace Qsor.Gameplay.osu.HitObjects
@@ -38,7 +39,7 @@ namespace Qsor.Gameplay.osu.HitObjects
                 
                 Scale = new Vector2(2),
                 
-                Size = new Vector2(128, 128),
+                Size = new Vector2(126, 126),
             };
 
             _hitCircleOverlay = new Sprite
@@ -57,20 +58,21 @@ namespace Qsor.Gameplay.osu.HitObjects
 
             Alpha = 0;
             Size = new Vector2(128, 128);
-            Scale = new Vector2((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2);
+            BindableScale.ValueChanged += val =>
+                Scale = new Vector2((1.0f - 0.7f * ((float) val.NewValue - 5) / 5) / 2);
         }
 
         public override void Hide()
         {
             //base.Hide();
-            this.FadeTo(0, 100)
+            this.FadeTo(0, 400)
                 .Finally(o =>
             {
                 (Parent as Container)?.Remove(this); // TODO: Fix
             });
             
             _approachCircle.FadeTo(0, 100);
-            _hitCircleOverlay.ScaleTo(new Vector2(2f), 100);
+            _hitCircleOverlay.ScaleTo(2f, 100);
             //_hitCircleOverlay.MoveToOffset(new Vector2(0, 1), 200);
         }
 
@@ -78,11 +80,11 @@ namespace Qsor.Gameplay.osu.HitObjects
         {
             //base.Show();
 
-            this.FadeTo(1, 200 + Beatmap.Difficulty.ApproachRate);
-            _approachCircle.ScaleTo((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2, 200 + Beatmap.Difficulty.ApproachRate);
+            this.FadeInFromZero(200 + Beatmap.Difficulty.ApproachRate);
+            _approachCircle.ScaleTo((float) BindableScale.Value, 600 + Beatmap.Difficulty.ApproachRate);
         }
 
-        public HitCircle(Vector2 position, float size) : base(position, size)
+        public HitCircle(Beatmap beatmap, Vector2 position, float size) : base(beatmap, position, size)
         {
         }
     }
