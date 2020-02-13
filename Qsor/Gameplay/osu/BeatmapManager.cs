@@ -39,9 +39,9 @@ namespace Qsor.Gameplay.osu
         private void Load(BeatmapMirrorAccess mirrorAccess, TextureStore store, Storage storage)
         {
             // TODO: Remove
-            if (!storage.ExistsDirectory($"./Songs/{QsorGame.CURRENT_TESTMAP}"))
+            if (!storage.ExistsDirectory($"./Songs/{QsorGame.CurrentTestmap}"))
             {
-                var beatmapFile = mirrorAccess.DownloadBeatmap(QsorGame.CURRENT_TESTMAP).GetAwaiter().GetResult();
+                var beatmapFile = mirrorAccess.DownloadBeatmap(QsorGame.CurrentTestmap).GetAwaiter().GetResult();
                 
                 using var s = new ZipInputStream(beatmapFile);
                 ZipEntry theEntry;
@@ -49,7 +49,7 @@ namespace Qsor.Gameplay.osu
                 {
                     Console.WriteLine(theEntry.Name);
 
-                    var directoryStorage = storage.GetStorageForDirectory($"./Songs/{QsorGame.CURRENT_TESTMAP}/" + Path.GetDirectoryName(theEntry.Name));
+                    var directoryStorage = storage.GetStorageForDirectory($"./Songs/{QsorGame.CurrentTestmap}/" + Path.GetDirectoryName(theEntry.Name));
                     var fileName = Path.GetFileName(theEntry.Name);
                     
                     if (fileName == string.Empty) continue;
@@ -92,11 +92,16 @@ namespace Qsor.Gameplay.osu
             LoadComponents(ActiveBeatmap.HitObjects); // Preload HitObjects, this makes it twice as fast!
             
             if (Playfield == null)
-                AddInternal(Playfield = new PlayfieldContainer
+                AddInternal(new DrawSizePreservingFillContainer
                 {
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
-                    FillMode = FillMode.Fit
+                    Strategy = DrawSizePreservationStrategy.Maximum,
+                    
+                    Child = Playfield = new PlayfieldContainer
+                    {
+                        Anchor = Anchor.Centre,
+                        Origin = Anchor.Centre,
+                        FillMode = FillMode.Fit
+                    }
                 });
         }
 

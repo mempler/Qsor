@@ -18,46 +18,46 @@ namespace Qsor.Gameplay.osu
         NewCombo = 1 << 2,
         Spinner  = 1 << 3
     }
-    
+
     public abstract class HitObject : Container, IHasEndTime
     {
         public double BeginTime;
-        public virtual double EndTime => BeginTime + 500;
+        public virtual double EndTime => BeginTime + 600;
 
         public virtual double Duration => EndTime - BeginTime;
         public float HitObjectSize { get; }
 
-        public ColourInfo HitObjectColour; // we do not use Colour, we use HitObjectColour instead, as Colour would Colour the whole HitCircle. (in theory, not tested)
+        public ColourInfo
+            HitObjectColour; // we do not use Colour, we use HitObjectColour instead, as Colour would Colour the whole HitCircle. (in theory, not tested)
 
         public abstract HitObjectType Type { get; }
-        
+
         public TimingPoint TimingPoint { get; set; }
-        
-        [Resolved]
-        private BeatmapManager BeatmapManager { get; set; }
-        
+
+        //[Resolved]
+        //private BeatmapManager BeatmapManager { get; set; }
+
         public Beatmap Beatmap { get; }
 
         public BindableDouble BindableScale = new BindableDouble();
         public BindableDouble BindableProgress = new BindableDouble();
         
-        public HitObject(Beatmap beatmap, Vector2 position, float size)
+        public HitObject(Beatmap beatmap, Vector2 position)
         {
             Position = position;
             
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
-            
-            HitObjectSize = size;
 
             Beatmap = beatmap;
             
+            BindableProgress.Default = 0;
             BindableScale.Default = (1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2;
+            
+            BindableProgress.SetDefault();
             BindableScale.SetDefault();
-
-            BindableProgress.Value = 1;
         }
-
+        
         protected override void Update()
         {
             BindableProgress.Value = Math.Clamp((BeatmapManager.Song.CurrentTime - BeginTime) / Duration, 0, 1);

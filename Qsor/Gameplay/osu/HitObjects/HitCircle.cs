@@ -16,6 +16,9 @@ namespace Qsor.Gameplay.osu.HitObjects
 
         public override HitObjectType Type => HitObjectType.Circle;
 
+        public bool AutoHide = true;
+        
+
         [BackgroundDependencyLoader]
         private void Load(TextureStore store)
         {
@@ -60,31 +63,51 @@ namespace Qsor.Gameplay.osu.HitObjects
             Size = new Vector2(128, 128);
             BindableScale.ValueChanged += val =>
                 Scale = new Vector2((1.0f - 0.7f * ((float) val.NewValue - 5) / 5) / 2);
+
+            BindableProgress.ValueChanged += prog =>
+            {
+                if (AutoHide)
+                    Hide();
+            };
         }
 
+        private bool _turnedHidden;
+        
         public override void Hide()
         {
+            if (_turnedHidden)
+                return;
+            
+            _turnedHidden = true;
+            
             //base.Hide();
-            this.FadeTo(0, 400)
+            _approachCircle.FadeTo(0, 100);
+            _hitCircleOverlay.ScaleTo(2f, 100);
+            _hitCircleOverlay.FadeOutFromOne(200);
+            _hitCircle.FadeOutFromOne(200);
+            
+            this.FadeOutFromOne(200)
                 .Finally(o =>
             {
                 (Parent as Container)?.Remove(this); // TODO: Fix
             });
-            
-            _approachCircle.FadeTo(0, 100);
-            _hitCircleOverlay.ScaleTo(2f, 100);
-            //_hitCircleOverlay.MoveToOffset(new Vector2(0, 1), 200);
         }
 
         public override void Show()
         {
             //base.Show();
+            _turnedHidden = false;
 
-            this.FadeInFromZero(200 + Beatmap.Difficulty.ApproachRate);
-            _approachCircle.ScaleTo((float) BindableScale.Value, 600 + Beatmap.Difficulty.ApproachRate);
+            this.FadeInFromZero(200);
+            _approachCircle.ScaleTo((float) BindableScale.Value, 600);
         }
 
-        public HitCircle(Beatmap beatmap, Vector2 position, float size) : base(beatmap, position, size)
+        protected override void Update()
+        {
+            base.Update();
+        }
+
+        public HitCircle(Beatmap beatmap, Vector2 position) : base(beatmap, position)
         {
         }
     }

@@ -17,7 +17,7 @@ namespace Qsor.Gameplay.osu.Screens
         
         protected override void LoadComplete()
         {
-            BeatmapManager.LoadBeatmap($"./Songs/{QsorGame.CURRENT_TESTMAP}/{QsorGame.CURRENT_TESTMAP_NAME}"); // TODO: Remove
+            BeatmapManager.LoadBeatmap($"./Songs/{QsorGame.CurrentTestmap}/{QsorGame.CurrentTestmapName}"); // TODO: Remove
             BeatmapManager.PlayBeatmap();
             
             base.LoadComplete();

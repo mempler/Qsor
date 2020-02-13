@@ -17,7 +17,7 @@ namespace Qsor.Tests.Visual.Graphics
 {
     public class TestSceneTriangleVisualizer : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(TriangleVisualizer), typeof(TriangleVisualizer) };
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(VisualizedTriangle), typeof(TriangleVisualizer) };
 
         private TriangleVisualizer TriangleVisualizer;
         private Track _track;

@@ -60,7 +60,7 @@ namespace Qsor.Graphics
 
                 Position = new Vector2(_rand.Next(0, (int) DrawWidth), -DrawWidth),
                 
-                SpeedMultiply = Math.Max(.3, Math.Min(_rand.NextDouble(), .8f)),
+                SpeedMultiply = Math.Clamp(_rand.NextDouble(), 0.3, 0.8),
                 Colour = Color4.White.Multiply(colMul)
             };
 

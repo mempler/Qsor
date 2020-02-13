@@ -16,6 +16,7 @@ namespace Qsor.Containers.Input
         [BackgroundDependencyLoader]
         private void Load()
         {
+            return;
             _cursor = new Box
             {
                 Size = new Vector2(64, 64),
