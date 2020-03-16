@@ -28,7 +28,7 @@ namespace Qsor.Gameplay.osu.HitObjects
         
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
-            //Body = new SnakingSliderBody(this) {PathRadius = ((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2) * 64, AccentColour = Color4.Black}; // lets make it black for now, as almost every Legacy skin uses that.
+            Body = new SnakingSliderBody(this) {PathRadius = ((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2) * 64, AccentColour = Color4.Black}; // lets make it black for now, as almost every Legacy skin uses that.
 
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
@@ -56,7 +56,7 @@ namespace Qsor.Gameplay.osu.HitObjects
         public override void Hide()
         {
             SliderBeginCircle.Hide();
-            //this.FadeOutFromOne(200 + Beatmap.Difficulty.ApproachRate);
+            this.FadeOutFromOne(200 + Beatmap.Difficulty.ApproachRate);
         }
         
         public HitSlider(Beatmap beatmap, PathType pathType, IReadOnlyList<Vector2> controlPoints,

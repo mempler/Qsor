@@ -318,6 +318,7 @@ namespace Qsor.Gameplay.osu
         public void Dispose()
         {
             //Song?.Dispose();
+            base.Dispose();
         }
     }
 }

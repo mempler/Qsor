@@ -11,20 +11,20 @@ using Qsor.Gameplay.osu.HitObjects;
 
 namespace Qsor.Tests.Visual.Gameplay.osu.HitObjects
 {
-    public class TestSceneHitCircle : TestScene
+    public class TestSceneHitSlider : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(HitCircle) };
-
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(HitSlider) };
+        
         [BackgroundDependencyLoader]
         private void Load()
         {
             var beatmap = new Beatmap();
             
-            AddStep("Spawn HitCircle", () =>
+            AddStep("Spawn HitSlider", () =>
             {
                 var clock = new StopwatchClock();
                 
-                var hc = new HitCircle(beatmap, Vector2.Zero)
+                var hs = new HitSlider(beatmap, PathType.Linear, new []{ new Vector2(200, 200), new Vector2(400, 200) }, 250, 2)
                 {
                     BeginTime = 600,
                     Anchor = Anchor.Centre,
@@ -34,14 +34,12 @@ namespace Qsor.Tests.Visual.Gameplay.osu.HitObjects
                     
                     Clock = new FramedClock(clock)
                 };
-                Add(hc);
+                Add(hs);
                 
                 clock.Start();
                 
-                hc.Show();
+                hs.Show();
             });
         }
-        
-        
     }
 }

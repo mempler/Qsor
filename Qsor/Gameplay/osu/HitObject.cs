@@ -5,6 +5,7 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
+using osu.Framework.Logging;
 using osuTK;
 
 namespace Qsor.Gameplay.osu
@@ -60,7 +61,8 @@ namespace Qsor.Gameplay.osu
         
         protected override void Update()
         {
-            BindableProgress.Value = Math.Clamp((BeatmapManager.Song.CurrentTime - BeginTime) / Duration, 0, 1);
+            Console.WriteLine(Clock.CurrentTime);
+            BindableProgress.Value = Math.Clamp((Clock.CurrentTime - BeginTime) / Duration, 0, 1);
         }
     }
 }
