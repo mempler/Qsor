@@ -24,7 +24,7 @@ namespace Qsor.Containers.Input
                 Origin = Anchor.Centre,
             };
             
-            AddInternal(_cursor);
+            //AddInternal(_cursor);
         }
         
 

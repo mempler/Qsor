@@ -17,9 +17,9 @@ namespace Qsor.Gameplay.osu
     }
 
     public class Difficulty {
-        public double CircleSize;
-        public double ApproachRate;
-        public double OverallDifficulty;
+        public double CircleSize = 5;
+        public double ApproachRate = 5;
+        public double OverallDifficulty = 5;
         
         
         // Sliders
@@ -52,22 +52,12 @@ namespace Qsor.Gameplay.osu
         public readonly List<Color4> Colors = new List<Color4>();
         public List<TimingPoint> TimingPoints = new List<TimingPoint>();
         
-        private static double LastBPM = 0;
-
-        public const int RulesetId = 0;
+        private static double _lastBpm = 0;
         
-        // TODO: Figure out.
-        //public Track Song { get; private set; }
         public string SongFile { get; private set; }
-        public HitObject Last => HitObjects.Last();
-        public HitObject First => HitObjects.First();
-
-        public double CurrentElapsed = 0d;
-        public bool FreezeBeatmap = false;
-        public TimingPoint CurrentTimingPoint;
         public Texture Background;
 
-        private Beatmap() { }
+        public Beatmap() { }
         
         public static Beatmap ReadBeatmap(string path)
         {
@@ -196,12 +186,12 @@ namespace Qsor.Gameplay.osu
    
                     if (timingPoint.Inherited)
                     {
-                        timingPoint.SpeedMultiplier = -100 * LastBPM / timingPoint.MsPerBeat;
+                        timingPoint.SpeedMultiplier = -100 * _lastBpm / timingPoint.MsPerBeat;
                     }
                     else
                     {
                         timingPoint.SpeedMultiplier = timingPoint.BPM;
-                        LastBPM = timingPoint.SpeedMultiplier;
+                        _lastBpm = timingPoint.SpeedMultiplier;
                     }
   
                     timingPoint.Velocity = Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier / 600f;
@@ -239,16 +229,12 @@ namespace Qsor.Gameplay.osu
                 
                 if (hitObjects)
                 {
-                    CurrentTimingPoint = TimingPoints.FirstOrDefault();
-                    
                     var l = line.Split(",");
                     var x = double.Parse(l[0]);
                     var y = double.Parse(l[1]);
                     var timing = int.Parse(l[2]);
                     var hitObjectType = Enum.Parse<HitObjectType>(l[3]);
                     
-                    var scale = (float) (0.7 * (Difficulty.CircleSize) / 5);
-      
                     if ((hitObjectType & HitObjectType.NewCombo) != 0)
                     {
                         hitObjColIndex++;
@@ -263,7 +249,7 @@ namespace Qsor.Gameplay.osu
 
                     if ((hitObjectType & HitObjectType.Circle) != 0)
                     {
-                        HitObject circle = new HitCircle(this, new Vector2((float) x, (float) y), scale);
+                        HitObject circle = new HitCircle(this, new Vector2((float) x, (float) y));
                         circle.BeginTime = timing;
                         circle.HitObjectColour = hitObjectColor;
 
@@ -306,7 +292,7 @@ namespace Qsor.Gameplay.osu
                         HitObject slider = new HitSlider(
                             this,
                             sliderType, curvePoints,
-                            pixelLength, repeats, scale);
+                            pixelLength, repeats);
 
                         slider.BeginTime = timing;
                         slider.TimingPoint = TimingPoints.FirstOrDefault(s => s.Offset >= timing);

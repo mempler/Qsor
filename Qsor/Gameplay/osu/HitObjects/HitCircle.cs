@@ -65,26 +65,28 @@ namespace Qsor.Gameplay.osu.HitObjects
         public override void Hide()
         {
             //base.Hide();
-            this.FadeTo(0, 400)
-                .Finally(o =>
-            {
-                (Parent as Container)?.Remove(this); // TODO: Fix
-            });
-            
             _approachCircle.FadeTo(0, 100);
             _hitCircleOverlay.ScaleTo(2f, 100);
+            _hitCircleOverlay.FadeOutFromOne(200);
+            _hitCircle.FadeOutFromOne(200);
+            
+            this.FadeOutFromOne(200)
+                .Finally(o =>
+                {
+                    (Parent as Container)?.Remove(this); // TODO: Fix
+                });
             //_hitCircleOverlay.MoveToOffset(new Vector2(0, 1), 200);
         }
 
         public override void Show()
         {
             //base.Show();
-
-            this.FadeInFromZero(200 + Beatmap.Difficulty.ApproachRate);
-            _approachCircle.ScaleTo((float) BindableScale.Value, 600 + Beatmap.Difficulty.ApproachRate);
+            
+            this.FadeInFromZero(200);
+            _approachCircle.ScaleTo((float) BindableScale.Value, 600);
         }
 
-        public HitCircle(Beatmap beatmap, Vector2 position, float size) : base(beatmap, position, size)
+        public HitCircle(Beatmap beatmap, Vector2 position) : base(beatmap, position)
         {
         }
     }

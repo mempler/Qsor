@@ -41,21 +41,20 @@ namespace Qsor.Gameplay.osu
         public BindableDouble BindableScale = new BindableDouble();
         public BindableDouble BindableProgress = new BindableDouble();
         
-        public HitObject(Beatmap beatmap, Vector2 position, float size)
+        public HitObject(Beatmap beatmap, Vector2 position)
         {
             Position = position;
             
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
             
-            HitObjectSize = size;
-
             Beatmap = beatmap;
             
             BindableScale.Default = (1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2;
             BindableScale.SetDefault();
 
-            BindableProgress.Value = 1;
+            BindableProgress.SetDefault();
+            BindableProgress.Value = 0;
         }
 
         protected override void Update()

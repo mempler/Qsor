@@ -14,10 +14,11 @@ using Qsor.Online;
 
 namespace Qsor
 {
+    [Cached]
     public class QsorGame : Game
     {
-        public const uint CURRENT_TESTMAP = 90935; // TODO: Remove
-        public const string CURRENT_TESTMAP_NAME = "IOSYS - Endless Tewi-ma Park (Lanturn) [Tewi 2B Expert Edition].osu"; // TODO: Remove
+        public const uint CurrentTestmap = 756794 ; // TODO: Remove
+        public const string CurrentTestmapName = "TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu"; // TODO: Remove
         
         private ScreenStack _stack;
 
@@ -40,7 +41,7 @@ namespace Qsor
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             
             Audio.Frequency.Set(1);
-            Audio.Volume.Set(.2);
+            Audio.Volume.Set(.05);
             
             AddInternal(BeatmapManager);
             
