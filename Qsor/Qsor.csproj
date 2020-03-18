@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ppy.osu.Framework" Version="2020.314.0" />
+      <PackageReference Include="ppy.osu.Framework" Version="2020.317.0" />
       <PackageReference Include="SharpZipLib" Version="1.2.0" />
     </ItemGroup>
     
