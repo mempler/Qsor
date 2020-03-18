@@ -25,38 +25,58 @@ namespace Qsor.Gameplay.osu.HitObjects
         
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
-            Body = new SnakingSliderBody(this) {PathRadius = ((1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2) * 64, AccentColour = Color4.Black}; // lets make it black for now, as almost every Legacy skin uses that.
-            Add(Body);
-            
-            Anchor = Anchor.TopLeft;
-            Origin = Anchor.Centre;
+            Body = new SnakingSliderBody(this)
+            {
+                PathRadius = (1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2 * 64,
+                AccentColour = Color4.Black
+            }; // lets make it black for now, as almost every Legacy skin uses that.
+
+            Body.SnakingIn.Value = true;
+            Body.SnakingOut.Value = true;
             
             SliderBeginCircle.Position = Body.PathOffset;
-            Add(SliderBeginCircle);
-            
+
+            Origin = Anchor.TopLeft;
+
+            Position = StackedPosition;
+
             BindableProgress.ValueChanged += prog =>
             {
                 if (prog.NewValue >= .5)
-                    ((Container) Parent)?.Remove(this);
-            
+                    Hide();
+                
                 Body.UpdateProgress(prog.NewValue);
+            };
+
+            InternalChildren = new Drawable[]
+            {
+                SliderBeginCircle,
+                Body
             };
         }
 
         public override void Show()
         {
+            if (_isFading)
+                return;
+            
             this.FadeInFromZero(200 + Beatmap.Difficulty.ApproachRate);
             SliderBeginCircle.Show();
         }
-
+        
+        private bool _isFading;
         public override void Hide()
         {
-            this.FadeOutFromOne(200 + Beatmap.Difficulty.ApproachRate);
+            if (_isFading)
+                return;
+            
+            _isFading = true;
+            this.FadeOutFromOne(200 + Beatmap.Difficulty.ApproachRate).Finally(_ => ((Container) Parent)?.Remove(this));
             SliderBeginCircle.Hide();
         }
         
         public HitSlider(Beatmap beatmap, PathType pathType, IReadOnlyList<Vector2> controlPoints,
-                double pixelLength, int repeats) : base(beatmap, Vector2.Zero)
+                double pixelLength, int repeats) : base(beatmap, controlPoints[0])
         {
             Path = new SliderPath(pathType, controlPoints.ToArray(), pixelLength);
             PathType = pathType;
@@ -66,6 +86,14 @@ namespace Qsor.Gameplay.osu.HitObjects
             
             SliderBeginCircle = new HitCircle(beatmap, controlPoints[0]);
             SliderBeginCircle.BeginTime = BeginTime;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            Size = Body.Size;
+            OriginPosition = Body.PathOffset;
         }
     }
 }

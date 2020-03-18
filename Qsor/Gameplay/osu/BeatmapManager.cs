@@ -86,17 +86,7 @@ namespace Qsor.Gameplay.osu
             LoadComponents(ActiveBeatmap.HitObjects); // Preload HitObjects, this makes it twice as fast!
             
             if (Playfield == null)
-                AddInternal(new DrawSizePreservingFillContainer
-                {
-                    Strategy = DrawSizePreservationStrategy.Maximum,
-                    
-                    Child = Playfield = new PlayfieldContainer
-                    {
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre,
-                        FillMode = FillMode.Fit
-                    }
-                });
+                AddInternal(new PlayfieldAdjustmentContainer(new PlayfieldContainer{ RelativeSizeAxes = Axes.Both }));
         }
 
         public void PlayBeatmap()
