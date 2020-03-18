@@ -11,8 +11,7 @@ namespace Qsor.Gameplay.osu.Containers
         [Resolved]
         private BeatmapManager BeatmapManager { get; set; }
 
-        private static readonly Vector2 PlayfieldSize = new Vector2(512, 384);
-        public override Vector2 Size { get => PlayfieldSize; set {} }
+        public static Vector2 PlayfieldSize => new Vector2(512, 384);
 
         private double _currentTime;
         protected override void Update()
@@ -21,16 +20,11 @@ namespace Qsor.Gameplay.osu.Containers
                 return;
             
             _currentTime = BeatmapManager.ActiveBeatmap.Track?.CurrentTime + BeatmapManager.ActiveBeatmap.General.AudioLeadIn ?? 0;
-            
+
             Children // It's faster to iterate through Children. (or should be as there are less objects)
                 .OfType<HitObject>() // TODO: remove
                 .Where(obj => _currentTime > obj.EndTime)
-                .ForEach(obj =>
-                {
-                    obj.Hide();
-
-                    //Remove(obj);
-                });
+                .ForEach(obj => obj.Hide());
 
             BeatmapManager.ActiveBeatmap.HitObjects
                 .Where(obj => _currentTime < obj.EndTime)

@@ -5,6 +5,7 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
+using osu.Framework.Logging;
 using osuTK;
 
 namespace Qsor.Gameplay.osu
@@ -33,6 +34,11 @@ namespace Qsor.Gameplay.osu
         
         public TimingPoint TimingPoint { get; set; }
         
+        public readonly Bindable<int> StackHeightBindable = new Bindable<int>();
+        
+        public Vector2 StackedPosition => Position + StackOffset;
+        public Vector2 StackOffset => StackHeightBindable.Value * Scale * -6.4f;
+        
         [Resolved]
         private BeatmapManager BeatmapManager { get; set; }
         
@@ -44,6 +50,7 @@ namespace Qsor.Gameplay.osu
         public HitObject(Beatmap beatmap, Vector2 position)
         {
             Position = position;
+            Logger.LogPrint($"{Position}");
             
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
