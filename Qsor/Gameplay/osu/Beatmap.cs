@@ -196,15 +196,10 @@ namespace Qsor.Gameplay.osu
                             timingPoint.BPM = 60000d / timingPoint.MsPerBeat;
    
                             if (timingPoint.Inherited)
-                            {
                                 timingPoint.SpeedMultiplier = -100 * lastBpm / timingPoint.MsPerBeat;
-                            }
                             else
-                            {
-                                timingPoint.SpeedMultiplier = timingPoint.BPM;
-                                lastBpm = timingPoint.SpeedMultiplier;
-                            }
-  
+                                lastBpm = timingPoint.SpeedMultiplier = timingPoint.BPM;
+     
                             timingPoint.Velocity = Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier / 600f;
 
                             TimingPoints.Add(timingPoint);
@@ -248,10 +243,10 @@ namespace Qsor.Gameplay.osu
             // Sort by Time
             HitObjects.Sort((a, b) => (int) (a.BeginTime - b.BeginTime));
 
-            for (var i = 0; i < HitObjects.Count; i++)
+            for (var i = HitObjects.Count - 1; i >= 0; i--)
             {
                 var obj = HitObjects[i];
-
+                
                 obj.Depth = i;
             }
         }

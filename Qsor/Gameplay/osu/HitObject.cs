@@ -23,7 +23,7 @@ namespace Qsor.Gameplay.osu
     public abstract class HitObject : Container, IHasEndTime
     {
         public double BeginTime;
-        public virtual double EndTime => BeginTime + 500;
+        public virtual double EndTime => BeginTime + 300;
 
         public virtual double Duration => EndTime - BeginTime;
         public float HitObjectSize { get; }
@@ -50,8 +50,7 @@ namespace Qsor.Gameplay.osu
         public HitObject(Beatmap beatmap, Vector2 position)
         {
             Position = position;
-            Logger.LogPrint($"{Position}");
-            
+
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
             
