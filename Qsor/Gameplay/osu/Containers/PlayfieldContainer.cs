@@ -23,17 +23,17 @@ namespace Qsor.Gameplay.osu.Containers
             AddInternal(Cursor = new VirtualCursorContainer {Depth = -int.MaxValue}); // always draw cursor ontop of everything
         }
         
-        private double currentTime;
+        private double _currentTime;
         protected override void Update()
         {
-            if (BeatmapManager.Song?.IsRunning == false) // Improve performance by not even Updating the HitObjects.
+            if (BeatmapManager.ActiveBeatmap.Track?.IsRunning == false) // Improve performance by not even Updating the HitObjects.
                 return;
             
-            currentTime = BeatmapManager.Song?.CurrentTime + BeatmapManager.ActiveBeatmap.General.AudioLeadIn ?? 0;
+            _currentTime = BeatmapManager.ActiveBeatmap.Track?.CurrentTime + BeatmapManager.ActiveBeatmap.General.AudioLeadIn ?? 0;
             
             Children // It's faster to iterate through Children. (or should be as there are less objects)
                 .OfType<HitObject>() // TODO: remove
-                .Where(obj => currentTime > obj.EndTime)
+                .Where(obj => _currentTime > obj.EndTime)
                 .ForEach(obj =>
                 {
                     obj.Hide();
@@ -42,8 +42,8 @@ namespace Qsor.Gameplay.osu.Containers
                 });
 
             BeatmapManager.ActiveBeatmap.HitObjects
-                .Where(obj => currentTime < obj.EndTime)
-                .Where(obj => currentTime > obj.BeginTime - (BeatmapManager.ActiveBeatmap.Difficulty.ApproachRate + 600))
+                .Where(obj => _currentTime < obj.EndTime)
+                .Where(obj => _currentTime > obj.BeginTime - (BeatmapManager.ActiveBeatmap.Difficulty.ApproachRate + 600))
                 .Where(obj => !Children.Contains(obj))
                 .ForEach(obj =>
                 {

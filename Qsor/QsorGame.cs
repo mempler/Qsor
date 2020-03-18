@@ -29,7 +29,7 @@ namespace Qsor
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
             dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
-        public Track ActiveTrack => BeatmapManager.Song;
+        public Track ActiveTrack => BeatmapManager.ActiveBeatmap.Track;
 
         [BackgroundDependencyLoader]
         private void Load()

@@ -21,7 +21,6 @@ namespace Qsor.Gameplay.osu
     public class BeatmapManager : Container
     {
         public Beatmap ActiveBeatmap { get; private set; }
-        public Track Song { get; private set; }
         public PlayfieldContainer Playfield { get; private set; }
 
         [Resolved]
@@ -87,8 +86,8 @@ namespace Qsor.Gameplay.osu
             ActiveBeatmap = Beatmap.ReadBeatmap(Storage.GetFullPath(path));
             Background?.SetTexture(ActiveBeatmap.Background);
             
-            Audio.AddItem(Song = new TrackBass(File.OpenRead(ActiveBeatmap.SongFile)));
-            
+            Audio.AddItem(ActiveBeatmap.Track);
+
             LoadComponents(ActiveBeatmap.HitObjects); // Preload HitObjects, this makes it twice as fast!
             
             if (Playfield == null)
@@ -107,7 +106,7 @@ namespace Qsor.Gameplay.osu
 
         public void PlayBeatmap()
         {
-            Song.Start();
+            ActiveBeatmap.Track.Start();
         }
     }
 }
