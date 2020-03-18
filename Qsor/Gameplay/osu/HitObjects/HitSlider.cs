@@ -31,7 +31,7 @@ namespace Qsor.Gameplay.osu.HitObjects
                 AccentColour = Color4.Black
             }; // lets make it black for now, as almost every Legacy skin uses that.
 
-            Body.SnakingIn.Value = true;
+            Body.SnakingIn.Value = false;
             Body.SnakingOut.Value = true;
             
             SliderBeginCircle.Position = Body.PathOffset;
@@ -39,6 +39,8 @@ namespace Qsor.Gameplay.osu.HitObjects
             Origin = Anchor.TopLeft;
 
             Position = StackedPosition;
+            
+            Body.UpdateProgress(0);
 
             BindableProgress.ValueChanged += prog =>
             {
@@ -50,8 +52,8 @@ namespace Qsor.Gameplay.osu.HitObjects
 
             InternalChildren = new Drawable[]
             {
-                SliderBeginCircle,
-                Body
+                Body,
+                SliderBeginCircle
             };
         }
 

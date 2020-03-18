@@ -21,10 +21,7 @@ namespace Qsor.Gameplay.osu
         public static string SkinName
         {
             get => _skinName;
-            set
-            {
-                _skinName = value;
-            }
+            set => _skinName = value;
         }
     }
 }
