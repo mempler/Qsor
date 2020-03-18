@@ -50,7 +50,6 @@ namespace Qsor.Gameplay.osu
         public HitObject(Beatmap beatmap, Vector2 position)
         {
             Position = position;
-
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
             
