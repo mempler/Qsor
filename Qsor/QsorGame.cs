@@ -1,13 +1,10 @@
 ﻿
 using osu.Framework;
 using osu.Framework.Allocation;
-using osu.Framework.Audio;
 using osu.Framework.Audio.Track;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
 using osu.Framework.Screens;
-using osuTK;
 using Qsor.Gameplay.osu;
 using Qsor.Gameplay.osu.Screens;
 using Qsor.Online;
