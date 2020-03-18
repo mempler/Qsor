@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using osu.Framework.Graphics.Containers;
+using osu.Framework.Audio.Track;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Logging;
 using osuTK;
@@ -51,13 +52,9 @@ namespace Qsor.Gameplay.osu
         public readonly Difficulty Difficulty = new Difficulty();
         public readonly List<Color4> Colors = new List<Color4>();
         public List<TimingPoint> TimingPoints = new List<TimingPoint>();
-        
-        private static double _lastBpm = 0;
-        
-        public string SongFile { get; private set; }
-        public Texture Background;
 
-        public Beatmap() { }
+        public Texture Background;
+        public Track Track;
         
         public static Beatmap ReadBeatmap(string path)
         {
@@ -65,241 +62,186 @@ namespace Qsor.Gameplay.osu
                 throw new FileNotFoundException("Beatmap file hasn't been found!", path);
 
             var bmDirectory = Path.GetDirectoryName(path);
+            var bmContent = File.ReadAllText(path);
 
             var bm = new Beatmap();
-            bm.ParseBeatmap(File.ReadAllText(path), path);
-            
-            bm.SongFile = Path.Combine(bmDirectory, bm.General.AudioFilename);
+            bm.ConstructFromString(bmContent, bmDirectory);
             
             return bm;
         }
         
-        public void ParseBeatmap(string beatmap, string path)
+        public void ConstructFromString(string content, string directory)
         {
-            var bm = beatmap.Split("\n");
-
-            var hitObjects = false;
-            var general = false;
-            var difficulty = false;
-            var color = false;
-            var timingPonts = false;
-            var events = false;
-
-            var hitObjColIndex = 0;
-            var hitObjectColor = SkinManager.SkinColors[0];
+            Parse(content);
             
-            foreach (var fln in bm)
+            while (_categoryIndex < _categories.Count)
             {
-                var line = fln.Trim();
-                
-                if (line.Equals("") || line.Equals(" "))
+                switch (GetNextCategory())
                 {
-                    // We've finished reading!
-                    hitObjects = false;
-                    general = false;
-                    difficulty = false;
-                    color = false;
-                    timingPonts = false;
-                    events = false;
-                    
-                    continue;
-                }
-                
-                if (line.StartsWith("osu file format v")) {
-                    var l = line.Split("osu file format v");
-                    BeatmapVersion = int.Parse(l[1]);
-                }
-
-                if (line.StartsWith("[HitObjects]")) {
-                    hitObjects = true;
-                    continue;
-                }
-
-                if (line.StartsWith("[General]")) {
-                    general = true;
-                    continue;
-                }
-
-                if (line.StartsWith("[Difficulty]")) {
-                    difficulty = true;
-                    continue;
-                }
-                
-                if (line.StartsWith("[Colours]")) {
-                    color = true;
-                    continue;
-                }
-                
-                if (line.StartsWith("[TimingPoints]")) {
-                    timingPonts = true;
-                    continue;
-                }
-                
-                if (line.StartsWith("[Events]")) {
-                    events = true;
-                    continue;
-                }
-                
-                if (general) {
-                    if (line.StartsWith("AudioLeadIn:"))
-                        General.AudioLeadIn = int.Parse(line.Split("AudioLeadIn:")[1].Trim());
-                    
-                    if (line.StartsWith("AudioFilename:"))
-                        General.AudioFilename = line.Split("AudioFilename:")[1].Trim();
-                }
-                
-                if (difficulty)
-                {
-                    if (line.StartsWith("CircleSize:"))
-                        Difficulty.CircleSize = double.Parse(line.Split("CircleSize:")[1].Trim());
-                    if (line.StartsWith("ApproachRate:"))
-                        Difficulty.ApproachRate = double.Parse(line.Split("ApproachRate:")[1].Trim());
-                    if (line.StartsWith("OverallDifficulty:"))
-                        Difficulty.OverallDifficulty = double.Parse(line.Split("OverallDifficulty:")[1].Trim());
-                    if (line.StartsWith("SliderMultiplier:"))
-                        Difficulty.SliderMultiplier = double.Parse(line.Split("SliderMultiplier:")[1].Trim());
-                }
-
-                if (color)
-                {
-                    var l = line.Split(":").Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
-                    var rgb = l[1];
-                    var col = rgb.Split(",");
-                    Colors.Add(new Color4(byte.Parse(col[0]), byte.Parse(col[1]), byte.Parse(col[2]), Byte.MaxValue));
-                }
-
-                if (timingPonts)
-                {
-                    var l = line.Split(",");
-                    var timingPoint = new TimingPoint
-                    {
-                        Offset = double.Parse(l[0].Trim()),
-                        MsPerBeat = double.Parse(l[1].Trim()),
-                        Meter = int.Parse(l[2].Trim()),
-                        SampleSet = int.Parse(l[3].Trim()),
-                        SampleIndex = int.Parse(l[4].Trim()),
-                        Volume = int.Parse(l[5].Trim()),
-                        Inherited = l[6].Trim() == "0", // this is reversed for some fucking reason. FINALLY!!
-                        KiaiMode = l[7].Trim() == "1"
-                    };
-                    timingPoint.BPM = 60000d / timingPoint.MsPerBeat;
-   
-                    if (timingPoint.Inherited)
-                    {
-                        timingPoint.SpeedMultiplier = -100 * _lastBpm / timingPoint.MsPerBeat;
-                    }
-                    else
-                    {
-                        timingPoint.SpeedMultiplier = timingPoint.BPM;
-                        _lastBpm = timingPoint.SpeedMultiplier;
-                    }
-  
-                    timingPoint.Velocity = Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier / 600f;
-
-                    TimingPoints.Add(timingPoint);
-                }
-
-                if (events)
-                {
-                    var l = line.Split(",");
-                    if (l[0].StartsWith("//"))
-                        continue;
-                    switch (l[0])
-                    {
-                        case "0":
-                            var backgroundPath = Path.GetDirectoryName(path) + "/" +
-                                                 l[2] // Remove Quotes 
-                                                     .Remove(0, 1)
-                                                     .Remove(l[2].Length -2, 1);
+                    case Category.General:
+                        General.AudioLeadIn = GetValue<int>("AudioLeadIn");
+                        General.AudioFilename = GetValue<string>("AudioFilename");
+                        
+                        Track = new TrackBass(File.OpenRead(Path.Combine(directory, General.AudioFilename)));
+                        break;
+                    case Category.Editor:
+                        break;
+                    case Category.HitObjects:
+                        var hitObjectColorIndex = 0;
+                        var hitObjectColor = Color4.White;
+                        
+                        foreach (var hitObjectValue in GetValues().Select(s => s.Split(',')))
+                        {
+                            var x = double.Parse(hitObjectValue[0]);
+                            var y = double.Parse(hitObjectValue[1]);
+                            var timing = int.Parse(hitObjectValue[2]);
+                            var hitObjectType = Enum.Parse<HitObjectType>(hitObjectValue[3]);
                             
-                            if (!File.Exists(backgroundPath))
-                                continue;
-
-                            using (var fs = File.OpenRead(backgroundPath))
+                            if ((hitObjectType & HitObjectType.NewCombo) != 0)
                             {
-                                Background = Texture.FromStream(fs);
+                                hitObjectColorIndex++;
+                                if (hitObjectColorIndex >= Colors.Count)
+                                    hitObjectColorIndex = 0;
+                                
+                                if (Colors.Count == 0)
+                                    Colors.AddRange(SkinManager.SkinColors);
+                                
+                                hitObjectColor = Colors[hitObjectColorIndex];
                             }
+                            if ((hitObjectType & HitObjectType.Circle) != 0)
+                            {
+                                HitObject circle = new HitCircle(this, new Vector2((float) x, (float) y));
+                                circle.BeginTime = timing;
+                                circle.HitObjectColour = hitObjectColor;
 
-                            break;
-                        default:
-                            Console.WriteLine("Event [{0}] not implemented!", l[0]);
-                            break;
-                    }
-                }
-                
-                if (hitObjects)
-                {
-                    var l = line.Split(",");
-                    var x = double.Parse(l[0]);
-                    var y = double.Parse(l[1]);
-                    var timing = int.Parse(l[2]);
-                    var hitObjectType = Enum.Parse<HitObjectType>(l[3]);
-                    
-                    if ((hitObjectType & HitObjectType.NewCombo) != 0)
-                    {
-                        hitObjColIndex++;
-                        if (hitObjColIndex >= Colors.Count)
-                            hitObjColIndex = 0;
-                        
-                        if (Colors.Count == 0)
-                            Colors.AddRange(SkinManager.SkinColors);
-                        
-                        hitObjectColor = Colors[hitObjColIndex];
-                    }
+                                HitObjects.Add(circle);
+                            }
+                            if ((hitObjectType & HitObjectType.Slider) != 0)
+                            {
+                                var sliderInfo = hitObjectValue[5].Split("|");
 
-                    if ((hitObjectType & HitObjectType.Circle) != 0)
-                    {
-                        HitObject circle = new HitCircle(this, new Vector2((float) x, (float) y));
-                        circle.BeginTime = timing;
-                        circle.HitObjectColour = hitObjectColor;
+                                var sliderType = sliderInfo[0] switch
+                                {
+                                    "L" => PathType.Linear,
+                                    "P" => PathType.PerfectCurve,
+                                    "B" => PathType.Bezier,
+                                    "C" => PathType.Catmull,
+                                    _   => PathType.Linear
+                                };
 
-                        HitObjects.Add(circle);
-                    }
-                    
-                    if ((hitObjectType & HitObjectType.Slider) != 0)
-                    {
-                        var sliderInfo = l[5].Split("|");
+                                var curvePoints = new List<Vector2> {new Vector2((float) x, (float) y)};
 
-                        var sliderType = sliderInfo[0] switch
-                        {
-                            "L" => PathType.Linear,
-                            "P" => PathType.PerfectCurve,
-                            "B" => PathType.Bezier,
-                            "C" => PathType.Catmull,
-                            _   => PathType.Linear
-                        };
+                                foreach (var s in sliderInfo)
+                                {
+                                    if (!s.Contains(":"))
+                                        continue;
+                                    
+                                    var cp = s.Split(":").Select(double.Parse).ToList();
 
-                        var curvePoints = new List<Vector2> {new Vector2((float) x, (float) y)};
+                                    x = cp[0];
+                                    y = cp[1];
+                                    
+                                    var curvePoint = new Vector2((float) x, (float) y);
+                                    
+                                    curvePoints.Add(curvePoint);
+                                }
 
-                        foreach (var s in sliderInfo)
-                        {
-                            if (!s.Contains(":"))
-                                continue;
-                            
-                            var cp = s.Split(":").Select(double.Parse).ToList();
+                                var pixelLength = double.Parse(hitObjectValue[7].Trim());
+                                var repeats = int.Parse(hitObjectValue[6].Trim());
 
-                            x = cp[0];
-                            y = cp[1];
-                            
-                            var curvePoint = new Vector2((float) x, (float) y);
-                            
-                            curvePoints.Add(curvePoint);
+                                HitObject slider = new HitSlider(
+                                    this,
+                                    sliderType, curvePoints,
+                                    pixelLength, repeats);
+
+                                slider.BeginTime = timing;
+                                slider.TimingPoint = TimingPoints.FirstOrDefault(s => s.Offset >= timing);
+                                slider.HitObjectColour = hitObjectColor;
+                                
+                                HitObjects.Add(slider);
+                            }
                         }
-
-                        var pixelLength = double.Parse(l[7].Trim());
-                        var repeats = int.Parse(l[6].Trim());
-
-                        HitObject slider = new HitSlider(
-                            this,
-                            sliderType, curvePoints,
-                            pixelLength, repeats);
-
-                        slider.BeginTime = timing;
-                        slider.TimingPoint = TimingPoints.FirstOrDefault(s => s.Offset >= timing);
-                        slider.HitObjectColour = hitObjectColor;
+                        break;
+                    case Category.Difficulty:
+                        Difficulty.CircleSize = GetValue<double>("CircleSize");
+                        Difficulty.ApproachRate = GetValue<double>("ApproachRate");
+                        Difficulty.OverallDifficulty = GetValue<double>("OverallDifficulty");
+                        Difficulty.SliderMultiplier = GetValue<double>("SliderMultiplier");
+                        break;
+                    case Category.Colours:
+                        foreach (var value in GetValues())
+                        {
+                            var colorInformation = value.Split(":").Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
+                            var col = colorInformation[1].Split(",");
+                            
+                            Colors.Add(new Color4(byte.Parse(col[0]), byte.Parse(col[1]), byte.Parse(col[2]), byte.MaxValue));
+                        }
+                        break;
+                    case Category.TimingPoints:
+                        double lastBpm = 0;
                         
-                        HitObjects.Add(slider);
-                    }
+                        foreach (var tPoint in GetValues().Select(s => s.Split(',')))
+                        {
+                            var timingPoint = new TimingPoint
+                            {
+                                Offset = double.Parse(tPoint[0].Trim()),
+                                MsPerBeat = double.Parse(tPoint[1].Trim()),
+                                Meter = int.Parse(tPoint[2].Trim()),
+                                SampleSet = int.Parse(tPoint[3].Trim()),
+                                SampleIndex = int.Parse(tPoint[4].Trim()),
+                                Volume = int.Parse(tPoint[5].Trim()),
+                                Inherited = tPoint[6].Trim() == "0", // this is reversed for some fucking reason.
+                                KiaiMode = tPoint[7].Trim() == "1"
+                            };
+                            timingPoint.BPM = 60000d / timingPoint.MsPerBeat;
+   
+                            if (timingPoint.Inherited)
+                            {
+                                timingPoint.SpeedMultiplier = -100 * lastBpm / timingPoint.MsPerBeat;
+                            }
+                            else
+                            {
+                                timingPoint.SpeedMultiplier = timingPoint.BPM;
+                                lastBpm = timingPoint.SpeedMultiplier;
+                            }
+  
+                            timingPoint.Velocity = Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier / 600f;
+
+                            TimingPoints.Add(timingPoint);
+                        }
+                        break;
+                    case Category.Events:
+                        foreach (var ev in GetValues().Select(s => s.Split(',')))
+                        {
+                            if (ev[0].StartsWith("//"))
+                                continue;
+
+                            switch (ev[0])
+                            {
+                                 case "0":
+                                     var backgroundPath = Path.Combine(directory, 
+                                         ev[2].Remove(0, 1) // Remove quotes
+                                             .Remove(ev[2].Length -2, 1)
+                                     );
+                                     
+                                     if (!File.Exists(backgroundPath))
+                                         continue;
+                                
+                                     using (var fs = File.OpenRead(backgroundPath))
+                                         Background = Texture.FromStream(fs);
+                                     
+                                     break;
+                                 default:
+                                     Console.WriteLine("Event [{0}] not implemented!", ev[0]);
+                                     break;
+                            }
+                        }
+                        break;
+                    case Category.Unknown:
+                        Logger.LogPrint("Unknown Category");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
             
@@ -314,9 +256,56 @@ namespace Qsor.Gameplay.osu
             }
         }
         
-        public void Dispose()
+        private int _categoryIndex;
+        private readonly List<Category> _categories = new List<Category>();
+        private readonly Dictionary<Category, List<string>> _keyValues = new Dictionary<Category, List<string>>();
+        
+        private void Parse(string content)
         {
-            //Song?.Dispose();
+            var beatmapLines = content.Split("\n").Select(p => p.Trim());
+
+            var currentValues = new List<string>();
+            foreach (var line in beatmapLines)
+            {
+                if (line == string.Empty) continue;
+
+                if (line.StartsWith("[") && line.EndsWith("]")) {
+                    if (!Enum.TryParse(line.Trim('[', ']'), out Category currentCategory))
+                        currentCategory = Category.Unknown;
+                    
+                    _categories.Add(currentCategory);
+                    if (!_keyValues.ContainsKey(currentCategory))
+                        _keyValues.Add(currentCategory, new List<string>());
+                    
+                    currentValues = _keyValues[currentCategory];
+                    continue;
+                }
+                
+                currentValues.Add(line);
+            }
+        }
+
+        private Category GetNextCategory() => _categories[_categoryIndex++];
+        private Category GetCurrentCategory() => _categories[_categoryIndex -1];
+        private IEnumerable<string> GetValues() => _keyValues[GetCurrentCategory()];
+
+        private T GetValue<T>(string key) =>
+            GetValues()
+                .Where(s => s.ToLower().StartsWith(key.ToLower()))
+                .Select(s => s.Split(":").ToArray()[1].TrimStart())
+                .Select(s => (T) TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(s))
+                .FirstOrDefault();
+        
+        private enum Category
+        {
+            Unknown,
+            General,
+            Editor,
+            HitObjects,
+            Difficulty,
+            Colours,
+            TimingPoints,
+            Events
         }
     }
 }
