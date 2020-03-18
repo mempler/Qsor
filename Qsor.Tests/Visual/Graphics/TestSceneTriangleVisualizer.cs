@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ManagedBass.Fx;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Audio.Track;
 using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Transforms;
-using osu.Framework.Logging;
 using osu.Framework.Testing;
 using osuTK.Graphics;
 using Qsor.Graphics;

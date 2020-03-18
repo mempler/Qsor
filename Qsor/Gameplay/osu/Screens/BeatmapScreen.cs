@@ -1,9 +1,7 @@
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Graphics;
-using osu.Framework.Logging;
 using osu.Framework.Screens;
-using Qsor.Gameplay.osu.Containers;
 
 namespace Qsor.Gameplay.osu.Screens
 {

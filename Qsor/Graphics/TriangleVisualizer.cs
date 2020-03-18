@@ -7,9 +7,6 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Transforms;
-using osu.Framework.Logging;
-using osu.Framework.Physics;
-using osu.Framework.Timing;
 using osuTK;
 using osuTK.Graphics;
 

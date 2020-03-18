@@ -3,7 +3,6 @@ using osu.Framework.Allocation;
 using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics.Containers;
 using osuTK;
-using Qsor.Containers.Input;
 
 namespace Qsor.Gameplay.osu.Containers
 {
@@ -15,14 +14,6 @@ namespace Qsor.Gameplay.osu.Containers
         private static readonly Vector2 PlayfieldSize = new Vector2(512, 384);
         public override Vector2 Size { get => PlayfieldSize; set {} }
 
-        public VirtualCursorContainer Cursor { get; private set; }
-
-        [BackgroundDependencyLoader]
-        private void Load()
-        {
-            AddInternal(Cursor = new VirtualCursorContainer {Depth = -int.MaxValue}); // always draw cursor ontop of everything
-        }
-        
         private double _currentTime;
         protected override void Update()
         {

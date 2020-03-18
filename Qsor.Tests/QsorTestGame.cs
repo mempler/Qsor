@@ -1,7 +1,6 @@
 ﻿using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.IO.Stores;
-using osu.Framework.Platform;
 using osu.Framework.Testing;
 
 namespace Qsor.Tests

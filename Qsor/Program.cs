@@ -1,5 +1,4 @@
-﻿using System;
-using osu.Framework;
+﻿using osu.Framework;
 
 namespace Qsor
 {

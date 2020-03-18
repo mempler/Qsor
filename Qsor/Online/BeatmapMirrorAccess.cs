@@ -6,9 +6,9 @@ namespace Qsor.Online
 {
     public class BeatmapMirrorAccess
     {
-        public const string BeatmapMirror = "https://pisstau.be";
+        private const string BeatmapMirror = "https://pisstau.be";
         
-        public async Task<Stream> DownloadBeatmap(uint setId)
+        public static async Task<Stream> DownloadBeatmap(uint setId)
         {
             var wr = new WebRequest(BeatmapMirror + $"/d/{setId}");
             
