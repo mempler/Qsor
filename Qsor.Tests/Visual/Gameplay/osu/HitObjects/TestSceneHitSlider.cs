@@ -8,6 +8,7 @@ using osuTK;
 using osuTK.Graphics;
 using Qsor.Gameplay.osu;
 using Qsor.Gameplay.osu.HitObjects;
+using Qsor.Gameplay.osu.HitObjects.Slider;
 
 namespace Qsor.Tests.Visual.Gameplay.osu.HitObjects
 {

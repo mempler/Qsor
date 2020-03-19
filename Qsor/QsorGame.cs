@@ -16,7 +16,7 @@ namespace Qsor
     {
         public const uint CurrentTestmap = 756794 ; // TODO: Remove
         public const string CurrentTestmapName = "TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu"; // TODO: Remove
-
+        
         private ScreenStack _stack;
 
         private BeatmapManager BeatmapManager;

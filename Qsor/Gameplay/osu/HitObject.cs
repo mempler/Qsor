@@ -7,6 +7,7 @@ using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Logging;
 using osuTK;
+using Qsor.Gameplay.osu.HitObjects.Slider;
 
 namespace Qsor.Gameplay.osu
 {
