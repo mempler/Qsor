@@ -14,9 +14,9 @@ namespace Qsor
     [Cached]
     public class QsorGame : Game
     {
-        public const uint CurrentTestmap = 690556; // TODO: Remove
-        public const string CurrentTestmapName = "Virtual Riot - Stay For A While (ProfessionalBox) [Don't make me Lonely].osu"; // TODO: Remove
-        
+        public const uint CurrentTestmap = 756794 ; // TODO: Remove
+        public const string CurrentTestmapName = "TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu"; // TODO: Remove
+
         private ScreenStack _stack;
 
         private BeatmapManager BeatmapManager;

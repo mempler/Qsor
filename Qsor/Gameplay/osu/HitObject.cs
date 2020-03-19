@@ -64,7 +64,7 @@ namespace Qsor.Gameplay.osu
 
         protected override void Update()
         {
-            BindableProgress.Value = Math.Clamp((BeatmapManager.ActiveBeatmap.Track.CurrentTime - BeginTime) / Duration, 0, 1);
+            BindableProgress.Value = Math.Clamp((Beatmap.Track.CurrentTime - BeginTime + Beatmap.General.AudioLeadIn) / Duration, 0, 1);
         }
     }
 }
