@@ -1,13 +1,16 @@
 ﻿
+using System.Threading.Tasks;
 using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.IO.Stores;
 using osu.Framework.Screens;
 using Qsor.Gameplay.osu;
 using Qsor.Gameplay.osu.Screens;
 using Qsor.Online;
+using Qsor.Screens;
 
 namespace Qsor
 {
@@ -40,8 +43,6 @@ namespace Qsor
             Audio.Frequency.Set(1);
             Audio.Volume.Set(.05);
             
-            AddInternal(BeatmapManager);
-            
             _stack = new ScreenStack
             {
                 RelativeSizeAxes = Axes.Both,
@@ -51,13 +52,22 @@ namespace Qsor
             };
             Add(_stack);
             
-            _stack.Push(new BeatmapScreen
+            _stack.Push(new IntroScreen());
+
+            BeatmapManager.OnLoadComplete += (d) =>
             {
-                RelativeSizeAxes = Axes.Both,
-                Anchor = Anchor.Centre,
-                Origin = Anchor.Centre,
-                FillMode = FillMode.Fill,
-            });
+                _stack.Exit();
+
+                Scheduler.AddDelayed(() => _stack.Push(new BeatmapScreen
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    FillMode = FillMode.Fill,
+                }), 2000);
+            };
+            
+            Scheduler.AddDelayed(() => AddInternal(BeatmapManager), 6000);
         }
     }
 }
