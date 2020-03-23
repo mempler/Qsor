@@ -1,18 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.Zip;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
-using osu.Framework.Audio.Track;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
-using osu.Framework.Logging;
 using osu.Framework.Platform;
-using osuTK;
 using Qsor.Containers;
-using Qsor.Containers.Input;
 using Qsor.Gameplay.osu.Containers;
 using Qsor.Online;
 
@@ -40,7 +35,7 @@ namespace Qsor.Gameplay.osu
             // TODO: Remove
             if (!storage.ExistsDirectory($"./Songs/{QsorGame.CurrentTestmap}"))
             {
-                var beatmapFile = mirrorAccess.DownloadBeatmap(QsorGame.CurrentTestmap).GetAwaiter().GetResult();
+                var beatmapFile = BeatmapMirrorAccess.DownloadBeatmap(QsorGame.CurrentTestmap).GetAwaiter().GetResult();
                 
                 using var s = new ZipInputStream(beatmapFile);
                 ZipEntry theEntry;
@@ -91,17 +86,7 @@ namespace Qsor.Gameplay.osu
             LoadComponents(ActiveBeatmap.HitObjects); // Preload HitObjects, this makes it twice as fast!
             
             if (Playfield == null)
-                AddInternal(new DrawSizePreservingFillContainer
-                {
-                    Strategy = DrawSizePreservationStrategy.Maximum,
-                    
-                    Child = Playfield = new PlayfieldContainer
-                    {
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre,
-                        FillMode = FillMode.Fit
-                    }
-                });
+                AddInternal(new PlayfieldAdjustmentContainer(new PlayfieldContainer{ RelativeSizeAxes = Axes.Both }));
         }
 
         public void PlayBeatmap()

@@ -1,6 +1,4 @@
-﻿using System;
-using osu.Framework;
-using osu.Framework.Platform;
+﻿using osu.Framework;
 
 namespace Qsor.Tests
 {

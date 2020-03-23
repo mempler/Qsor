@@ -1,9 +1,9 @@
-﻿using osu.Framework.Allocation;
+﻿using System;
+using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
-using osu.Framework.Logging;
 using osuTK;
 
 namespace Qsor.Gameplay.osu.HitObjects
