@@ -5,8 +5,10 @@ using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Input.Events;
 using osu.Framework.IO.Stores;
 using osu.Framework.Screens;
+using osuTK.Input;
 using Qsor.Gameplay.osu;
 using Qsor.Gameplay.osu.Screens;
 using Qsor.Online;
@@ -68,6 +70,27 @@ namespace Qsor
             };
             
             Scheduler.AddDelayed(() => AddInternal(BeatmapManager), 6000);
+        }
+        
+        protected override bool OnKeyDown(KeyDownEvent e)
+        {
+            switch (e.Key)
+            {
+                case Key.Down:
+                    Audio.Frequency.Value -= .1;
+                    return true;
+                case Key.Up:
+                    Audio.Frequency.Value += .1;
+                    return true;
+                case Key.Space:
+                    if (!ActiveTrack.IsRunning)
+                        ActiveTrack.Start();
+                    else
+                        ActiveTrack.Stop();
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }
