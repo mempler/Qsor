@@ -62,7 +62,7 @@ namespace Qsor.Gameplay.osu.HitObjects
 
             BindableProgress.ValueChanged += prog =>
             {
-                if (prog.NewValue >= .5)
+                if (prog.NewValue * this.SpanCount() >= 1)
                     Hide();
                 
                 Body.UpdateProgress(prog.NewValue);

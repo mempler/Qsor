@@ -56,7 +56,7 @@ namespace Qsor
             
             _stack.Push(new IntroScreen());
 
-            BeatmapManager.OnLoadComplete += (d) =>
+            BeatmapManager.OnLoadComplete += d =>
             {
                 _stack.Exit();
 
@@ -66,10 +66,10 @@ namespace Qsor
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
                     FillMode = FillMode.Fill,
-                }), 2000);
+                }), 1000);
             };
             
-            Scheduler.AddDelayed(() => AddInternal(BeatmapManager), 6000);
+            Scheduler.AddDelayed(() => AddInternal(BeatmapManager), 3000);
         }
         
         protected override bool OnKeyDown(KeyDownEvent e)
