@@ -9,6 +9,7 @@ using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
 using Qsor.Gameplay.osu.HitObjects;
+using Qsor.Gameplay.osu.HitObjects.Slider;
 
 namespace Qsor.Gameplay.osu
 {
@@ -193,7 +194,7 @@ namespace Qsor.Gameplay.osu
                                 Inherited = tPoint[6].Trim() == "0", // this is reversed for some fucking reason.
                                 KiaiMode = tPoint[7].Trim() == "1"
                             };
-                            timingPoint.BPM = 60000d / timingPoint.MsPerBeat;
+                            timingPoint.BPM = 60000d / Math.Clamp(timingPoint.MsPerBeat, 6, 60000);
    
                             if (timingPoint.Inherited)
                                 timingPoint.SpeedMultiplier = -100 * lastBpm / timingPoint.MsPerBeat;

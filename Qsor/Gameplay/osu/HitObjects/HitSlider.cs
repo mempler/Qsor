@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
 using Qsor.Gameplay.osu.HitObjects.Slider;
@@ -20,8 +22,9 @@ namespace Qsor.Gameplay.osu.HitObjects
         public SliderPath Path { get; }
         public int RepeatCount { get; set; }
         
-        public HitCircle SliderBeginCircle { get; }
+        public HitCircle SliderBeginCircle { get; private set; }
         public SnakingSliderBody Body { get; private set; }
+        public SliderBall Ball { get; private set; }
         
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
@@ -32,28 +35,38 @@ namespace Qsor.Gameplay.osu.HitObjects
             }; // lets make it black for now, as almost every Legacy skin uses that.
 
             Body.SnakingIn.Value = false;
-            Body.SnakingOut.Value = true;
+            Body.SnakingOut.Value = false;
             
-            SliderBeginCircle.Position = Body.PathOffset;
-
             Origin = Anchor.TopLeft;
 
             Position = StackedPosition;
-            
-            Body.UpdateProgress(0);
 
-            BindableProgress.ValueChanged += prog =>
+            Ball = new SliderBall
             {
-                if (prog.NewValue >= .5)
-                    Hide();
-                
-                Body.UpdateProgress(prog.NewValue);
+                Scale = new Vector2(Body.PathRadius),
+                Origin = Anchor.Centre
             };
-
+            
+            SliderBeginCircle = new HitCircle(Beatmap, Body.PathOffset) {BeginTime = BeginTime};
+            
             InternalChildren = new Drawable[]
             {
                 Body,
+                Ball,
                 SliderBeginCircle
+            };
+            
+            Body.UpdateProgress(0);
+            Ball.Position = Path.PositionAt(0);
+            Ball.Scale = new Vector2(Body.PathRadius / 64f);
+
+            BindableProgress.ValueChanged += prog =>
+            {
+                if (prog.NewValue * this.SpanCount() >= 1)
+                    Hide();
+                
+                Body.UpdateProgress(prog.NewValue);
+                Ball.Position = Path.PositionAt(prog.NewValue * this.SpanCount());
             };
         }
 
@@ -85,17 +98,17 @@ namespace Qsor.Gameplay.osu.HitObjects
             ControlPoints = controlPoints;
 
             RepeatCount = repeats;
-            
-            SliderBeginCircle = new HitCircle(beatmap, controlPoints[0]);
-            SliderBeginCircle.BeginTime = BeginTime;
         }
 
+        [Resolved]
+        private BeatmapManager BeatmapManager { get; set; }
+        
         protected override void Update()
         {
-            base.Update();
-
             Size = Body.Size;
             OriginPosition = Body.PathOffset;
+            
+            base.Update();
         }
     }
 }

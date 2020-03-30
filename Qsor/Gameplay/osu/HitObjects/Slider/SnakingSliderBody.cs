@@ -153,7 +153,7 @@ namespace Qsor.Gameplay.osu.HitObjects.Slider
             // Depending on the direction of expansion, it may appear as if the path is expanding towards the position of the slider
             // rather than expanding out from the position of the slider.
             // To remove this effect, the path's position is shifted towards its final snaked position
-
+            
             Path.Position = _snakedPosition - Path.PositionInBoundingBox(Vector2.Zero);
         }
     }
