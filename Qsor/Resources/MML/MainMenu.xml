@@ -1,5 +1,0 @@
-﻿<mml>
-    <BackgroundImageContainer />
-    <Box Colour="white" width="225px" height="35px" position="0,0" Origin="TopRight" Anchor="TopRight" />
-    <Box Colour="green" width="160px" height="60px" Anchor="TopRight" Origin="TopCentre" position="-110,30" />
-</mml>
