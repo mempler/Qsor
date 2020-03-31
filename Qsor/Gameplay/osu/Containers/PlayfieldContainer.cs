@@ -4,6 +4,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics.Containers;
 using osuTK;
+using Qsor.Beatmaps;
 
 namespace Qsor.Gameplay.osu.Containers
 {
@@ -30,10 +31,10 @@ namespace Qsor.Gameplay.osu.Containers
         
         protected override void Update()
         {
-            if (BeatmapManager.ActiveBeatmap.Track?.IsRunning == false) // Improve performance by not even Updating the HitObjects.
+            if (BeatmapManager.WorkingBeatmap.Track?.IsRunning == false) // Improve performance by not even Updating the HitObjects.
                 return;
             
-            _currentTime = BeatmapManager.ActiveBeatmap.Track?.CurrentTime + BeatmapManager.ActiveBeatmap.General.AudioLeadIn ?? 0;
+            _currentTime = BeatmapManager.WorkingBeatmap.Track?.CurrentTime + BeatmapManager.WorkingBeatmap.General.AudioLeadIn ?? 0;
 
             _sliderLayer // It's faster to iterate through Children. (or should be as there are less objects)
                 .OfType<HitObject>() // TODO: remove
@@ -45,9 +46,9 @@ namespace Qsor.Gameplay.osu.Containers
                 .Where(obj => _currentTime > obj.EndTime)
                 .ForEach(obj => obj.Hide());
             
-            BeatmapManager.ActiveBeatmap.HitObjects
+            BeatmapManager.WorkingBeatmap.HitObjects
                 .Where(obj => _currentTime < obj.EndTime)
-                .Where(obj => _currentTime > obj.BeginTime - (BeatmapManager.ActiveBeatmap.Difficulty.ApproachRate + 300))
+                .Where(obj => _currentTime > obj.BeginTime - (BeatmapManager.WorkingBeatmap.Difficulty.ApproachRate + 300))
                 .Where(obj => !_circleLayer.Contains(obj) && !_sliderLayer.Contains(obj))
                 .ForEach(obj =>
                 {

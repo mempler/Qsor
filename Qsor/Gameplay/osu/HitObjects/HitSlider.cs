@@ -8,6 +8,7 @@ using osu.Framework.Graphics.Textures;
 using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
+using Qsor.Beatmaps;
 using Qsor.Gameplay.osu.HitObjects.Slider;
 
 namespace Qsor.Gameplay.osu.HitObjects

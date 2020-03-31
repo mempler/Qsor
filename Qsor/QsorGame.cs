@@ -18,7 +18,7 @@ namespace Qsor
         
         private ScreenStack _stack;
         
-        public Track ActiveTrack => BeatmapManager.ActiveBeatmap.Track;
+        public Track ActiveTrack => BeatmapManager.WorkingBeatmap.Track;
 
         [BackgroundDependencyLoader]
         private void Load()
@@ -35,7 +35,7 @@ namespace Qsor
             };
             Add(_stack);
 
-            if (!DebugUtils.IsDebugBuild)
+            if (DebugUtils.IsDebugBuild)
             {
                 _stack.Push(new IntroScreen());
                 
@@ -43,7 +43,7 @@ namespace Qsor
                 {
                     _stack.Exit();
 
-                    Scheduler.AddDelayed(() => _stack.Push(new BeatmapScreen
+                    Scheduler.AddDelayed(() => _stack.Push(new OsuScreen
                     {
                         RelativeSizeAxes = Axes.Both,
                         Anchor = Anchor.Centre,

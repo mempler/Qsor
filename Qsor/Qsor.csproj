@@ -25,7 +25,6 @@
     
     <ItemGroup>
       <Folder Include="Database\Migrations" />
-      <Folder Include="Gameplay" />
     </ItemGroup>
 
 </Project>

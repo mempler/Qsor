@@ -2,6 +2,7 @@
 using osu.Framework.Allocation;
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
+using Qsor.Beatmaps;
 using Qsor.Database;
 using Qsor.Gameplay.osu;
 using Qsor.Online;

@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using osu.Framework.Audio.Track;
-using osu.Framework.Graphics.Textures;
+using System.Text;
 using osu.Framework.Logging;
+using osu.Framework.Platform;
 using osuTK;
 using osuTK.Graphics;
+using Qsor.Gameplay;
 using Qsor.Gameplay.osu.HitObjects;
 using Qsor.Gameplay.osu.HitObjects.Slider;
+using Component = osu.Framework.Graphics.Component;
 
-namespace Qsor.Gameplay.osu
+namespace Qsor.Beatmaps
 {
     public class General {
         public string AudioFilename;
@@ -44,7 +46,7 @@ namespace Qsor.Gameplay.osu
         public double SpeedMultiplier;
     }
     
-    public class Beatmap : Container
+    public class Beatmap : Component
     {
         public int BeatmapVersion = 0;
         public List<HitObject> HitObjects = new List<HitObject>();
@@ -54,24 +56,26 @@ namespace Qsor.Gameplay.osu
         public readonly List<Color4> Colors = new List<Color4>();
         public List<TimingPoint> TimingPoints = new List<TimingPoint>();
 
-        public Texture Background;
-        public Track Track;
-        
-        public static Beatmap ReadBeatmap(string path)
+        public string BackgroundFilename;
+
+        protected Storage BeatmapStorage { get; private set; }
+
+        public static T ReadBeatmap<T>(Storage storage, string fileName)
+            where T : Beatmap, new()
         {
-            if (!File.Exists(path))
-                throw new FileNotFoundException("Beatmap file hasn't been found!", path);
-
-            var bmDirectory = Path.GetDirectoryName(path);
-            var bmContent = File.ReadAllText(path);
-
-            var bm = new Beatmap();
-            bm.ConstructFromString(bmContent, bmDirectory);
+            if (!storage.Exists(fileName))
+                throw new FileNotFoundException("Beatmap file hasn't been found!", fileName);
             
+            var reader = new StreamReader(storage.GetStream(fileName));
+            var bmContent = reader.ReadToEnd();
+
+            var bm = new T { BeatmapStorage = storage };
+            bm.ConstructFromString(bmContent);
+
             return bm;
         }
         
-        public void ConstructFromString(string content, string directory)
+        public void ConstructFromString(string content)
         {
             Parse(content);
             
@@ -82,8 +86,6 @@ namespace Qsor.Gameplay.osu
                     case Category.General:
                         General.AudioLeadIn = GetValue<int>("AudioLeadIn");
                         General.AudioFilename = GetValue<string>("AudioFilename");
-                        
-                        Track = new TrackBass(File.OpenRead(Path.Combine(directory, General.AudioFilename)));
                         break;
                     case Category.Editor:
                         break;
@@ -109,6 +111,7 @@ namespace Qsor.Gameplay.osu
                                 
                                 hitObjectColor = Colors[hitObjectColorIndex];
                             }
+                            
                             if ((hitObjectType & HitObjectType.Circle) != 0)
                             {
                                 HitObject circle = new HitCircle(this, new Vector2((float) x, (float) y));
@@ -117,6 +120,7 @@ namespace Qsor.Gameplay.osu
 
                                 HitObjects.Add(circle);
                             }
+                            
                             if ((hitObjectType & HitObjectType.Slider) != 0)
                             {
                                 var sliderInfo = hitObjectValue[5].Split("|");
@@ -215,17 +219,9 @@ namespace Qsor.Gameplay.osu
                             switch (ev[0])
                             {
                                  case "0":
-                                     var backgroundPath = Path.Combine(directory, 
+                                     BackgroundFilename =
                                          ev[2].Remove(0, 1) // Remove quotes
-                                             .Remove(ev[2].Length -2, 1)
-                                     );
-                                     
-                                     if (!File.Exists(backgroundPath))
-                                         continue;
-                                
-                                     using (var fs = File.OpenRead(backgroundPath))
-                                         Background = Texture.FromStream(fs);
-                                     
+                                            .Remove(ev[2].Length -2, 1);
                                      break;
                                  default:
                                      Console.WriteLine("Event [{0}] not implemented!", ev[0]);
