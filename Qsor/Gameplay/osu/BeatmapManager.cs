@@ -61,7 +61,7 @@ namespace Qsor.Gameplay.osu
                     }
                 }
             }
-            
+             
             RelativeSizeAxes = Axes.Both;
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;

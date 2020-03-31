@@ -4,6 +4,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
 using osuTK;
 using osuTK.Graphics;
@@ -20,6 +21,8 @@ namespace Qsor.Overlays
         private DrawableAvatar _avatar;
         private DrawableLevelBar _levelBar;
         private User _activeUser;
+
+        private Box _background;
         
         [BackgroundDependencyLoader]
         private void Load(UserManager userManager)
@@ -50,10 +53,11 @@ namespace Qsor.Overlays
             
             _textFlowContainer.OriginPosition = new Vector2(-75,0);
 
-            AddInternal(new Box
+            AddInternal(_background = new Box
             {
                 RelativeSizeAxes = Axes.Both,
-                Colour = new Color4(1f,1f,1f, .1f)
+                Colour = Color4.White,
+                Alpha = .1f
             });
             AddInternal(_avatar = new DrawableAvatar());
             AddInternal(new SpriteText
@@ -75,6 +79,17 @@ namespace Qsor.Overlays
             });
 
             _avatar.User.Value = _activeUser;
+        }
+
+        protected override bool OnHover(HoverEvent e)
+        {
+            _background.FadeTo(.3f, 50);
+            return true;
+        }
+
+        protected override void OnHoverLost(HoverLostEvent e)
+        {
+            _background.FadeTo(.1f, 50);
         }
     }
 }

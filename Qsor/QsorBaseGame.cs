@@ -1,6 +1,8 @@
 ﻿using osu.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.IO.Stores;
+using osu.Framework.Platform;
+using Qsor.Database;
 using Qsor.Gameplay.osu;
 using Qsor.Online;
 
@@ -9,23 +11,32 @@ namespace Qsor
     public class QsorBaseGame : Game
     {
         protected BeatmapManager BeatmapManager;
-        protected BeatmapMirrorAccess BeatmapMirrorAccess;
         protected UserManager UserManager;
-        private DependencyContainer dependencies;
+        
+        protected BeatmapMirrorAccess BeatmapMirrorAccess;
+        
+        protected QsorDbContextFactory QsorDbContextFactory;
+        
+        private DependencyContainer _dependencies;
 
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
-            dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
+            _dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
         [BackgroundDependencyLoader]
-        private void Load()
+        private void Load(Storage storage)
         {
-            dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
-            dependencies.CacheAs(BeatmapManager = new BeatmapManager());
-            dependencies.CacheAs(this);
-
-            dependencies.Cache(UserManager = new UserManager());
+            _dependencies.CacheAs(BeatmapManager = new BeatmapManager());
+            _dependencies.Cache(UserManager = new UserManager());
+            
+            _dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
+            
+            _dependencies.Cache(QsorDbContextFactory = new QsorDbContextFactory(storage));
+            
+            _dependencies.CacheAs(this);
             
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
+
+            QsorDbContextFactory.Get().Migrate();
         }
     }
 }

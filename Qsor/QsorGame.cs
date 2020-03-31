@@ -2,7 +2,9 @@
 using osu.Framework.Audio.Track;
 using osu.Framework.Development;
 using osu.Framework.Graphics;
+using osu.Framework.Input.Events;
 using osu.Framework.Screens;
+using osuTK.Input;
 using Qsor.Gameplay.osu.Screens;
 using Qsor.Screens;
 

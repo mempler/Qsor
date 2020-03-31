@@ -2,26 +2,36 @@
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Screens;
+using Qsor.Containers;
 using Qsor.Overlays;
 
 namespace Qsor.Screens
 {
     public class MainMenuScreen : Screen
     {
-        private Container ToolBarTop;
+        private Container _toolBarTop;
+        private BackgroundImageContainer _background;
         
         [BackgroundDependencyLoader]
         private void Load()
         {
-            ToolBarTop = new Container
+            _toolBarTop = new Container
             {
                 RelativeSizeAxes = Axes.X,
                 Height = 80
             };
             
-            ToolBarTop.Add(new UserOverlay());
+            _toolBarTop.Add(new UserOverlay());
             
-            AddInternal(ToolBarTop);
+            AddInternal(_background = new BackgroundImageContainer
+            {
+                RelativeSizeAxes = Axes.Both,
+                Anchor = Anchor.Centre,
+                Origin = Anchor.Centre,
+                FillMode = FillMode.Fill,
+            });
+            
+            AddInternal(_toolBarTop);
         }
     }
 }
