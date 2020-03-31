@@ -1,45 +1,26 @@
-﻿
-using System.Threading.Tasks;
-using osu.Framework;
-using osu.Framework.Allocation;
+﻿using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
-using osu.Framework.Bindables;
+using osu.Framework.Development;
 using osu.Framework.Graphics;
-using osu.Framework.IO.Stores;
 using osu.Framework.Screens;
-using Qsor.Gameplay.osu;
 using Qsor.Gameplay.osu.Screens;
-using Qsor.Online;
 using Qsor.Screens;
 
 namespace Qsor
 {
     [Cached]
-    public class QsorGame : Game
+    public class QsorGame : QsorBaseGame
     {
         public const uint CurrentTestmap = 690556; // TODO: Remove
         public const string CurrentTestmapName = "Virtual Riot - Stay For A While (ProfessionalBox) [Don't make me Lonely].osu"; // TODO: Remove
         
         private ScreenStack _stack;
-
-        private BeatmapManager BeatmapManager;
-        private BeatmapMirrorAccess BeatmapMirrorAccess;
-        private DependencyContainer dependencies;
-
-        protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
-            dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
-
+        
         public Track ActiveTrack => BeatmapManager.ActiveBeatmap.Track;
 
         [BackgroundDependencyLoader]
         private void Load()
         {
-            dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
-            dependencies.CacheAs(BeatmapManager = new BeatmapManager());
-            dependencies.CacheAs(this);
-            
-            Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
-            
             Audio.Frequency.Set(1);
             Audio.Volume.Set(.05);
             
@@ -51,23 +32,30 @@ namespace Qsor
                 FillMode = FillMode.Fill,
             };
             Add(_stack);
-            
-            _stack.Push(new IntroScreen());
 
-            BeatmapManager.OnLoadComplete += (d) =>
+            if (!DebugUtils.IsDebugBuild)
             {
-                _stack.Exit();
-
-                Scheduler.AddDelayed(() => _stack.Push(new BeatmapScreen
+                _stack.Push(new IntroScreen());
+                
+                BeatmapManager.OnLoadComplete += (d) =>
                 {
-                    RelativeSizeAxes = Axes.Both,
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
-                    FillMode = FillMode.Fill,
-                }), 2000);
-            };
+                    _stack.Exit();
+
+                    Scheduler.AddDelayed(() => _stack.Push(new BeatmapScreen
+                    {
+                        RelativeSizeAxes = Axes.Both,
+                        Anchor = Anchor.Centre,
+                        Origin = Anchor.Centre,
+                        FillMode = FillMode.Fill,
+                    }), 2000);
+                };
             
-            Scheduler.AddDelayed(() => AddInternal(BeatmapManager), 6000);
+                Scheduler.AddDelayed(() => AddInternal(BeatmapManager), 6000);
+            }
+            else
+            {
+                _stack.Push(new MainMenuScreen());
+            }
         }
     }
 }

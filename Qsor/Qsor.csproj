@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ppy.osu.Framework" Version="2020.317.0" />
+      <PackageReference Include="ppy.osu.Framework" Version="2020.330.0" />
       <PackageReference Include="SharpZipLib" Version="1.2.0" />
     </ItemGroup>
     
@@ -17,6 +17,7 @@
         <EmbeddedResource Include="Resources\Shaders\**\*" />
         <EmbeddedResource Include="Resources\Textures\**\*" />
         <EmbeddedResource Include="Resources\Tracks\**\*" />
+        <EmbeddedResource Include="Resources\MML\**\*" />
     </ItemGroup>
     
     <ItemGroup>
