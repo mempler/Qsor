@@ -11,8 +11,8 @@ namespace Qsor
     [Cached]
     public class QsorGame : QsorBaseGame
     {
-        public const uint CurrentTestmap = 690556; // TODO: Remove
-        public const string CurrentTestmapName = "Virtual Riot - Stay For A While (ProfessionalBox) [Don't make me Lonely].osu"; // TODO: Remove
+        public const uint CurrentTestmap = 756794 ; // TODO: Remove
+        public const string CurrentTestmapName = "TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu"; // TODO: Remove
         
         private ScreenStack _stack;
         
@@ -55,6 +55,27 @@ namespace Qsor
             else
             {
                 _stack.Push(new MainMenuScreen());
+            }
+        }
+        
+        protected override bool OnKeyDown(KeyDownEvent e)
+        {
+            switch (e.Key)
+            {
+                case Key.Down:
+                    Audio.Frequency.Value -= .1;
+                    return true;
+                case Key.Up:
+                    Audio.Frequency.Value += .1;
+                    return true;
+                case Key.Space:
+                    if (!ActiveTrack.IsRunning)
+                        ActiveTrack.Start();
+                    else
+                        ActiveTrack.Stop();
+                    return true;
+                default:
+                    return false;
             }
         }
     }

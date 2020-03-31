@@ -51,6 +51,8 @@ namespace Qsor.Gameplay.osu.Containers
                 .Where(obj => !_circleLayer.Contains(obj) && !_sliderLayer.Contains(obj))
                 .ForEach(obj =>
                 {
+                   // obj.TimingPoint = BeatmapManager.ActiveBeatmap.TimingPoints.FirstOrDefault(s => s.Offset >= _currentTime);
+                    
                     switch (obj.Type)
                     {
                         case HitObjectType.Circle:
