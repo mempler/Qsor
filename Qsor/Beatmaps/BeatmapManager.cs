@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using osu.Framework.Allocation;
+using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
@@ -24,9 +26,21 @@ namespace Qsor.Beatmaps
         
         [Resolved]
         private QsorDbContextFactory QsorDbContextFactory { get; set; }
+        
+        [Resolved]
+        private AudioManager AudioManager { get; set; }
 
         public BackgroundImageContainer Background;
 
+        public BeatmapManager()
+        {
+            WorkingBeatmap.ValueChanged += e =>
+            {
+                e.OldValue?.Track.Stop();
+                e.OldValue?.Dispose();
+            };
+        }
+        
         [BackgroundDependencyLoader]
         private void Load(TextureStore store)
         {

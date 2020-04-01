@@ -65,7 +65,7 @@ namespace Qsor.Graphics.Containers
             var timingPoint = new TimingPoint();
             //EffectControlPoint effectPoint = null;
             
-            if (Beatmap.Value.Track.IsLoaded)
+            if (Beatmap.Value?.Track?.IsLoaded == true)
             {
                 track = Beatmap.Value.Track;
                 beatmap = Beatmap.Value;

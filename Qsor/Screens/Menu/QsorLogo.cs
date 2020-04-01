@@ -92,7 +92,7 @@ namespace Qsor.Screens.Menu
 
             const float scaleAdjustCutoff = 0.4f;
 
-            if (Beatmap.Value.Track.IsRunning)
+            if (Beatmap.Value?.Track?.IsRunning == true)
             {
                 var maxAmplitude = _lastBeatIndex >= 0 ? Beatmap.Value.Track.CurrentAmplitudes.Maximum : 0;
                 

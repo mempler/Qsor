@@ -27,32 +27,31 @@ namespace Qsor
             _stack = new ScreenStack(false);
             Add(_stack);
 
-            if (DebugUtils.IsDebugBuild)
+            if (!DebugUtils.IsDebugBuild)
             {
                 _stack.Anchor = Anchor.Centre;
                 _stack.Origin = Anchor.Centre;
                 
                 _stack.Push(new IntroScreen());
-                
-                BeatmapManager.OnLoadComplete += d =>
+   
+                AddInternal(BeatmapManager);
+            
+                Scheduler.AddDelayed(() =>
                 {
                     _stack.Exit();
                     
-                    Scheduler.AddDelayed(() => _stack.Push(new OsuScreen
-                    {
-                        RelativeSizeAxes = Axes.X,
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.Centre,
-                        FillMode = FillMode.Fill,
-                    }), 2000);
-                };
-            
-                Scheduler.AddDelayed(() => AddInternal(BeatmapManager), 6000);
+                    Scheduler.AddDelayed(() => _stack.Push(new MainMenuScreen()), 2000);
+                }, 6000);
             }
             else
             {
                 _stack.Push(new MainMenuScreen());
             }
+        }
+
+        public void PushScreen(Screen screen)
+        {
+            _stack.Push(screen);
         }
         
         protected override bool OnKeyDown(KeyDownEvent e)

@@ -1,17 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Shapes;
+using osu.Framework.Input.Events;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
-using osuTK.Graphics;
+using osu.Framework.Timing;
 using Qsor.Beatmaps;
 using Qsor.Database;
+using Qsor.Gameplay.osu.Screens;
 using Qsor.Graphics.Containers;
-using Qsor.Overlays;
 
 namespace Qsor.Screens.Menu
 {
@@ -19,6 +19,7 @@ namespace Qsor.Screens.Menu
     {
         private BackgroundImageContainer _background;
         private QsorLogo _qsorLogo;
+        private Toolbar Toolbar;
 
         private Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
         
@@ -41,7 +42,7 @@ namespace Qsor.Screens.Menu
             
             
             var db = ctxFactory.Get();
-            var beatmapModel = db.Beatmaps.FirstOrDefault();
+            var beatmapModel = db.Beatmaps.ToList().OrderBy(r => Guid.NewGuid()).FirstOrDefault();
             var beatmapStorage = storage.GetStorageForDirectory(beatmapModel?.Path);
             beatmapManager.LoadBeatmap(beatmapStorage, beatmapModel?.File);
             LoadComponent(beatmapManager.WorkingBeatmap.Value);
@@ -69,7 +70,7 @@ namespace Qsor.Screens.Menu
 
             
             
-            AddInternal(new Toolbar());
+            AddInternal(Toolbar = new Toolbar());
         }
         
         protected override void LoadComplete()
@@ -81,7 +82,52 @@ namespace Qsor.Screens.Menu
         
         public override void OnEntering(IScreen last)
         {
+            clock.Start();
             this.FadeInFromZero(2500, Easing.InExpo);
+        }
+
+        public override bool OnExiting(IScreen next)
+        {
+            this.FadeOutFromOne(2500, Easing.OutExpo);
+            return true;
+        }
+
+        private StopwatchClock clock = new StopwatchClock();
+        public bool IsFading;
+        
+        protected override void Update()
+        {
+            if (IsFading || clock.ElapsedMilliseconds <= 5000)
+                return;
+            
+            Toolbar.FadeOutFromOne(13000);
+            
+            IsFading = true;
+        }
+
+        protected override bool OnMouseMove(MouseMoveEvent e)
+        {
+            Toolbar.ClearTransforms();
+            
+            Toolbar.FadeIn(250);
+            
+            IsFading = false;
+            clock.Restart();
+            return true;
+        }
+
+        protected override bool OnClick(ClickEvent e)
+        {
+            if (_qsorLogo.IsHovered)
+                ((QsorGame) Game).PushScreen(new OsuScreen
+                {
+                    RelativeSizeAxes = Axes.X,
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    FillMode = FillMode.Fill,
+                });
+            
+            return base.OnClick(e);
         }
     }
 }

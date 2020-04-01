@@ -84,16 +84,16 @@ namespace Qsor.Screens.Menu
 
         private void UpdateAmplitudes()
         {
-            var track = _beatmap.Value.Track.IsLoaded ? _beatmap.Value.Track : null;
-            var timingPoint = _beatmap.Value.TimingPoints.FirstOrDefault(e => e.Offset >= Time.Current);
-
+            var track = _beatmap.Value?.Track?.IsLoaded == true ? _beatmap.Value.Track : null;
+            var timingPoint = _beatmap.Value?.TimingPoints.FirstOrDefault(e => e.Offset >= Time.Current);
+            
             var temporalAmplitudes = track?.CurrentAmplitudes.FrequencyAmplitudes;
 
             for (var i = 0; i < BarsPerVisualiser; i++)
             {
                 if (track?.IsRunning ?? false)
                 {
-                    var targetAmplitude = (temporalAmplitudes?[(i + _indexOffset) % BarsPerVisualiser] ?? 0) * (timingPoint.KiaiMode ? 1 : 0.5f);
+                    var targetAmplitude = (temporalAmplitudes?[(i + _indexOffset) % BarsPerVisualiser] ?? 0) * (timingPoint?.KiaiMode == true ? 1 : 0.5f);
                     if (targetAmplitude > _frequencyAmplitudes[i])
                         _frequencyAmplitudes[i] = targetAmplitude;
                 }
