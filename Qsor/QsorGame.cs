@@ -1,75 +1,57 @@
-﻿
-using System.Threading.Tasks;
-using osu.Framework;
-using osu.Framework.Allocation;
-using osu.Framework.Audio.Track;
-using osu.Framework.Bindables;
+﻿using osu.Framework.Allocation;
+using osu.Framework.Development;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
-using osu.Framework.IO.Stores;
 using osu.Framework.Screens;
 using osuTK.Input;
-using Qsor.Gameplay.osu;
 using Qsor.Gameplay.osu.Screens;
-using Qsor.Online;
 using Qsor.Screens;
+using Qsor.Screens.Menu;
 
 namespace Qsor
 {
     [Cached]
-    public class QsorGame : Game
+    public class QsorGame : QsorBaseGame
     {
-        public const uint CurrentTestmap = 756794 ; // TODO: Remove
-        public const string CurrentTestmapName = "TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu"; // TODO: Remove
+        public const uint CurrentTestmap = 605745; // TODO: Remove
+        public const string CurrentTestmapName = "Pegboard Nerds - We Are One (Original Vocal Mix) (Frey) [Night Begins].osu"; // TODO: Remove
         
         private ScreenStack _stack;
-
-        private BeatmapManager BeatmapManager;
-        private BeatmapMirrorAccess BeatmapMirrorAccess;
-        private DependencyContainer dependencies;
-
-        protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
-            dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
-
-        public Track ActiveTrack => BeatmapManager.ActiveBeatmap.Track;
-
+        
         [BackgroundDependencyLoader]
         private void Load()
         {
-            dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
-            dependencies.CacheAs(BeatmapManager = new BeatmapManager());
-            dependencies.CacheAs(this);
-            
-            Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
-            
             Audio.Frequency.Set(1);
             Audio.Volume.Set(.05);
             
-            _stack = new ScreenStack
-            {
-                RelativeSizeAxes = Axes.Both,
-                Anchor = Anchor.Centre,
-                Origin = Anchor.Centre,
-                FillMode = FillMode.Fill,
-            };
+            _stack = new ScreenStack(false);
             Add(_stack);
-            
-            _stack.Push(new IntroScreen());
 
-            BeatmapManager.OnLoadComplete += d =>
+            if (!DebugUtils.IsDebugBuild)
             {
-                _stack.Exit();
-
-                Scheduler.AddDelayed(() => _stack.Push(new BeatmapScreen
-                {
-                    RelativeSizeAxes = Axes.Both,
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
-                    FillMode = FillMode.Fill,
-                }), 1000);
-            };
+                _stack.Anchor = Anchor.Centre;
+                _stack.Origin = Anchor.Centre;
+                
+                _stack.Push(new IntroScreen());
+   
+                AddInternal(BeatmapManager);
             
-            Scheduler.AddDelayed(() => AddInternal(BeatmapManager), 3000);
+                Scheduler.AddDelayed(() =>
+                {
+                    _stack.Exit();
+                    
+                    Scheduler.AddDelayed(() => _stack.Push(new MainMenuScreen()), 2000);
+                }, 6000);
+            }
+            else
+            {
+                _stack.Push(new MainMenuScreen());
+            }
+        }
+
+        public void PushScreen(Screen screen)
+        {
+            _stack.Push(screen);
         }
         
         protected override bool OnKeyDown(KeyDownEvent e)
@@ -83,10 +65,10 @@ namespace Qsor
                     Audio.Frequency.Value += .1;
                     return true;
                 case Key.Space:
-                    if (!ActiveTrack.IsRunning)
-                        ActiveTrack.Start();
+                    if (!BeatmapManager.WorkingBeatmap.Value.Track.IsRunning)
+                        BeatmapManager.WorkingBeatmap.Value.Track.Start();
                     else
-                        ActiveTrack.Stop();
+                        BeatmapManager.WorkingBeatmap.Value.Track.Stop();
                     return true;
                 default:
                     return false;

@@ -6,6 +6,7 @@ using osu.Framework.Testing;
 using osu.Framework.Timing;
 using osuTK;
 using osuTK.Graphics;
+using Qsor.Beatmaps;
 using Qsor.Gameplay.osu;
 using Qsor.Gameplay.osu.HitObjects;
 using Qsor.Gameplay.osu.HitObjects.Slider;

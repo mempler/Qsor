@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
-using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
+using Qsor.Beatmaps;
 using Qsor.Gameplay.osu.HitObjects.Slider;
 
 namespace Qsor.Gameplay.osu.HitObjects
