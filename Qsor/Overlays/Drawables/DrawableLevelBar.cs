@@ -9,7 +9,7 @@ namespace Qsor.Overlays.Drawables
 {
     public class DrawableLevelBar : BufferedContainer
     {
-        private Box ProgressBox;
+        private Box _progressBox;
         
         private readonly User _user;
 
@@ -35,7 +35,7 @@ namespace Qsor.Overlays.Drawables
                 RelativeSizeAxes = Axes.Both
             });
             
-            AddInternal(ProgressBox = new Box
+            AddInternal(_progressBox = new Box
             {
                 Colour = Color4.Yellow,
                 RelativeSizeAxes = Axes.Y,
@@ -52,7 +52,7 @@ namespace Qsor.Overlays.Drawables
 
         public void UpdateProgress()
         {
-            ProgressBox.Width = (int) (DrawSize.X * _user.Statistics.GetProgress());
+            _progressBox.Width = (int) (DrawSize.X * _user.Statistics.GetProgress());
         }
     }
 }

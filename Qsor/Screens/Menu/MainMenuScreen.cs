@@ -4,10 +4,12 @@ using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
 using osu.Framework.Timing;
+using osuTK;
 using Qsor.Beatmaps;
 using Qsor.Database;
 using Qsor.Gameplay.osu.Screens;
@@ -20,7 +22,8 @@ namespace Qsor.Screens.Menu
         private BackgroundImageContainer _background;
         private QsorLogo _qsorLogo;
         private Toolbar Toolbar;
-
+        private BottomBar bottomBar;
+        
         private Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
         
         [BackgroundDependencyLoader]
@@ -57,13 +60,19 @@ namespace Qsor.Screens.Menu
             
             var parallaxFront = new ParallaxContainer
             {
-                ParallaxAmount = -0.02f
+                ParallaxAmount = -0.03f,
+                RelativeSizeAxes = Axes.Both,
             };
-            parallaxFront._content.Add(_qsorLogo = new QsorLogo
+            parallaxFront._content.Add(new DrawSizePreservingFillContainer
             {
-                Anchor = Anchor.Centre,
-                Origin = Anchor.Centre,
-                AutoSizeAxes = Axes.Both
+                
+                Child = _qsorLogo = new QsorLogo
+                {
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    AutoSizeAxes = Axes.Both,
+                    Scale = new Vector2(1f) * (DrawSize.X / DrawSize.Y)
+                }
             });
             
             AddInternal(parallaxFront);
@@ -71,6 +80,8 @@ namespace Qsor.Screens.Menu
             
             
             AddInternal(Toolbar = new Toolbar());
+            
+            AddInternal(bottomBar = new BottomBar());
         }
         
         protected override void LoadComplete()
@@ -100,7 +111,8 @@ namespace Qsor.Screens.Menu
             if (IsFading || clock.ElapsedMilliseconds <= 5000)
                 return;
             
-            Toolbar.FadeOutFromOne(13000);
+            Toolbar.FadeOut(13000);
+            bottomBar.FadeOut(13000);
             
             IsFading = true;
         }
@@ -108,8 +120,10 @@ namespace Qsor.Screens.Menu
         protected override bool OnMouseMove(MouseMoveEvent e)
         {
             Toolbar.ClearTransforms();
+            bottomBar.ClearTransforms();
             
             Toolbar.FadeIn(250);
+            bottomBar.FadeIn(250);
             
             IsFading = false;
             clock.Restart();
