@@ -63,7 +63,7 @@ namespace Qsor.Tests.Visual.Graphics
             var higherFreq = _track?.CurrentAmplitudes.FrequencyAmplitudes.TakeLast(50);
             var lowerFreq = _track?.CurrentAmplitudes.FrequencyAmplitudes.TakeLast(100);
 
-            var avg = (lowerFreq?.Sum() + higherFreq?.Sum()) ?? 0;
+            var avg = lowerFreq?.Sum() + higherFreq?.Sum() ?? 0;
             
             if (avg >= .8) {
                 TriangleVisualizer?.RandomColour();

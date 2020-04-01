@@ -3,21 +3,22 @@ using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Platform;
-using Qsor.Containers;
 using Qsor.Database;
 using Qsor.Database.Models;
 using Qsor.Gameplay.osu.Containers;
+using Qsor.Graphics.Containers;
 using Qsor.Online;
 
 namespace Qsor.Beatmaps
 {
     public class BeatmapManager : Component
     {
-        public WorkingBeatmap WorkingBeatmap { get; private set; }
+        public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new Bindable<WorkingBeatmap>();
 
         [Resolved]
         private BeatmapMirrorAccess MirrorAccess { get; set; }
@@ -81,7 +82,7 @@ namespace Qsor.Beatmaps
                 {
                     File = fileName,
                     Audio = beatmap.General.AudioFilename,
-                    Path = beatmapFilePath,
+                    Path = directoryStorage.GetFullPath(string.Empty),
                     Thumbnail = beatmap.BackgroundFilename
                 });
             }
@@ -89,7 +90,7 @@ namespace Qsor.Beatmaps
         
         public BeatmapContainer LoadBeatmap(Storage storage, string fileName)
         {
-            WorkingBeatmap = Beatmap.ReadBeatmap<WorkingBeatmap>(storage, fileName);
+            WorkingBeatmap.Value = Beatmap.ReadBeatmap<WorkingBeatmap>(storage, fileName);
             
             return new BeatmapContainer(WorkingBeatmap);
         }

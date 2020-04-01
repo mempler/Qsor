@@ -18,8 +18,6 @@ namespace Qsor
         
         private ScreenStack _stack;
         
-        public Track ActiveTrack => BeatmapManager.WorkingBeatmap.Track;
-
         [BackgroundDependencyLoader]
         private void Load()
         {
@@ -35,11 +33,11 @@ namespace Qsor
             };
             Add(_stack);
 
-            if (DebugUtils.IsDebugBuild)
+            if (!DebugUtils.IsDebugBuild)
             {
                 _stack.Push(new IntroScreen());
                 
-                BeatmapManager.OnLoadComplete += (d) =>
+                BeatmapManager.OnLoadComplete += d =>
                 {
                     _stack.Exit();
 
@@ -56,7 +54,13 @@ namespace Qsor
             }
             else
             {
-                _stack.Push(new MainMenuScreen());
+                _stack.Push(new MainMenuScreen
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    FillMode = FillMode.Fill,
+                });
             }
         }
         
@@ -71,10 +75,10 @@ namespace Qsor
                     Audio.Frequency.Value += .1;
                     return true;
                 case Key.Space:
-                    if (!ActiveTrack.IsRunning)
-                        ActiveTrack.Start();
+                    if (!BeatmapManager.WorkingBeatmap.Value.Track.IsRunning)
+                        BeatmapManager.WorkingBeatmap.Value.Track.Start();
                     else
-                        ActiveTrack.Stop();
+                        BeatmapManager.WorkingBeatmap.Value.Track.Stop();
                     return true;
                 default:
                     return false;

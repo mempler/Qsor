@@ -38,7 +38,7 @@ namespace Qsor.Gameplay.osu.Screens
         
         public override void OnEntering(IScreen last)
         {
-            this.FadeInFromZero(2000, Easing.InOutBounce);
+            this.FadeInFromZero(2000, Easing.InQuad);
         }
     }
 }

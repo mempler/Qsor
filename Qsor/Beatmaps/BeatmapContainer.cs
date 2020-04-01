@@ -1,26 +1,27 @@
 ﻿using osu.Framework.Allocation;
 using osu.Framework.Audio;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
-using Qsor.Containers;
 using Qsor.Gameplay.osu.Containers;
+using Qsor.Graphics.Containers;
 
 namespace Qsor.Beatmaps
 {
     public class BeatmapContainer : Container
     {
         private BackgroundImageContainer _background;
-        public WorkingBeatmap WorkingBeatmap { get; }
+        public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new Bindable<WorkingBeatmap>();
         
         public PlayfieldContainer Playfield { get; private set; }
         
         [Resolved]
         private AudioManager Audio { get; set; }
 
-        public BeatmapContainer(WorkingBeatmap beatmap)
+        public BeatmapContainer(Bindable<WorkingBeatmap> beatmap)
         {
-            WorkingBeatmap = beatmap;
+            WorkingBeatmap.BindTo(beatmap);
         }
         
         [BackgroundDependencyLoader]
@@ -31,7 +32,7 @@ namespace Qsor.Beatmaps
             Origin = Anchor.Centre;
             FillMode = FillMode.Fill;
             
-            LoadComponent(WorkingBeatmap);
+            LoadComponent(WorkingBeatmap.Value);
 
             AddInternal(_background = new BackgroundImageContainer
             {
@@ -41,10 +42,10 @@ namespace Qsor.Beatmaps
                 FillMode = FillMode.Fill,
             });
             
-            _background.SetTexture(WorkingBeatmap.Background);
-            Audio.AddItem(WorkingBeatmap.Track);
+            _background.SetTexture(WorkingBeatmap.Value.Background);
+            Audio.AddItem(WorkingBeatmap.Value.Track);
             
-            LoadComponents(WorkingBeatmap.HitObjects); // Preload HitObjects, this makes it twice as fast!
+            LoadComponents(WorkingBeatmap.Value.HitObjects); // Preload HitObjects, this makes it twice as fast!
             
             if (Playfield == null)
                 AddInternal(new PlayfieldAdjustmentContainer(new PlayfieldContainer{ RelativeSizeAxes = Axes.Both }));
@@ -52,7 +53,7 @@ namespace Qsor.Beatmaps
         
         public void PlayBeatmap()
         {
-            WorkingBeatmap.Track.Start();
+            WorkingBeatmap.Value.Track.Start();
         }
     }
 }

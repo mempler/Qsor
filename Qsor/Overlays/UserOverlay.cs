@@ -57,7 +57,7 @@ namespace Qsor.Overlays
             {
                 RelativeSizeAxes = Axes.Both,
                 Colour = Color4.White,
-                Alpha = .1f
+                Alpha = 0f
             });
             AddInternal(_avatar = new DrawableAvatar());
             AddInternal(new SpriteText
@@ -89,7 +89,7 @@ namespace Qsor.Overlays
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
-            _background.FadeTo(.1f, 50);
+            _background.FadeTo(0f, 50);
         }
     }
 }

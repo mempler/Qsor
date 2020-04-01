@@ -6,7 +6,7 @@ using osu.Framework.Graphics.Textures;
 using osuTK;
 using osuTK.Graphics;
 
-namespace Qsor.Containers
+namespace Qsor.Graphics.Containers
 {
     public class BackgroundImageContainer : BufferedContainer
     {

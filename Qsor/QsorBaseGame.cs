@@ -36,6 +36,7 @@ namespace Qsor
             _dependencies.CacheAs(this);
             
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
+            
 
             QsorDbContextFactory.Get().Migrate();
         }

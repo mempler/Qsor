@@ -1,8 +1,6 @@
-﻿using System.IO;
-using osu.Framework.Allocation;
+﻿using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
 using osu.Framework.Graphics.Textures;
-using osu.Framework.Platform;
 
 namespace Qsor.Beatmaps
 {
@@ -19,5 +17,7 @@ namespace Qsor.Beatmaps
             Track = new TrackBass(audioFileStream);
             Background = Texture.FromStream(BeatmapStorage.GetStream(BackgroundFilename));
         }
+
+        public void Play() => Track.Start();
     }
 }

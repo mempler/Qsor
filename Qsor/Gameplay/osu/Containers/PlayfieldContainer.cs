@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics.Containers;
 using osuTK;
@@ -10,8 +11,7 @@ namespace Qsor.Gameplay.osu.Containers
 {
     public class PlayfieldContainer : Container
     {
-        [Resolved]
-        private BeatmapManager BeatmapManager { get; set; }
+        private Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
 
         public static Vector2 PlayfieldSize => new Vector2(512, 384);
 
@@ -28,13 +28,19 @@ namespace Qsor.Gameplay.osu.Containers
                 _circleLayer = new Container()
             };
         }
+
+        [BackgroundDependencyLoader]
+        private void Load(BeatmapManager beatmapManager)
+        {
+            WorkingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
+        }
         
         protected override void Update()
         {
-            if (BeatmapManager.WorkingBeatmap.Track?.IsRunning == false) // Improve performance by not even Updating the HitObjects.
+            if (WorkingBeatmap.Value.Track?.IsRunning == false) // Improve performance by not even Updating the HitObjects.
                 return;
             
-            _currentTime = BeatmapManager.WorkingBeatmap.Track?.CurrentTime + BeatmapManager.WorkingBeatmap.General.AudioLeadIn ?? 0;
+            _currentTime = WorkingBeatmap.Value.Track?.CurrentTime + WorkingBeatmap.Value.General.AudioLeadIn ?? 0;
 
             _sliderLayer // It's faster to iterate through Children. (or should be as there are less objects)
                 .OfType<HitObject>() // TODO: remove
@@ -46,9 +52,9 @@ namespace Qsor.Gameplay.osu.Containers
                 .Where(obj => _currentTime > obj.EndTime)
                 .ForEach(obj => obj.Hide());
             
-            BeatmapManager.WorkingBeatmap.HitObjects
+            WorkingBeatmap.Value.HitObjects
                 .Where(obj => _currentTime < obj.EndTime)
-                .Where(obj => _currentTime > obj.BeginTime - (BeatmapManager.WorkingBeatmap.Difficulty.ApproachRate + 300))
+                .Where(obj => _currentTime > obj.BeginTime - (WorkingBeatmap.Value.Difficulty.ApproachRate + 300))
                 .Where(obj => !_circleLayer.Contains(obj) && !_sliderLayer.Contains(obj))
                 .ForEach(obj =>
                 {
