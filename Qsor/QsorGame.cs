@@ -7,6 +7,7 @@ using osu.Framework.Screens;
 using osuTK.Input;
 using Qsor.Gameplay.osu.Screens;
 using Qsor.Screens;
+using Qsor.Screens.Menu;
 
 namespace Qsor
 {

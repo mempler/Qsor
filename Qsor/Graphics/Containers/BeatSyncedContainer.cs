@@ -1,6 +1,7 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
@@ -54,6 +55,8 @@ namespace Qsor.Graphics.Containers
 
         protected bool IsBeatSyncedWithTrack { get; private set; }
 
+        private TimingPoint LastValidTimingPoint;
+
         protected override void Update()
         {
             Track track = null;
@@ -62,7 +65,7 @@ namespace Qsor.Graphics.Containers
             var currentTrackTime = 0d;
             var timingPoint = new TimingPoint();
             //EffectControlPoint effectPoint = null;
-
+            
             if (Beatmap.Value.Track.IsLoaded)
             {
                 track = Beatmap.Value.Track;
@@ -77,19 +80,23 @@ namespace Qsor.Graphics.Containers
             }
 
             IsBeatSyncedWithTrack = timingPoint.MsPerBeat > 0;
-
+            
             if (!IsBeatSyncedWithTrack)
             {
                 currentTrackTime = Clock.CurrentTime;
-                timingPoint = _defaultTiming;
+                timingPoint = LastValidTimingPoint;
             }
-
+            else
+            {
+                LastValidTimingPoint = timingPoint;
+            }
+            
             var beatLength = timingPoint.MsPerBeat / Divisor;
 
             while (beatLength < MinimumBeatLength)
                 beatLength *= 2;
-
-            var beatIndex = (int)((currentTrackTime - timingPoint.Offset) / beatLength) - (0);
+   
+            var beatIndex = (int)((currentTrackTime - timingPoint.Offset) / beatLength);
 
             // The beats before the start of the first control point are off by 1, this should do the trick
             if (currentTrackTime < timingPoint.Offset)

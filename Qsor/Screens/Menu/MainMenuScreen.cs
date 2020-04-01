@@ -5,17 +5,15 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Textures;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
-using osuTK;
 using osuTK.Graphics;
 using Qsor.Beatmaps;
 using Qsor.Database;
 using Qsor.Graphics.Containers;
 using Qsor.Overlays;
 
-namespace Qsor.Screens
+namespace Qsor.Screens.Menu
 {
     public class MainMenuScreen : Screen
     {
@@ -42,13 +40,18 @@ namespace Qsor.Screens
             });
             _toolBarTop.Add(new UserOverlay());
             
-            AddInternal(_background = new BackgroundImageContainer
+            var parallaxBack = new ParallaxContainer
+            {
+                ParallaxAmount = 0.005f
+            };
+            parallaxBack._content.Add(_background = new BackgroundImageContainer
             {
                 RelativeSizeAxes = Axes.Both,
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 FillMode = FillMode.Fill,
             });
+            AddInternal(parallaxBack);
             
             var db = ctxFactory.Get();
             var beatmapModel = db.Beatmaps.FirstOrDefault();
@@ -61,11 +64,16 @@ namespace Qsor.Screens
             
             audioManager.AddItem(WorkingBeatmap.Value.Track);
             
-            AddInternal(_qsorLogo = new QsorLogoOverlay
+            var parallaxFront = new ParallaxContainer
+            {
+                ParallaxAmount = -0.02f
+            };
+            parallaxFront._content.Add(_qsorLogo = new QsorLogoOverlay
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
             });
+            AddInternal(parallaxFront);
 
             AddInternal(_toolBarTop);
         }
@@ -79,7 +87,7 @@ namespace Qsor.Screens
         
         public override void OnEntering(IScreen last)
         {
-            this.FadeInFromZero(5000, Easing.InCubic);
+            this.FadeInFromZero(2500, Easing.InExpo);
         }
     }
 }

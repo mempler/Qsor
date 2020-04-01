@@ -199,12 +199,12 @@ namespace Qsor.Beatmaps
                                 KiaiMode = tPoint[7].Trim() == "1"
                             };
                             timingPoint.BPM = 60000d / Math.Clamp(timingPoint.MsPerBeat, 6, 60000);
-   
+
                             if (timingPoint.Inherited)
                                 timingPoint.SpeedMultiplier = -100 * lastBpm / timingPoint.MsPerBeat;
                             else
                                 lastBpm = timingPoint.SpeedMultiplier = timingPoint.BPM;
-     
+                            
                             timingPoint.Velocity = Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier / 600f;
 
                             TimingPoints.Add(timingPoint);

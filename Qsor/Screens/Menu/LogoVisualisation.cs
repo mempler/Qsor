@@ -42,7 +42,7 @@ namespace Qsor.Screens.Menu
         /// <summary>
         /// How many times we should stretch around the circumference (overlapping overselves).
         /// </summary>
-        private const float VisualiserRounds = 4;
+        private const float VisualiserRounds = 5;
 
         /// <summary>
         /// How much should each bar go down each millisecond (based on a full bar).
