@@ -21,6 +21,8 @@ namespace Qsor.Screens.Menu
         private Container _logoHoverContainer;
         private Container _logoBeatContainer;
         private Sprite _qsorLogo;
+        private Sprite _ripple;
+        private Sprite _ghostingLogo;
         
         private LogoVisualisation _visualisation;
         private int _lastBeatIndex;
@@ -52,18 +54,30 @@ namespace Qsor.Screens.Menu
                                 
                                 Children = new Drawable[]
                                 {
+                                    _ripple = new Sprite
+                                    {
+                                        Anchor = Anchor.Centre,
+                                        Origin = Anchor.Centre,
+                                        Texture = ts.Get("Logo-ghost"),
+                                    },
                                     _qsorLogo = new Sprite
                                     {
                                         Anchor = Anchor.Centre,
                                         Origin = Anchor.Centre,
                                         Texture = ts.Get("Logo"),
                                     },
-                                    _visualisation = new LogoVisualisation
+                                    _ghostingLogo = new Sprite
                                     {
                                         Anchor = Anchor.Centre,
                                         Origin = Anchor.Centre,
-                                        RelativeSizeAxes = Axes.Both
-                                    }
+                                        Texture = ts.Get("Logo-ghost"),
+                                        Alpha = .2f
+                                    },
+                                    _visualisation = new LogoVisualisation
+                                    {
+                                        Anchor = Anchor.Centre,
+                                        Origin = Anchor.Centre
+                                    },
                                 }
                             }
                         },
@@ -85,9 +99,11 @@ namespace Qsor.Screens.Menu
                 var maxAmplitude = _lastBeatIndex >= 0 ? Beatmap.Value.Track.CurrentAmplitudes.Maximum : 0;
                 
                 _qsorLogo.ScaleTo(1 - Math.Max(0, maxAmplitude - scaleAdjustCutoff) * 0.04f, 75, Easing.OutQuint);
+                _ghostingLogo.ScaleTo(1 + Math.Max(0, maxAmplitude - scaleAdjustCutoff) * 0.04f, 75, Easing.OutQuint);
             }
             
             _visualisation.Scale = _qsorLogo.Scale;
+            _visualisation.Size = _qsorLogo.Size;
         }
 
         protected override void OnNewBeat(int beatIndex, TimingPoint timingPoint, TrackAmplitudes amplitudes)
@@ -103,6 +119,17 @@ namespace Qsor.Screens.Menu
                 .Then()
                 .ScaleTo(1, timingPoint.MsPerBeat * 2, Easing.OutQuint);
             
+            _ghostingLogo
+                .ScaleTo(1 + 0.05f * amplitudeAdjust, EarlyActivation, Easing.Out)
+                .Then()
+                .ScaleTo(1, timingPoint.MsPerBeat * 2, Easing.OutQuint);
+            
+            _ripple.ClearTransforms();
+            _ripple
+                .ScaleTo(_qsorLogo.Scale)
+                .ScaleTo(_qsorLogo.Scale * (1 + 0.16f * amplitudeAdjust), timingPoint.MsPerBeat, Easing.OutQuint)
+                .FadeTo(0.3f * amplitudeAdjust).FadeOut(timingPoint.MsPerBeat, Easing.OutQuint);
+
             if (timingPoint.KiaiMode)
             {
                 _visualisation.ClearTransforms();

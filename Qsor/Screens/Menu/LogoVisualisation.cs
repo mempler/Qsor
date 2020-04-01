@@ -16,7 +16,6 @@ using osu.Framework.Utils;
 using osuTK;
 using osuTK.Graphics;
 using Qsor.Beatmaps;
-using Qsor.Online.Users;
 
 namespace Qsor.Screens.Menu
 {

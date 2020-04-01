@@ -1,16 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using osu.Framework.Allocation;
-using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Platform;
 using Qsor.Database;
 using Qsor.Database.Models;
-using Qsor.Gameplay.osu.Containers;
 using Qsor.Graphics.Containers;
 using Qsor.Online;
 

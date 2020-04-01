@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osuTK;
