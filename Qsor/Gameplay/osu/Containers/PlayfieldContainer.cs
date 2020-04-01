@@ -3,6 +3,7 @@ using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.IEnumerableExtensions;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osuTK;
 using Qsor.Beatmaps;
@@ -24,8 +25,16 @@ namespace Qsor.Gameplay.osu.Containers
         {
             InternalChildren = new[]
             {
-                _sliderLayer = new Container(),
-                _circleLayer = new Container()
+                _sliderLayer = new Container
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Name = "Slider Layer"
+                },
+                _circleLayer = new Container
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Name = "Circle Layer"
+                }
             };
         }
 

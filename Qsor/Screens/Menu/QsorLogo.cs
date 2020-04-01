@@ -14,7 +14,7 @@ using Qsor.Graphics.Containers;
 
 namespace Qsor.Screens.Menu
 {
-    public class QsorLogoOverlay : BeatSyncedContainer
+    public class QsorLogo : BeatSyncedContainer
     {
         private const double EarlyActivation = 60;
 
@@ -84,8 +84,6 @@ namespace Qsor.Screens.Menu
                     }
                 }
             });
-
-            Size = _qsorLogo.Size;
         }
         
         protected override void Update()
@@ -111,9 +109,7 @@ namespace Qsor.Screens.Menu
             _lastBeatIndex = beatIndex;
             
             var amplitudeAdjust = Math.Min(1, 0.4f + amplitudes.Maximum);
-            if (beatIndex < 0)
-                return;
-            
+
             _logoBeatContainer
                 .ScaleTo(1 - 0.05f * amplitudeAdjust, EarlyActivation, Easing.Out)
                 .Then()

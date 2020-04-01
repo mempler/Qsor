@@ -17,41 +17,28 @@ namespace Qsor.Screens.Menu
 {
     public class MainMenuScreen : Screen
     {
-        private Container _toolBarTop;
         private BackgroundImageContainer _background;
-        private QsorLogoOverlay _qsorLogo;
+        private QsorLogo _qsorLogo;
 
         private Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
         
         [BackgroundDependencyLoader]
         private void Load(AudioManager audioManager, Storage storage, QsorDbContextFactory ctxFactory, BeatmapManager beatmapManager)
         {
-            _toolBarTop = new Container
-            {
-                RelativeSizeAxes = Axes.X,
-                Height = 80
-            };
-            
-            _toolBarTop.Add(new Box
-            {
-                RelativeSizeAxes =  Axes.Both, 
-                Colour = Color4.Black,
-                Alpha = .4f
-            });
-            _toolBarTop.Add(new UserOverlay());
-            
             var parallaxBack = new ParallaxContainer
             {
                 ParallaxAmount = 0.005f
             };
             parallaxBack._content.Add(_background = new BackgroundImageContainer
             {
-                RelativeSizeAxes = Axes.Both,
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 FillMode = FillMode.Fill,
             });
             AddInternal(parallaxBack);
+            
+            
+            
             
             var db = ctxFactory.Get();
             var beatmapModel = db.Beatmaps.FirstOrDefault();
@@ -64,18 +51,25 @@ namespace Qsor.Screens.Menu
             
             audioManager.AddItem(WorkingBeatmap.Value.Track);
             
+            
+            
+            
             var parallaxFront = new ParallaxContainer
             {
                 ParallaxAmount = -0.02f
             };
-            parallaxFront._content.Add(_qsorLogo = new QsorLogoOverlay
+            parallaxFront._content.Add(_qsorLogo = new QsorLogo
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
+                AutoSizeAxes = Axes.Both
             });
+            
             AddInternal(parallaxFront);
 
-            AddInternal(_toolBarTop);
+            
+            
+            AddInternal(new Toolbar());
         }
         
         protected override void LoadComplete()

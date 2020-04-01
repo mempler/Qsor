@@ -13,8 +13,8 @@ namespace Qsor
     [Cached]
     public class QsorGame : QsorBaseGame
     {
-        public const uint CurrentTestmap = 756794 ; // TODO: Remove
-        public const string CurrentTestmapName = "TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu"; // TODO: Remove
+        public const uint CurrentTestmap = 605745; // TODO: Remove
+        public const string CurrentTestmapName = "Pegboard Nerds - We Are One (Original Vocal Mix) (Frey) [Night Begins].osu"; // TODO: Remove
         
         private ScreenStack _stack;
         
@@ -24,26 +24,23 @@ namespace Qsor
             Audio.Frequency.Set(1);
             Audio.Volume.Set(.05);
             
-            _stack = new ScreenStack
-            {
-                RelativeSizeAxes = Axes.Both,
-                Anchor = Anchor.Centre,
-                Origin = Anchor.Centre,
-                FillMode = FillMode.Fill,
-            };
+            _stack = new ScreenStack(false);
             Add(_stack);
 
-            if (!DebugUtils.IsDebugBuild)
+            if (DebugUtils.IsDebugBuild)
             {
+                _stack.Anchor = Anchor.Centre;
+                _stack.Origin = Anchor.Centre;
+                
                 _stack.Push(new IntroScreen());
                 
                 BeatmapManager.OnLoadComplete += d =>
                 {
                     _stack.Exit();
-
+                    
                     Scheduler.AddDelayed(() => _stack.Push(new OsuScreen
                     {
-                        RelativeSizeAxes = Axes.Both,
+                        RelativeSizeAxes = Axes.X,
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
                         FillMode = FillMode.Fill,
@@ -54,13 +51,7 @@ namespace Qsor
             }
             else
             {
-                _stack.Push(new MainMenuScreen
-                {
-                    RelativeSizeAxes = Axes.Both,
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
-                    FillMode = FillMode.Fill,
-                });
+                _stack.Push(new MainMenuScreen());
             }
         }
         

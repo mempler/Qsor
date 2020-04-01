@@ -22,6 +22,7 @@ namespace Qsor.Graphics.Containers
                 RelativeSizeAxes = Axes.Both,
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
+                FillMode = FillMode.Fill
             };
             
             CacheDrawnFrameBuffer = true;
