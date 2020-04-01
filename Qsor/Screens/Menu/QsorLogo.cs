@@ -36,17 +36,19 @@ namespace Qsor.Overlays
         {
             base.Update();
 
+            if (Beatmap.Value.Track.CurrentAmplitudes.Average * 1.1f < 1)
+                return;
+
             _qsorLogo.
                 ScaleTo(Math.Clamp(Beatmap.Value.Track.CurrentAmplitudes.Average * 1.1f, 1.0f, 1.2f), 150)
-                .Then(e => e.ScaleTo(1f));
+                .Then(e => e.ScaleTo(1f, 100));
         }
 
         protected override void OnNewBeat(int beatIndex, TimingPoint timingPoint, TrackAmplitudes amplitudes)
         {
             _qsorLogo?.
-                ScaleTo(1.025f * Math.Clamp(amplitudes.Average * 1.1f, 1.0f, 1.2f), 100)
+                ScaleTo(1.025f, 100)
                 .Then(e => e.ScaleTo(1f, 100));
-            
         }
     }
 }
