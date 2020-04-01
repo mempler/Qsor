@@ -22,7 +22,8 @@ namespace Qsor.Screens.Menu
         private BackgroundImageContainer _background;
         private QsorLogo _qsorLogo;
         private Toolbar Toolbar;
-
+        private BottomBar bottomBar;
+        
         private Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
         
         [BackgroundDependencyLoader]
@@ -79,6 +80,8 @@ namespace Qsor.Screens.Menu
             
             
             AddInternal(Toolbar = new Toolbar());
+            
+            AddInternal(bottomBar = new BottomBar());
         }
         
         protected override void LoadComplete()
@@ -108,7 +111,8 @@ namespace Qsor.Screens.Menu
             if (IsFading || clock.ElapsedMilliseconds <= 5000)
                 return;
             
-            Toolbar.FadeOutFromOne(13000);
+            Toolbar.FadeOut(13000);
+            bottomBar.FadeOut(13000);
             
             IsFading = true;
         }
@@ -116,8 +120,10 @@ namespace Qsor.Screens.Menu
         protected override bool OnMouseMove(MouseMoveEvent e)
         {
             Toolbar.ClearTransforms();
+            bottomBar.ClearTransforms();
             
             Toolbar.FadeIn(250);
+            bottomBar.FadeIn(250);
             
             IsFading = false;
             clock.Restart();
