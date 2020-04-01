@@ -7,6 +7,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osuTK;
+using Qsor.Beatmaps;
 
 namespace Qsor.Gameplay.osu.HitObjects.Slider
 {
@@ -64,13 +65,13 @@ namespace Qsor.Gameplay.osu.HitObjects.Slider
         {
             _slider = slider;
         }
-        
-        [Resolved]
-        private BeatmapManager BeatmapManager { get; set; }
+
+        private readonly Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
         
         [BackgroundDependencyLoader]
-        private void Load()
+        private void Load(BeatmapManager beatmapManager)
         {
+            WorkingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
             Refresh();
         }
 
@@ -80,7 +81,7 @@ namespace Qsor.Gameplay.osu.HitObjects.Slider
             var spanProgress = _slider.ProgressAt(completionProgress);
 
             double start = 0;
-            var end = SnakingIn.Value ? Math.Clamp(((BeatmapManager.ActiveBeatmap.Track.CurrentTime - (_slider.BeginTime - _slider.EndTime)) / (_slider.EndTime / 3)), 0, 1) : 1;
+            var end = SnakingIn.Value ? Math.Clamp(((WorkingBeatmap.Value.Track.CurrentTime - (_slider.BeginTime - _slider.EndTime)) / (_slider.EndTime / 3)), 0, 1) : 1;
 
             if (span >= _slider.SpanCount() - 1)
             {
@@ -153,7 +154,7 @@ namespace Qsor.Gameplay.osu.HitObjects.Slider
             // Depending on the direction of expansion, it may appear as if the path is expanding towards the position of the slider
             // rather than expanding out from the position of the slider.
             // To remove this effect, the path's position is shifted towards its final snaked position
-
+            
             Path.Position = _snakedPosition - Path.PositionInBoundingBox(Vector2.Zero);
         }
     }

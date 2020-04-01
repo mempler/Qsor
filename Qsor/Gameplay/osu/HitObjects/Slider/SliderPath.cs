@@ -12,7 +12,7 @@ using System.Linq;
 using osu.Framework.Utils;
 using osuTK;
 
-namespace Qsor.Gameplay.osu
+namespace Qsor.Gameplay.osu.HitObjects.Slider
 {
     public enum PathType
     {

@@ -1,6 +1,6 @@
 ﻿using osuTK.Graphics;
 
-namespace Qsor.Gameplay.osu
+namespace Qsor.Gameplay
 {
     public enum SkinElementType
     {

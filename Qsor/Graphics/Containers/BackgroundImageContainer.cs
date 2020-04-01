@@ -6,7 +6,7 @@ using osu.Framework.Graphics.Textures;
 using osuTK;
 using osuTK.Graphics;
 
-namespace Qsor.Containers
+namespace Qsor.Graphics.Containers
 {
     public class BackgroundImageContainer : BufferedContainer
     {
@@ -22,7 +22,7 @@ namespace Qsor.Containers
                 RelativeSizeAxes = Axes.Both,
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
-                FillMode = FillMode.Fit,
+                FillMode = FillMode.Fill
             };
             
             CacheDrawnFrameBuffer = true;

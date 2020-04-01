@@ -16,8 +16,10 @@ namespace Qsor.Gameplay.osu.Containers
             
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
+
+            FillMode = FillMode.Fill;
             
-            Size = new Vector2(0.8f);
+            Scale = new Vector2(.7f);
             
             InternalChild = new Container
             {

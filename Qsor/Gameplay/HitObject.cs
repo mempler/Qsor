@@ -5,10 +5,11 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Logging;
 using osuTK;
+using Qsor.Beatmaps;
+using Qsor.Gameplay.osu.HitObjects.Slider;
 
-namespace Qsor.Gameplay.osu
+namespace Qsor.Gameplay
 {
     [Flags]
     [SuppressMessage("ReSharper", "ShiftExpressionRealShiftCountIsZero")]
@@ -52,7 +53,7 @@ namespace Qsor.Gameplay.osu
             Position = position;
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
-            
+
             Beatmap = beatmap;
             
             BindableScale.Default = (1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2;
@@ -64,7 +65,10 @@ namespace Qsor.Gameplay.osu
 
         protected override void Update()
         {
-            BindableProgress.Value = Math.Clamp((BeatmapManager.ActiveBeatmap.Track.CurrentTime - BeginTime) / Duration, 0, 1);
+            if (!(Beatmap is WorkingBeatmap workingBeatmap))
+                return;
+            
+            BindableProgress.Value = Math.Clamp((workingBeatmap.Track.CurrentTime - BeginTime + Beatmap.General.AudioLeadIn) / Duration, 0, 1);
         }
     }
 }

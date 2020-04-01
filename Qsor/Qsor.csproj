@@ -6,7 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ppy.osu.Framework" Version="2020.317.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.3" />
+      <PackageReference Include="ppy.osu.Framework" Version="2020.330.0" />
       <PackageReference Include="SharpZipLib" Version="1.2.0" />
     </ItemGroup>
     
@@ -17,10 +20,11 @@
         <EmbeddedResource Include="Resources\Shaders\**\*" />
         <EmbeddedResource Include="Resources\Textures\**\*" />
         <EmbeddedResource Include="Resources\Tracks\**\*" />
+        <EmbeddedResource Include="Resources\MML\**\*" />
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Gameplay" />
+      <Folder Include="Database\Migrations" />
     </ItemGroup>
 
 </Project>

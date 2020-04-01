@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Linq;
 using osu.Framework.Allocation;
+using osu.Framework.Bindables;
 using osu.Framework.Extensions.IEnumerableExtensions;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osuTK;
+using Qsor.Beatmaps;
 
 namespace Qsor.Gameplay.osu.Containers
 {
     public class PlayfieldContainer : Container
     {
-        [Resolved]
-        private BeatmapManager BeatmapManager { get; set; }
+        private Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
 
         public static Vector2 PlayfieldSize => new Vector2(512, 384);
 
@@ -23,17 +25,31 @@ namespace Qsor.Gameplay.osu.Containers
         {
             InternalChildren = new[]
             {
-                _sliderLayer = new Container(),
-                _circleLayer = new Container()
+                _sliderLayer = new Container
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Name = "Slider Layer"
+                },
+                _circleLayer = new Container
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Name = "Circle Layer"
+                }
             };
+        }
+
+        [BackgroundDependencyLoader]
+        private void Load(BeatmapManager beatmapManager)
+        {
+            WorkingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
         }
         
         protected override void Update()
         {
-            if (BeatmapManager.ActiveBeatmap.Track?.IsRunning == false) // Improve performance by not even Updating the HitObjects.
+            if (WorkingBeatmap.Value.Track?.IsRunning == false) // Improve performance by not even Updating the HitObjects.
                 return;
             
-            _currentTime = BeatmapManager.ActiveBeatmap.Track?.CurrentTime + BeatmapManager.ActiveBeatmap.General.AudioLeadIn ?? 0;
+            _currentTime = WorkingBeatmap.Value.Track?.CurrentTime + WorkingBeatmap.Value.General.AudioLeadIn ?? 0;
 
             _sliderLayer // It's faster to iterate through Children. (or should be as there are less objects)
                 .OfType<HitObject>() // TODO: remove
@@ -45,12 +61,14 @@ namespace Qsor.Gameplay.osu.Containers
                 .Where(obj => _currentTime > obj.EndTime)
                 .ForEach(obj => obj.Hide());
             
-            BeatmapManager.ActiveBeatmap.HitObjects
+            WorkingBeatmap.Value.HitObjects
                 .Where(obj => _currentTime < obj.EndTime)
-                .Where(obj => _currentTime > obj.BeginTime - (BeatmapManager.ActiveBeatmap.Difficulty.ApproachRate + 300))
+                .Where(obj => _currentTime > obj.BeginTime - (WorkingBeatmap.Value.Difficulty.ApproachRate + 300))
                 .Where(obj => !_circleLayer.Contains(obj) && !_sliderLayer.Contains(obj))
                 .ForEach(obj =>
                 {
+                   // obj.TimingPoint = BeatmapManager.ActiveBeatmap.TimingPoints.FirstOrDefault(s => s.Offset >= _currentTime);
+                    
                     switch (obj.Type)
                     {
                         case HitObjectType.Circle:
