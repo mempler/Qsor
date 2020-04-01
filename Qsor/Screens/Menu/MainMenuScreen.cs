@@ -4,10 +4,12 @@ using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
 using osu.Framework.Timing;
+using osuTK;
 using Qsor.Beatmaps;
 using Qsor.Database;
 using Qsor.Gameplay.osu.Screens;
@@ -57,13 +59,19 @@ namespace Qsor.Screens.Menu
             
             var parallaxFront = new ParallaxContainer
             {
-                ParallaxAmount = -0.02f
+                ParallaxAmount = -0.03f,
+                RelativeSizeAxes = Axes.Both,
             };
-            parallaxFront._content.Add(_qsorLogo = new QsorLogo
+            parallaxFront._content.Add(new DrawSizePreservingFillContainer
             {
-                Anchor = Anchor.Centre,
-                Origin = Anchor.Centre,
-                AutoSizeAxes = Axes.Both
+                
+                Child = _qsorLogo = new QsorLogo
+                {
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    AutoSizeAxes = Axes.Both,
+                    Scale = new Vector2(1f) * (DrawSize.X / DrawSize.Y)
+                }
             });
             
             AddInternal(parallaxFront);
