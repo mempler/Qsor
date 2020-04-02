@@ -4,10 +4,10 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
-using Qsor.Gameplay.osu.Containers;
-using Qsor.Graphics.Containers;
+using Qsor.Game.Gameplay.osu.Containers;
+using Qsor.Game.Graphics.Containers;
 
-namespace Qsor.Beatmaps
+namespace Qsor.Game.Beatmaps
 {
     public class BeatmapContainer : Container
     {

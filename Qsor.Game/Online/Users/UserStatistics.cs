@@ -1,4 +1,4 @@
-﻿namespace Qsor.Online.Users
+﻿namespace Qsor.Game.Online.Users
 {
     public class UserStatistics
     {

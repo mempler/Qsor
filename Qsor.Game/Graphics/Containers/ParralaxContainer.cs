@@ -9,7 +9,7 @@ using osu.Framework.Input;
 using osu.Framework.Utils;
 using osuTK;
 
-namespace Qsor.Graphics.Containers
+namespace Qsor.Game.Graphics.Containers
 {
     public class ParallaxContainer : Container, IRequireHighFrequencyMousePosition
     {

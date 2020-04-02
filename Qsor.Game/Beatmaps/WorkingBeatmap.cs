@@ -2,7 +2,7 @@
 using osu.Framework.Audio.Track;
 using osu.Framework.Graphics.Textures;
 
-namespace Qsor.Beatmaps
+namespace Qsor.Game.Beatmaps
 {
     public class WorkingBeatmap : Beatmap
     {

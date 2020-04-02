@@ -1,4 +1,4 @@
-﻿namespace Qsor.Online
+﻿namespace Qsor.Game.Online
 {
     public class BanchoClient
     {

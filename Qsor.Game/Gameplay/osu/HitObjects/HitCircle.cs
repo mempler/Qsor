@@ -4,9 +4,9 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osuTK;
-using Qsor.Beatmaps;
+using Qsor.Game.Beatmaps;
 
-namespace Qsor.Gameplay.osu.HitObjects
+namespace Qsor.Game.Gameplay.osu.HitObjects
 {
     public class HitCircle : HitObject
     {

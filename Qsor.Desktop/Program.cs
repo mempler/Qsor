@@ -1,10 +1,12 @@
-﻿using osu.Framework;
+﻿using System.Threading.Tasks;
+using osu.Framework;
+using Qsor.Game;
 
-namespace Qsor
+namespace Qsor.Desktop
 {
-    internal static class Program
+    internal class Program
     {
-        private static void Main(string[] args)
+        public static async Task Main()
         {
             using var host = Host.GetSuitableHost("Qsor.Game");
             using var game = new QsorGame();

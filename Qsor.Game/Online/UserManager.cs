@@ -1,6 +1,6 @@
-﻿using Qsor.Online.Users;
+﻿using Qsor.Game.Online.Users;
 
-namespace Qsor.Online
+namespace Qsor.Game.Online
 {
     public class UserManager
     {

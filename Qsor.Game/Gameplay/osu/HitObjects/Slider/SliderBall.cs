@@ -4,7 +4,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 
-namespace Qsor.Gameplay.osu.HitObjects.Slider
+namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
 {
     public class SliderBall : Container
     {

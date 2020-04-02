@@ -10,12 +10,12 @@ using osu.Framework.Platform;
 using osu.Framework.Screens;
 using osu.Framework.Timing;
 using osuTK;
-using Qsor.Beatmaps;
-using Qsor.Database;
-using Qsor.Gameplay.osu.Screens;
-using Qsor.Graphics.Containers;
+using Qsor.Game.Beatmaps;
+using Qsor.Game.Database;
+using Qsor.Game.Gameplay.osu.Screens;
+using Qsor.Game.Graphics.Containers;
 
-namespace Qsor.Screens.Menu
+namespace Qsor.Game.Screens.Menu
 {
     public class MainMenuScreen : Screen
     {

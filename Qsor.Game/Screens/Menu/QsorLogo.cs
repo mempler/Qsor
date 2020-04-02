@@ -9,10 +9,10 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Input.Events;
-using Qsor.Beatmaps;
-using Qsor.Graphics.Containers;
+using Qsor.Game.Beatmaps;
+using Qsor.Game.Graphics.Containers;
 
-namespace Qsor.Screens.Menu
+namespace Qsor.Game.Screens.Menu
 {
     public class QsorLogo : BeatSyncedContainer
     {

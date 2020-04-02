@@ -2,7 +2,7 @@ using System.IO;
 using System.Threading.Tasks;
 using osu.Framework.IO.Network;
 
-namespace Qsor.Online
+namespace Qsor.Game.Online
 {
     public class BeatmapMirrorAccess
     {

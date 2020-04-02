@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
@@ -7,12 +6,12 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Platform;
-using Qsor.Database;
-using Qsor.Database.Models;
-using Qsor.Graphics.Containers;
-using Qsor.Online;
+using Qsor.Game.Database;
+using Qsor.Game.Database.Models;
+using Qsor.Game.Graphics.Containers;
+using Qsor.Game.Online;
 
-namespace Qsor.Beatmaps
+namespace Qsor.Game.Beatmaps
 {
     public class BeatmapManager : Component
     {

@@ -3,9 +3,9 @@ using osu.Framework.Audio;
 using osu.Framework.Graphics;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
-using Qsor.Beatmaps;
+using Qsor.Game.Beatmaps;
 
-namespace Qsor.Gameplay.osu.Screens
+namespace Qsor.Game.Gameplay.osu.Screens
 {
     public class OsuScreen : Screen
     {

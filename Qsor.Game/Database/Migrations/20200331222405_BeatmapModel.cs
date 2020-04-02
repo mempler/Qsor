@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Qsor.Database.Migrations
+namespace Qsor.Game.Database.Migrations
 {
     public partial class BeatmapModel : Migration
     {

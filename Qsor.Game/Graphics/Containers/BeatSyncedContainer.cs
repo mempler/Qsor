@@ -1,15 +1,13 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System;
-using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics.Containers;
-using Qsor.Beatmaps;
+using Qsor.Game.Beatmaps;
 
-namespace Qsor.Graphics.Containers
+namespace Qsor.Game.Graphics.Containers
 {
     public class BeatSyncedContainer : Container
     {

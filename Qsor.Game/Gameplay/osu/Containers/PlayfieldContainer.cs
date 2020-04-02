@@ -6,9 +6,9 @@ using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osuTK;
-using Qsor.Beatmaps;
+using Qsor.Game.Beatmaps;
 
-namespace Qsor.Gameplay.osu.Containers
+namespace Qsor.Game.Gameplay.osu.Containers
 {
     public class PlayfieldContainer : Container
     {

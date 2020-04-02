@@ -7,10 +7,10 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
 using osuTK;
 using osuTK.Graphics;
-using Qsor.Beatmaps;
-using Qsor.Gameplay.osu.HitObjects.Slider;
+using Qsor.Game.Beatmaps;
+using Qsor.Game.Gameplay.osu.HitObjects.Slider;
 
-namespace Qsor.Gameplay.osu.HitObjects
+namespace Qsor.Game.Gameplay.osu.HitObjects
 {
     // TODO: Fully Implement.
     public class HitSlider : HitObject, IHasCurve

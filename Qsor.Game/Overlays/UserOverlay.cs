@@ -7,12 +7,12 @@ using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
 using osuTK;
 using osuTK.Graphics;
-using Qsor.Online;
-using Qsor.Online.Users;
-using Qsor.Online.Users.Drawables;
-using Qsor.Overlays.Drawables;
+using Qsor.Game.Online;
+using Qsor.Game.Online.Users;
+using Qsor.Game.Online.Users.Drawables;
+using Qsor.Game.Overlays.Drawables;
 
-namespace Qsor.Overlays
+namespace Qsor.Game.Overlays
 {
     public class UserOverlay : CompositeDrawable
     {

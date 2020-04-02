@@ -4,7 +4,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osuTK.Graphics;
 
-namespace Qsor.Screens.Menu
+namespace Qsor.Game.Screens.Menu
 {
     public class BottomBar : CompositeDrawable
     {

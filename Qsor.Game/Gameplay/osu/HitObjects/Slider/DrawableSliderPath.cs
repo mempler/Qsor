@@ -5,7 +5,7 @@
 using osu.Framework.Graphics.Lines;
 using osuTK.Graphics;
 
-namespace Qsor.Gameplay.osu.HitObjects.Slider
+namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
 {
     public abstract class DrawableSliderPath : SmoothPath
     {

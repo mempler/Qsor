@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Qsor.Database
+namespace Qsor.Game.Database
 {
     // Modified version of https://github.com/ppy/osu/blob/master/osu.Game/Database/DatabaseWriteUsage.cs under MIT License!
     public class DatabaseWriteUsage : IDisposable

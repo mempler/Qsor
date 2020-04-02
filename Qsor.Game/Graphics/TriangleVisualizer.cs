@@ -10,7 +10,7 @@ using osu.Framework.Graphics.Transforms;
 using osuTK;
 using osuTK.Graphics;
 
-namespace Qsor.Graphics
+namespace Qsor.Game.Graphics
 {
     public class VisualizedTriangle : Triangle
     {

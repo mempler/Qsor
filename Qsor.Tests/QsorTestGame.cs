@@ -1,6 +1,7 @@
 ﻿using osu.Framework.Allocation;
 using osu.Framework.IO.Stores;
 using osu.Framework.Testing;
+using Qsor.Game;
 
 namespace Qsor.Tests
 {
@@ -11,7 +12,7 @@ namespace Qsor.Tests
         {
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorTestGame).Assembly), @"Resources"));
 
-            Add(new TestBrowser("Qsor.Game.Tests"));
+            Add(new TestBrowser("Qsor.Tests"));
         }
     }
 }

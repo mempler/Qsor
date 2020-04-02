@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using Microsoft.EntityFrameworkCore.Internal;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osuTK;
 using osuTK.Graphics;
-using Qsor.Gameplay;
-using Qsor.Gameplay.osu.HitObjects;
-using Qsor.Gameplay.osu.HitObjects.Slider;
+using Qsor.Game.Gameplay;
+using Qsor.Game.Gameplay.osu.HitObjects;
+using Qsor.Game.Gameplay.osu.HitObjects.Slider;
 using Component = osu.Framework.Graphics.Component;
 
-namespace Qsor.Beatmaps
+namespace Qsor.Game.Beatmaps
 {
     public class General {
         public string AudioFilename;

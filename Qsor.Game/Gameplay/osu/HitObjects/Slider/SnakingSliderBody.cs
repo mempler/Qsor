@@ -7,9 +7,9 @@ using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osuTK;
-using Qsor.Beatmaps;
+using Qsor.Game.Beatmaps;
 
-namespace Qsor.Gameplay.osu.HitObjects.Slider
+namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
 {
     public interface ISliderProgress
     {

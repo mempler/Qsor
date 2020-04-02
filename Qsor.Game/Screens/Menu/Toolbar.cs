@@ -3,9 +3,9 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osuTK.Graphics;
-using Qsor.Overlays;
+using Qsor.Game.Overlays;
 
-namespace Qsor.Screens.Menu
+namespace Qsor.Game.Screens.Menu
 {
     public class Toolbar : CompositeDrawable
     {

@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
-using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.Color4Extensions;
@@ -15,9 +14,9 @@ using osu.Framework.Graphics.Textures;
 using osu.Framework.Utils;
 using osuTK;
 using osuTK.Graphics;
-using Qsor.Beatmaps;
+using Qsor.Game.Beatmaps;
 
-namespace Qsor.Screens.Menu
+namespace Qsor.Game.Screens.Menu
 {
     public class LogoVisualisation : Drawable
     {

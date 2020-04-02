@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using osu.Framework.Logging;
-using Qsor.Database.Models;
+using Qsor.Game.Database.Models;
 
-namespace Qsor.Database
+namespace Qsor.Game.Database
 {
     public sealed class QsorDbContext : DbContext
     {

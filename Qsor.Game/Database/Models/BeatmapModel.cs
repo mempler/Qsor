@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Qsor.Database.Models
+namespace Qsor.Game.Database.Models
 {
     [Table("beatmaps")]
     public class BeatmapModel

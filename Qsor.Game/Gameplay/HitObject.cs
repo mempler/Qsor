@@ -6,10 +6,10 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osuTK;
-using Qsor.Beatmaps;
-using Qsor.Gameplay.osu.HitObjects.Slider;
+using Qsor.Game.Beatmaps;
+using Qsor.Game.Gameplay.osu.HitObjects.Slider;
 
-namespace Qsor.Gameplay
+namespace Qsor.Game.Gameplay
 {
     [Flags]
     [SuppressMessage("ReSharper", "ShiftExpressionRealShiftCountIsZero")]

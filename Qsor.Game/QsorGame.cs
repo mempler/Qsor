@@ -4,11 +4,10 @@ using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK.Input;
-using Qsor.Gameplay.osu.Screens;
-using Qsor.Screens;
-using Qsor.Screens.Menu;
+using Qsor.Game.Screens;
+using Qsor.Game.Screens.Menu;
 
-namespace Qsor
+namespace Qsor.Game
 {
     [Cached]
     public class QsorGame : QsorBaseGame
@@ -21,8 +20,6 @@ namespace Qsor
         [BackgroundDependencyLoader]
         private void Load()
         {
-            AddInternal(BeatmapManager);
-            
             Audio.Frequency.Set(1);
             Audio.Volume.Set(.05);
             

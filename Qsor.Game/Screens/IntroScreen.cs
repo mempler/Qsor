@@ -6,7 +6,7 @@ using osu.Framework.Screens;
 using osuTK;
 using osuTK.Graphics;
 
-namespace Qsor.Screens
+namespace Qsor.Game.Screens
 {
     public class IntroScreen : Screen
     {

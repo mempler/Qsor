@@ -3,11 +3,11 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osuTK.Graphics;
-using Qsor.Online.Users;
+using Qsor.Game.Online.Users;
 
-namespace Qsor.Overlays.Drawables
+namespace Qsor.Game.Overlays.Drawables
 {
-    public class DrawableLevelBar : BufferedContainer
+    public class DrawableLevelBar : Container
     {
         private Box _progressBox;
         
@@ -40,8 +40,6 @@ namespace Qsor.Overlays.Drawables
                 Colour = Color4.Yellow,
                 RelativeSizeAxes = Axes.Y,
             });
-            
-            
         }
 
         protected override void LoadComplete()

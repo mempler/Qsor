@@ -6,7 +6,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osuTK;
 
-namespace Qsor.Online.Users.Drawables
+namespace Qsor.Game.Online.Users.Drawables
 {
     public class DrawableAvatar : CompositeDrawable
     {

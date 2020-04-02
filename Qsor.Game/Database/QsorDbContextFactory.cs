@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 using osu.Framework.Platform;
 
-namespace Qsor.Database
+namespace Qsor.Game.Database
 {
     // Modified version of https://github.com/ppy/osu/blob/master/osu.Game/Database/DatabaseContextFactory.cs under MIT License!
     public class QsorDbContextFactory
