@@ -8,7 +8,7 @@ using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Testing;
 using osuTK.Graphics;
-using Qsor.Graphics;
+using Qsor.Game.Graphics;
 
 namespace Qsor.Tests.Visual.Graphics
 {

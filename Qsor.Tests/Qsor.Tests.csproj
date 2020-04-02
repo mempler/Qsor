@@ -6,10 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Qsor\Qsor.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
         <EmbeddedResource Include="Resources\Fonts\**\*" />
         <EmbeddedResource Include="Resources\Samples\**\*" />
         <EmbeddedResource Include="Resources\Skins\**\*" />
@@ -20,6 +16,14 @@
 
     <ItemGroup>
       <Folder Include="Resources\Tracks" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Qsor.Game\Qsor.Game.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NLipsum" Version="1.1.0" />
     </ItemGroup>
 
 </Project>

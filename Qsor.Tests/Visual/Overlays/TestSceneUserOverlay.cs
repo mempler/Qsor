@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using osu.Framework.Allocation;
 using osu.Framework.Testing;
 using osuTK;
-using Qsor.Online.Users;
-using Qsor.Online.Users.Drawables;
-using Qsor.Overlays;
-using Qsor.Overlays.Drawables;
+using Qsor.Game.Online.Users;
+using Qsor.Game.Online.Users.Drawables;
+using Qsor.Game.Overlays;
+using Qsor.Game.Overlays.Drawables;
 
 namespace Qsor.Tests.Visual.Overlays
 {

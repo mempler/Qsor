@@ -4,6 +4,7 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Platform;
 using osu.Framework.Testing;
 using osuTK.Graphics;
+using Qsor.Game;
 
 namespace Qsor.Tests.Visual
 {

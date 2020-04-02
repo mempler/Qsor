@@ -4,7 +4,7 @@ using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
-using Qsor.Screens;
+using Qsor.Game.Screens;
 
 namespace Qsor.Tests.Visual.Scenes
 {
