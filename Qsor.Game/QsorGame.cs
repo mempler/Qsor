@@ -13,14 +13,16 @@ namespace Qsor
     [Cached]
     public class QsorGame : QsorBaseGame
     {
-        public const uint CurrentTestmap = 605745; // TODO: Remove
-        public const string CurrentTestmapName = "Pegboard Nerds - We Are One (Original Vocal Mix) (Frey) [Night Begins].osu"; // TODO: Remove
+        public const uint CurrentTestmap = 756794; // TODO: Remove
+        public const string CurrentTestmapName = "TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu"; // TODO: Remove
         
         private ScreenStack _stack;
         
         [BackgroundDependencyLoader]
         private void Load()
         {
+            AddInternal(BeatmapManager);
+            
             Audio.Frequency.Set(1);
             Audio.Volume.Set(.05);
             
@@ -33,9 +35,7 @@ namespace Qsor
                 _stack.Origin = Anchor.Centre;
                 
                 _stack.Push(new IntroScreen());
-   
-                AddInternal(BeatmapManager);
-            
+                
                 Scheduler.AddDelayed(() =>
                 {
                     _stack.Exit();

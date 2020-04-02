@@ -11,7 +11,7 @@ namespace Qsor.Tests
         {
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorTestGame).Assembly), @"Resources"));
 
-            Add(new TestBrowser("Qsor.Tests"));
+            Add(new TestBrowser("Qsor.Game.Tests"));
         }
     }
 }

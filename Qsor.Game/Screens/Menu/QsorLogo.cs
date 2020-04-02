@@ -84,6 +84,8 @@ namespace Qsor.Screens.Menu
                     }
                 }
             });
+            
+            CornerRadius = Math.Min(_qsorLogo.Width, _qsorLogo.Height) / 2f;
         }
         
         protected override void Update()

@@ -3,6 +3,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <AssemblyName>Qsor.Game</AssemblyName>
+        <RootNamespace>Qsor.Game</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

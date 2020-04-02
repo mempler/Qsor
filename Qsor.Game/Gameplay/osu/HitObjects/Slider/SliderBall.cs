@@ -14,12 +14,19 @@ namespace Qsor.Gameplay.osu.HitObjects.Slider
         private void Load(TextureStore store)
         {
             var ballTex = store.Get("sliderb");
-
+            
+            Origin = Anchor.Centre;
+            
+            Blending = BlendingParameters.Additive;
+            
             AddInternal(_ball = new Sprite
             {
                 Texture = ballTex,
-                Origin = Anchor.Centre
+                Anchor = Anchor.Centre,
+                Origin = Anchor.Centre,
             });
+            
+            Size = _ball.Size;
         }
     }
 }

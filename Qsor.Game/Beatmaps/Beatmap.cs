@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.Internal;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osuTK;
@@ -29,7 +30,7 @@ namespace Qsor.Beatmaps
         public double SliderMultiplier;
     }
 
-    public struct TimingPoint
+    public class TimingPoint
     {
         public double Offset;
         public double MsPerBeat;
@@ -58,6 +59,8 @@ namespace Qsor.Beatmaps
         public string BackgroundFilename;
 
         protected Storage BeatmapStorage { get; private set; }
+
+        public TimingPoint GetTimingPointAt(double time) => TimingPoints.FirstOrDefault(t => t.Offset > time);
 
         public static T ReadBeatmap<T>(Storage storage, string fileName)
             where T : Beatmap, new()
@@ -205,6 +208,8 @@ namespace Qsor.Beatmaps
                                 lastBpm = timingPoint.SpeedMultiplier = timingPoint.BPM;
                             
                             timingPoint.Velocity = Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier / 600f;
+                            
+                            Console.WriteLine(timingPoint.Velocity);
 
                             TimingPoints.Add(timingPoint);
                         }

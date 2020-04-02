@@ -1,6 +1,7 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Audio.Track;
@@ -75,7 +76,7 @@ namespace Qsor.Graphics.Containers
             {
                 currentTrackTime = track.CurrentTime + EarlyActivationMilliseconds;
 
-                timingPoint = beatmap.TimingPoints.FirstOrDefault(t => t.Offset >= currentTrackTime);
+                timingPoint = beatmap.GetTimingPointAt(currentTrackTime);
             }
 
             IsBeatSyncedWithTrack = timingPoint.MsPerBeat > 0;
@@ -102,6 +103,9 @@ namespace Qsor.Graphics.Containers
                 beatIndex--;
 
             TimeUntilNextBeat = (timingPoint.Offset - currentTrackTime) % beatLength;
+            if (double.IsNaN(TimeUntilNextBeat))
+                TimeUntilNextBeat = 0;
+            
             if (TimeUntilNextBeat < 0)
                 TimeUntilNextBeat += beatLength;
 

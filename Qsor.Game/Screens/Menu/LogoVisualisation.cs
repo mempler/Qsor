@@ -85,7 +85,7 @@ namespace Qsor.Screens.Menu
         private void UpdateAmplitudes()
         {
             var track = _beatmap.Value?.Track?.IsLoaded == true ? _beatmap.Value.Track : null;
-            var timingPoint = _beatmap.Value?.TimingPoints.FirstOrDefault(e => e.Offset >= Time.Current);
+            var timingPoint = _beatmap.Value?.GetTimingPointAt(Time.Current);
             
             var temporalAmplitudes = track?.CurrentAmplitudes.FrequencyAmplitudes;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
@@ -14,7 +15,7 @@ namespace Qsor.Gameplay.osu.HitObjects
     // TODO: Fully Implement.
     public class HitSlider : HitObject, IHasCurve
     {
-        public override double EndTime => BeginTime + (Path.Distance * this.SpanCount()) / TimingPoint.Velocity;
+        public override double EndTime => BeginTime + this.SpanCount() * Path.Distance / TimingPoint.Velocity;
         public IReadOnlyList<Vector2> ControlPoints { get; }
         public PathType PathType { get; }
         public override HitObjectType Type => HitObjectType.Slider;
@@ -24,6 +25,8 @@ namespace Qsor.Gameplay.osu.HitObjects
         public HitCircle SliderBeginCircle { get; private set; }
         public SnakingSliderBody Body { get; private set; }
         public SliderBall Ball { get; private set; }
+
+        private Vector2? _lastPosition = null;
         
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
@@ -42,8 +45,7 @@ namespace Qsor.Gameplay.osu.HitObjects
 
             Ball = new SliderBall
             {
-                Scale = new Vector2(Body.PathRadius),
-                Origin = Anchor.Centre
+                Scale = new Vector2(Body.PathRadius)
             };
             
             SliderBeginCircle = new HitCircle(Beatmap, Body.PathOffset) {BeginTime = BeginTime};
@@ -56,7 +58,7 @@ namespace Qsor.Gameplay.osu.HitObjects
             };
             
             Body.UpdateProgress(0);
-            Ball.Position = Path.PositionAt(0);
+            Ball.Position = this.CurvePositionAt(0);
             Ball.Scale = new Vector2(Body.PathRadius / 64f);
 
             BindableProgress.ValueChanged += prog =>
@@ -65,7 +67,17 @@ namespace Qsor.Gameplay.osu.HitObjects
                     Hide();
                 
                 Body.UpdateProgress(prog.NewValue);
-                Ball.Position = Path.PositionAt(prog.NewValue * this.SpanCount());
+                
+                var newPos = this.CurvePositionAt(prog.NewValue);
+
+                var diff = _lastPosition.HasValue ? _lastPosition.Value - newPos : newPos - this.CurvePositionAt(prog.NewValue + 0.01f);
+                if (diff == Vector2.Zero)
+                    return;
+                
+                Ball.Position = newPos;
+                Ball.Rotation = -90 + (float)(-Math.Atan2(diff.X, diff.Y) * 180 / Math.PI);
+                
+                _lastPosition = newPos;
             };
         }
 
@@ -86,6 +98,7 @@ namespace Qsor.Gameplay.osu.HitObjects
             
             _isFading = true;
             this.FadeOutFromOne(200 + Beatmap.Difficulty.ApproachRate).Finally(_ => ((Container) Parent)?.Remove(this));
+            Ball.FadeOut();
             SliderBeginCircle.Hide();
         }
         

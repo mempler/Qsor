@@ -63,11 +63,11 @@ namespace Qsor.Gameplay.osu.Containers
             
             WorkingBeatmap.Value.HitObjects
                 .Where(obj => _currentTime < obj.EndTime)
-                .Where(obj => _currentTime > obj.BeginTime - (WorkingBeatmap.Value.Difficulty.ApproachRate + 300))
+                .Where(obj => _currentTime > obj.BeginTime - (WorkingBeatmap.Value.Difficulty.ApproachRate + 400))
                 .Where(obj => !_circleLayer.Contains(obj) && !_sliderLayer.Contains(obj))
                 .ForEach(obj =>
                 {
-                   // obj.TimingPoint = BeatmapManager.ActiveBeatmap.TimingPoints.FirstOrDefault(s => s.Offset >= _currentTime);
+                    // obj.TimingPoint = WorkingBeatmap.Value.TimingPoints.FirstOrDefault(s => s.Offset >= _currentTime);
                     
                     switch (obj.Type)
                     {

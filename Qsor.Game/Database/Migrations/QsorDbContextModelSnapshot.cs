@@ -13,7 +13,7 @@ namespace Qsor.Database.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3");
 
-            modelBuilder.Entity("Qsor.Database.Models.BeatmapModel", b =>
+            modelBuilder.Entity("Qsor.Game.Database.Models.BeatmapModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

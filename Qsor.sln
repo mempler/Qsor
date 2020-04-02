@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qsor", "Qsor\Qsor.csproj", "{80063128-CB8C-4F95-9EE3-C4539D01D580}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qsor.Game", "Qsor.Game\Qsor.Game.csproj", "{80063128-CB8C-4F95-9EE3-C4539D01D580}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qsor.Tests", "Qsor.Tests\Qsor.Tests.csproj", "{2DC454D9-325D-4FA4-BEE2-D4FC3A1EAD48}"
 EndProject
