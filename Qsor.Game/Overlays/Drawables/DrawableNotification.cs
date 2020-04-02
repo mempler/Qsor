@@ -7,6 +7,8 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
+using osu.Framework.Logging;
+using osu.Framework.Timing;
 using osuTK;
 using osuTK.Graphics;
 
@@ -14,6 +16,8 @@ namespace Qsor.Game.Overlays.Drawables
 {
     public class DrawableNotification : CompositeDrawable
     {
+        private readonly double _duration;
+
         private ColourInfo _borderColour
         {
             get => BindableBorderColour.Value;
@@ -24,8 +28,15 @@ namespace Qsor.Game.Overlays.Drawables
 
         private TextFlowContainer _textFlowContainer;
         
-        public DrawableNotification(LocalisedString text, ColourInfo colourInfo)
+        /// <summary>
+        /// Drawable Notification
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="colourInfo"></param>
+        /// <param name="duration">Hide after X amount of MS, -1 = PositiveInfinity</param>
+        public DrawableNotification(LocalisedString text, ColourInfo colourInfo, double duration = double.PositiveInfinity)
         {
+            _duration = duration;
             _textFlowContainer = new TextFlowContainer
             {
                 Direction = FillDirection.Full,
@@ -63,25 +74,47 @@ namespace Qsor.Game.Overlays.Drawables
         public void FadeBorder(ColourInfo newColour, double duration = 0, Easing easing = Easing.None)
             => this.TransformTo(nameof(_borderColour), newColour, duration, easing);
 
+
+        private readonly StopwatchClock _clock = new StopwatchClock();
         protected override bool OnHover(HoverEvent e)
         {
             FadeBorder(Color4.White, 100);
+            _clock.Restart();
             return true;
         }
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
             FadeBorder(BindableBorderColour.Default, 100);
+            if (_clock.ElapsedMilliseconds > _duration)
+                OnClick(null);
         }
 
+        private bool _gotClicked;
         protected override bool OnClick(ClickEvent e)
         {
+            if (_gotClicked)
+                return false;
+            
+            _gotClicked = true;
             this.FadeOutFromOne(250).Finally(_ =>
             {
                 if (Parent is FillFlowContainer<DrawableNotification> container)
                     container.Remove(this);
             });
+            
             return true;
+        }
+
+        protected override void Update()
+        {
+            if (_clock.ElapsedMilliseconds > _duration)
+                OnClick(null);
+
+            if (!_clock.IsRunning)
+                _clock.Start();
+            
+            base.Update();
         }
     }
 }
