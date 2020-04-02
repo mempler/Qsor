@@ -5,7 +5,6 @@ using osu.Framework.Allocation;
 using osu.Framework.Localisation;
 using osu.Framework.Testing;
 using osuTK.Graphics;
-using Qsor.Game.Graphics;
 using Qsor.Game.Overlays;
 using Qsor.Game.Overlays.Drawables;
 

@@ -40,21 +40,24 @@ namespace Qsor.Game.Overlays
             AddInternal(_drawableNotifications);
         }
 
-        public void PushNotification(LocalisedString text, ColourInfo colourInfo)
+        public void PushNotification(LocalisedString text, ColourInfo colourInfo, double duration = double.PositiveInfinity)
         {
-            var notification = new DrawableNotification(text, colourInfo);
+            var notification = new DrawableNotification(text, colourInfo, duration);
 
             PushNotification(notification);
         }
         public void PushNotification(DrawableNotification notification)
         {
-            notification.Anchor = Anchor.BottomRight;
-            notification.Origin = Anchor.BottomRight;
+            Scheduler.AddOnce(() =>
+            {
+                notification.Anchor = Anchor.BottomRight;
+                notification.Origin = Anchor.BottomRight;
 
-            notification.Alpha = 0;
-            _drawableNotifications.Add(notification);
+                notification.Alpha = 0;
+                _drawableNotifications.Add(notification);
             
-            notification.FadeInFromZero(200);
+                notification.FadeInFromZero(200);
+            });
         }
     }
 }
