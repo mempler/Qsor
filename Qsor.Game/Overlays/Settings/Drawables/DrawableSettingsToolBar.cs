@@ -24,7 +24,6 @@ namespace Qsor.Game.Overlays.Settings.Drawables
 
         public DrawableSettingsToolBar(BindableList<ISettingsCategory> categories)
         {
-
             _categories.BindTo(categories);
         }
         
@@ -33,7 +32,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         {
             RelativeSizeAxes = Axes.Y;
             Width = 48;
-
+            
             AddInternal(new Box
             {
                 RelativeSizeAxes = Axes.Both,
@@ -44,9 +43,10 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             {
                 RelativeSizeAxes = Axes.Both,
             });
-            
-            _scrollContainer.ScrollContent.AutoSizeAxes = Axes.None;
-            _scrollContainer.ScrollContent.RelativeSizeAxes = Axes.Both;
+
+            _scrollContainer.ScrollbarVisible = false;
+            _scrollContainer.ScrollContent.AutoSizeAxes = Axes.Y;
+            _scrollContainer.ScrollContent.RelativeSizeAxes = Axes.X;
             
             _scrollContainer.ScrollContent.Add(_iconFlowContainer = new SearchContainer<DrawableSettingsIconSprite>
             {
@@ -62,7 +62,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
                 Width = 4,
                 Height = 48,
                 Margin = new MarginPadding { Right = 2.5f },
-                Alpha = 1,
+                Alpha = 0,
             });
 
             _categories.CollectionChanged += (_, e) =>
@@ -102,7 +102,8 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             var sprite = _iconFlowContainer.FirstOrDefault(s => s.Name == "General");
             if (sprite == null)
                 return;
-            
+
+            _selector.FadeInFromZero(250);
             Select(sprite);
             _selector.Position = sprite.Position;
         }

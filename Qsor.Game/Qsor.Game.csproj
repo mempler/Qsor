@@ -26,6 +26,8 @@
     
     <ItemGroup>
       <Folder Include="Database\Migrations" />
+      <Folder Include="Overlays\Settings\Categories\GeneralSettings" />
+      <Folder Include="Overlays\Settings\Categories\VideoSettings" />
     </ItemGroup>
 
 </Project>

@@ -14,7 +14,8 @@ namespace Qsor.Tests.Visual.Overlays
             => new[]
             {
                 typeof(SettingsOverlay), typeof(SettingsGeneralCategory),
-                typeof(DrawableSettingsToolBar), typeof(DrawableSettingsIconSprite)
+                typeof(DrawableSettingsToolBar), typeof(DrawableSettingsIconSprite),
+                typeof(DrawableSettingsMenu), typeof(DrawableSettingsCategory)
             };
 
         [BackgroundDependencyLoader]
@@ -30,8 +31,8 @@ namespace Qsor.Tests.Visual.Overlays
                 Add(settingsOverlay = new SettingsOverlay());
             });
 
-            AddStep("Show Overlay", () => settingsOverlay.Show());
-            AddStep("Show Overlay", () => settingsOverlay.Hide());
+            AddStep("Show Overlay", settingsOverlay.Show);
+            AddStep("Hide Overlay", settingsOverlay.Hide);
         }
     }
 }
