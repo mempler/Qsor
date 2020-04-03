@@ -47,6 +47,19 @@ namespace Qsor.Game
             
             AddInternal(BeatmapManager);
             AddInternal(NotificationOverlay);
+
+            ConfigManager.Save();
+        }
+
+        protected override void Dispose(bool isDisposing)
+        {
+            if (isDisposing) {
+                ConfigManager?.Dispose();
+                BeatmapManager?.Dispose();
+                NotificationOverlay?.Dispose();
+            }
+
+            base.Dispose(isDisposing);
         }
     }
 }
