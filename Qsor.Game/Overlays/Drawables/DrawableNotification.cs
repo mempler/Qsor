@@ -1,4 +1,5 @@
-﻿using osu.Framework.Allocation;
+﻿using System;
+using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
@@ -15,6 +16,7 @@ namespace Qsor.Game.Overlays.Drawables
     public class DrawableNotification : CompositeDrawable
     {
         private readonly double _duration;
+        private readonly Action _clickAction;
 
         private ColourInfo _borderColour
         {
@@ -25,16 +27,18 @@ namespace Qsor.Game.Overlays.Drawables
         public Bindable<ColourInfo> BindableBorderColour;
 
         private TextFlowContainer _textFlowContainer;
-        
+
         /// <summary>
         /// Drawable Notification
         /// </summary>
         /// <param name="text"></param>
         /// <param name="colourInfo"></param>
         /// <param name="duration">Hide after X amount of MS, -1 = PositiveInfinity</param>
-        public DrawableNotification(LocalisedString text, ColourInfo colourInfo, double duration = double.PositiveInfinity)
+        /// <param name="clickAction"></param>
+        public DrawableNotification(LocalisedString text, ColourInfo colourInfo, double duration = double.PositiveInfinity, Action clickAction = null)
         {
             _duration = duration;
+            _clickAction = clickAction;
             _textFlowContainer = new TextFlowContainer
             {
                 Direction = FillDirection.Full,
@@ -93,6 +97,9 @@ namespace Qsor.Game.Overlays.Drawables
         {
             if (_gotClicked)
                 return false;
+
+            if (e != null)
+                _clickAction?.Invoke();
             
             _gotClicked = true;
             this.FadeOutFromOne(250).Finally(_ =>

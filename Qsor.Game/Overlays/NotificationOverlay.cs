@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
@@ -37,9 +38,9 @@ namespace Qsor.Game.Overlays
             AddInternal(_drawableNotifications);
         }
 
-        public void PushNotification(LocalisedString text, ColourInfo colourInfo, double duration = double.PositiveInfinity)
+        public void PushNotification(LocalisedString text, ColourInfo colourInfo, double duration = double.PositiveInfinity, Action clickAction = null)
         {
-            var notification = new DrawableNotification(text, colourInfo, duration);
+            var notification = new DrawableNotification(text, colourInfo, duration, clickAction);
 
             PushNotification(notification);
         }

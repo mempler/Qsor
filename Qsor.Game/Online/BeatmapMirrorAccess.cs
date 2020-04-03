@@ -8,7 +8,7 @@ namespace Qsor.Game.Online
     {
         private const string BeatmapMirror = "https://pisstau.be";
         
-        public static async Task<Stream> DownloadBeatmap(uint setId)
+        public static async Task<Stream> DownloadBeatmap(int setId)
         {
             var wr = new WebRequest(BeatmapMirror + $"/d/{setId}");
             

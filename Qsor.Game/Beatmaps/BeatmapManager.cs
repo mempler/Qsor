@@ -6,6 +6,7 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Platform;
+using Qsor.Game.Configuration;
 using Qsor.Game.Database;
 using Qsor.Game.Database.Models;
 using Qsor.Game.Graphics.Containers;
@@ -28,6 +29,9 @@ namespace Qsor.Game.Beatmaps
         
         [Resolved]
         private AudioManager AudioManager { get; set; }
+        
+        [Resolved]
+        private QsorConfigManager ConfigManager { get; set; }
 
         public BackgroundImageContainer Background;
 
@@ -44,9 +48,9 @@ namespace Qsor.Game.Beatmaps
         private void Load(TextureStore store)
         {
             // TODO: Remove
-            if (!Storage.ExistsDirectory($"./Songs/{QsorGame.CurrentTestmap}"))
+            if (!Storage.ExistsDirectory($"./Songs/{ConfigManager.Get<int>(QsorSetting.BeatmapSetId)}"))
             {
-                var beatmapFile = BeatmapMirrorAccess.DownloadBeatmap(QsorGame.CurrentTestmap)
+                var beatmapFile = BeatmapMirrorAccess.DownloadBeatmap(ConfigManager.Get<int>(QsorSetting.BeatmapSetId))
                     .GetAwaiter()
                     .GetResult();
                 
@@ -62,7 +66,7 @@ namespace Qsor.Game.Beatmaps
             ZipEntry theEntry;
             while ((theEntry = s.GetNextEntry()) != null)
             {
-                var directoryStorage = Storage.GetStorageForDirectory($"./Songs/{QsorGame.CurrentTestmap}/" + Path.GetDirectoryName(theEntry.Name));
+                var directoryStorage = Storage.GetStorageForDirectory($"./Songs/{ConfigManager.Get<int>(QsorSetting.BeatmapSetId)}/" + Path.GetDirectoryName(theEntry.Name));
                 var fileName = Path.GetFileName(theEntry.Name);
                     
                 if (fileName == string.Empty) continue;

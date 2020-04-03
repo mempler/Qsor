@@ -14,7 +14,7 @@ namespace Qsor.Game.Beatmaps
         private BackgroundImageContainer _background;
         public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new Bindable<WorkingBeatmap>();
         
-        public PlayfieldContainer Playfield { get; private set; }
+        public PlayfieldAdjustmentContainer Playfield { get; private set; }
         
         [Resolved]
         private AudioManager Audio { get; set; }
@@ -48,7 +48,7 @@ namespace Qsor.Game.Beatmaps
             LoadComponents(WorkingBeatmap.Value.HitObjects); // Preload HitObjects, this makes it twice as fast!
             
             if (Playfield == null)
-                AddInternal(new PlayfieldAdjustmentContainer(new PlayfieldContainer{ RelativeSizeAxes = Axes.Both }));
+                AddInternal(Playfield = new PlayfieldAdjustmentContainer(new PlayfieldContainer{ RelativeSizeAxes = Axes.Both }));
         }
         
         public void PlayBeatmap()

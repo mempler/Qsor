@@ -2,6 +2,7 @@
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
 using Qsor.Game.Beatmaps;
+using Qsor.Game.Configuration;
 using Qsor.Game.Database;
 using Qsor.Game.Online;
 using Qsor.Game.Overlays;
@@ -16,7 +17,8 @@ namespace Qsor.Game
         protected BeatmapMirrorAccess BeatmapMirrorAccess;
         
         protected QsorDbContextFactory QsorDbContextFactory;
-
+        protected QsorConfigManager ConfigManager;
+        
         protected NotificationOverlay NotificationOverlay;
         
         private DependencyContainer _dependencies;
@@ -33,16 +35,31 @@ namespace Qsor.Game
             _dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
             
             _dependencies.Cache(QsorDbContextFactory = new QsorDbContextFactory(storage));
+            _dependencies.Cache(ConfigManager = new QsorConfigManager(storage));
+            
             _dependencies.Cache(NotificationOverlay = new NotificationOverlay());
             
             _dependencies.CacheAs(this);
-            
+
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             
             QsorDbContextFactory.Get().Migrate();
             
             AddInternal(BeatmapManager);
             AddInternal(NotificationOverlay);
+
+            ConfigManager.Save();
+        }
+
+        protected override void Dispose(bool isDisposing)
+        {
+            if (isDisposing) {
+                ConfigManager?.Dispose();
+                BeatmapManager?.Dispose();
+                NotificationOverlay?.Dispose();
+            }
+
+            base.Dispose(isDisposing);
         }
     }
 }

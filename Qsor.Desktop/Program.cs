@@ -8,7 +8,7 @@ namespace Qsor.Desktop
     {
         public static async Task Main()
         {
-            using var host = Host.GetSuitableHost("Qsor.Game");
+            using var host = Host.GetSuitableHost("Qsor");
             using var game = new QsorGame();
             
             host.Run(game);
