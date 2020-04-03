@@ -4,10 +4,8 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
-using osu.Framework.Logging;
 using osu.Framework.Timing;
 using osuTK;
 using osuTK.Graphics;
@@ -79,7 +77,7 @@ namespace Qsor.Game.Overlays.Drawables
         protected override bool OnHover(HoverEvent e)
         {
             FadeBorder(Color4.White, 100);
-            _clock.Restart();
+            _clock.Stop();
             return true;
         }
 
@@ -111,7 +109,7 @@ namespace Qsor.Game.Overlays.Drawables
             if (_clock.ElapsedMilliseconds > _duration)
                 OnClick(null);
 
-            if (!_clock.IsRunning)
+            if (!_clock.IsRunning && !IsHovered)
                 _clock.Start();
             
             base.Update();

@@ -3,11 +3,8 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
-using osu.Framework.Logging;
 using osuTK;
-using osuTK.Graphics;
 using Qsor.Game.Overlays.Drawables;
 
 namespace Qsor.Game.Overlays
@@ -55,6 +52,8 @@ namespace Qsor.Game.Overlays
 
                 notification.Alpha = 0;
                 _drawableNotifications.Add(notification);
+                
+                _drawableNotifications.SetLayoutPosition(notification, -_drawableNotifications.FlowingChildren.Count());
             
                 notification.FadeInFromZero(200);
             });
