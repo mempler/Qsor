@@ -26,6 +26,7 @@
     
     <ItemGroup>
       <Folder Include="Database\Migrations" />
+      <Folder Include="Online\Bancho" />
     </ItemGroup>
 
 </Project>
