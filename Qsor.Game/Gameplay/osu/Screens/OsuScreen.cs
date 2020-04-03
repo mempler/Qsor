@@ -4,6 +4,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
 using Qsor.Game.Beatmaps;
+using Qsor.Game.Configuration;
 
 namespace Qsor.Game.Gameplay.osu.Screens
 {
@@ -21,10 +22,10 @@ namespace Qsor.Game.Gameplay.osu.Screens
         private BeatmapContainer _beatmapContainer;
 
         [BackgroundDependencyLoader]
-        private void Load()
+        private void Load(QsorConfigManager configManager)
         {
-            var beatmapStorage = Storage.GetStorageForDirectory($"./Songs/{QsorGame.CurrentTestmap}");
-            _beatmapContainer = BeatmapManager.LoadBeatmap(beatmapStorage, QsorGame.CurrentTestmapName); // TODO: Remove
+            var beatmapStorage = Storage.GetStorageForDirectory($"./Songs/{configManager.Get<int>(QsorSetting.BeatmapSetId)}");
+            _beatmapContainer = BeatmapManager.LoadBeatmap(beatmapStorage, configManager.Get<string>(QsorSetting.BeatmapFile)); // TODO: Remove
             
             AddInternal(_beatmapContainer);
         }
