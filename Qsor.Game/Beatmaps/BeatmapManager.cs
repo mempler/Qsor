@@ -50,7 +50,7 @@ namespace Qsor.Game.Beatmaps
             // TODO: Remove
             if (!Storage.ExistsDirectory($"./Songs/{ConfigManager.Get<int>(QsorSetting.BeatmapSetId)}"))
             {
-                var beatmapFile = BeatmapMirrorAccess.DownloadBeatmap(ConfigManager.Get<uint>(QsorSetting.BeatmapSetId))
+                var beatmapFile = BeatmapMirrorAccess.DownloadBeatmap(ConfigManager.Get<int>(QsorSetting.BeatmapSetId))
                     .GetAwaiter()
                     .GetResult();
                 
