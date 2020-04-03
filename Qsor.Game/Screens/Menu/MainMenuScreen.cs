@@ -32,8 +32,11 @@ namespace Qsor.Game.Screens.Menu
         [Resolved]
         private NotificationOverlay NotificationOverlay { get; set; }
         
+        [Resolved]
+        private Storage Storage { get; set; }
+        
         [BackgroundDependencyLoader]
-        private void Load(AudioManager audioManager, Storage storage, QsorDbContextFactory ctxFactory, BeatmapManager beatmapManager)
+        private void Load(AudioManager audioManager, QsorDbContextFactory ctxFactory, BeatmapManager beatmapManager)
         {
             var parallaxBack = new ParallaxContainer
             {
@@ -52,7 +55,7 @@ namespace Qsor.Game.Screens.Menu
             
             var db = ctxFactory.Get();
             var beatmapModel = db.Beatmaps.ToList().OrderBy(r => Guid.NewGuid()).FirstOrDefault();
-            var beatmapStorage = storage.GetStorageForDirectory(beatmapModel?.Path);
+            var beatmapStorage = Storage.GetStorageForDirectory(beatmapModel?.Path);
             beatmapManager.LoadBeatmap(beatmapStorage, beatmapModel?.File);
             LoadComponent(beatmapManager.WorkingBeatmap.Value);
             WorkingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
@@ -103,15 +106,27 @@ namespace Qsor.Game.Screens.Menu
             this.FadeInFromZero(2500, Easing.InExpo).Finally(e =>
             {
                 NotificationOverlay.PushNotification(
+                    new LocalisedString(
+                        "You can play custom Beatmaps by editing your config at\n" + 
+                        $"{Storage.GetFullPath("game.ini")}\n\n" +
+                        $"(Click to open folder!)"),
+                    Color4.Orange, 
+                    9000,
+                    () =>
+                    {
+                        Storage.OpenInNativeExplorer();
+                    });
+                
+                NotificationOverlay.PushNotification(
                     new LocalisedString("Please note that this game is still in a very early alpha!"),
                     Color4.Yellow,
-                    5000);
+                    10000);
                 
                 NotificationOverlay.PushNotification(
                     new LocalisedString(
                         "Please consider reporting Every bug you find if it hasn't been found already in #bug-reports"),
                         Color4.Red, 
-                    5000);
+                    8000);
                 
                 NotificationOverlay.PushNotification(
                     new LocalisedString(
