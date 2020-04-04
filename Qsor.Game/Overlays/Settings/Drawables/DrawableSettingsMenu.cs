@@ -36,14 +36,8 @@ namespace Qsor.Game.Overlays.Settings.Drawables
                 Colour = Color4.Black,
                 Alpha = .6f
             });
-            
-            AddInternal(_searchContainer = new SearchContainer
-            {
-                RelativeSizeAxes = Axes.Y,
-                Width = 400,
-            });
-            
-            _searchContainer.Add(_scrollContainer = new BasicScrollContainer
+ 
+            AddInternal(_scrollContainer = new BasicScrollContainer
             {
                 RelativeSizeAxes = Axes.Y,
                 Width = 400,
@@ -72,10 +66,16 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             headerContainer.AddText("Change the way Qsor behaves\n\n\n\n", e => { e.Colour = Color4.PaleVioletRed; e.Font = new FontUsage(size: 18);});
             headerContainer.AddText($"[0] Type to search!", e => e.Font = new FontUsage(size: 24));
 
+            _scrollContainer.ScrollbarVisible = true;
             _scrollContainer.ScrollContent.Add(headerContainer);
-            _scrollContainer.ScrollbarVisible = false;
             _scrollContainer.ScrollContent.AutoSizeAxes = Axes.Y;
             _scrollContainer.ScrollContent.RelativeSizeAxes = Axes.X;
+            
+            _scrollContainer.ScrollContent.Add(_searchContainer = new SearchContainer
+            {
+                RelativeSizeAxes = Axes.Y,
+                Width = 400,
+            });
 
             _categories.CollectionChanged += (_, e) =>
             {
@@ -93,7 +93,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
                             Width = 400
                         };
                         
-                        _scrollContainer.ScrollContent.Add(settingsCategory);
+                        _searchContainer.Add(settingsCategory);
                     }
                 }
             };
