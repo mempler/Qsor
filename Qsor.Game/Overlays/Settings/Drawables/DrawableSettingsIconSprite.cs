@@ -2,6 +2,7 @@
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
+using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osuTK.Graphics;
@@ -14,7 +15,9 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         [Resolved]
         private DrawableSettingsToolBar ToolBar { get; set; }
 
-        private SpriteIcon _icon = new SpriteIcon();
+        private readonly SpriteIcon _icon = new SpriteIcon();
+        private Box _selector;
+
         
         public IconUsage Icon
         {
@@ -30,6 +33,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             {
                 _isSelected = value;
                 _icon.FadeColour(value ? Color4.White : Color4.Gray, 100);
+                _selector.FadeTo(value ? 1f : 0f,  250);
             }
         }
 
@@ -47,6 +51,17 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             _icon.Origin = Anchor.Centre;
             _icon.Anchor = Anchor.Centre;
             _icon.Colour = Color4.Gray;
+            
+            AddInternal(_selector = new Box
+            {
+                Colour = Color4.HotPink,
+                Anchor = Anchor.CentreRight,
+                Origin = Anchor.Centre,
+                Width = 4,
+                Height = 48,
+                Margin = new MarginPadding { Right = 2.5f },
+                Alpha = 0,
+            });
         }
         
         protected override bool OnHover(HoverEvent e)

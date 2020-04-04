@@ -73,7 +73,10 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             headerContainer.AddText($"[0] Type to search!", e => e.Font = new FontUsage(size: 24));
 
             _scrollContainer.ScrollContent.Add(headerContainer);
-            
+            _scrollContainer.ScrollbarVisible = false;
+            _scrollContainer.ScrollContent.AutoSizeAxes = Axes.Y;
+            _scrollContainer.ScrollContent.RelativeSizeAxes = Axes.X;
+
             _categories.CollectionChanged += (_, e) =>
             {
                 if (e.Action == NotifyCollectionChangedAction.Add)

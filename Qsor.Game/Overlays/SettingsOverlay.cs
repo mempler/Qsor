@@ -35,26 +35,11 @@ namespace Qsor.Game.Overlays
             AddCategory(new SettingsEditorCategory());
             AddCategory(new SettingsOnlineCategory());
             AddCategory(new SettingsMaintenanceCategory());
-            AddCategory(new SettingsGeneralCategory());
-            AddCategory(new SettingsGraphicsCategory());
-            AddCategory(new SettingsGameplayCategory());
-            AddCategory(new SettingsAudioCategory());
-            AddCategory(new SettingsSkinCategory());
-            AddCategory(new SettingsInputCategory());
-            AddCategory(new SettingsEditorCategory());
-            AddCategory(new SettingsOnlineCategory());
-            AddCategory(new SettingsMaintenanceCategory());
-            AddCategory(new SettingsGeneralCategory());
-            AddCategory(new SettingsGraphicsCategory());
-            AddCategory(new SettingsGameplayCategory());
-            AddCategory(new SettingsAudioCategory());
-            AddCategory(new SettingsSkinCategory());
-            AddCategory(new SettingsInputCategory());
-            AddCategory(new SettingsEditorCategory());
-            AddCategory(new SettingsOnlineCategory());
-            AddCategory(new SettingsMaintenanceCategory());
-            
-            Scheduler.AddDelayed(_toolBar.Default, 10);
+        }
+
+        protected override void LoadComplete()
+        {
+            _toolBar.Default();
         }
 
         public void AddCategory(ISettingsCategory category)

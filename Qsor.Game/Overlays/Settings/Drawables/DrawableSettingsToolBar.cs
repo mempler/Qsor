@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Sprites;
-using osu.Framework.Input.Events;
 using osuTK.Graphics;
 
 namespace Qsor.Game.Overlays.Settings.Drawables
@@ -18,8 +15,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         private readonly BindableList<ISettingsCategory> _categories = new BindableList<ISettingsCategory>();
         private BasicScrollContainer _scrollContainer;
         private SearchContainer<DrawableSettingsIconSprite> _iconFlowContainer;
-        private Box _selector;
-        
+
         private Bindable<DrawableSettingsIconSprite> SelectedSprite = new Bindable<DrawableSettingsIconSprite>();
 
         public DrawableSettingsToolBar(BindableList<ISettingsCategory> categories)
@@ -47,22 +43,14 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             _scrollContainer.ScrollbarVisible = false;
             _scrollContainer.ScrollContent.AutoSizeAxes = Axes.Y;
             _scrollContainer.ScrollContent.RelativeSizeAxes = Axes.X;
+            _scrollContainer.ScrollContent.Origin = Anchor.Centre;
+            _scrollContainer.ScrollContent.Anchor = Anchor.Centre;
             
             _scrollContainer.ScrollContent.Add(_iconFlowContainer = new SearchContainer<DrawableSettingsIconSprite>
             {
-                RelativeSizeAxes = Axes.Both,
+                RelativeSizeAxes = Axes.X,
+                AutoSizeAxes = Axes.Y,
                 Direction = FillDirection.Vertical
-            });
-            
-            _scrollContainer.ScrollContent.Add(_selector = new Box
-            {
-                Colour = Color4.HotPink,
-                Anchor = Anchor.CentreRight,
-                Origin = Anchor.Centre,
-                Width = 4,
-                Height = 48,
-                Margin = new MarginPadding { Right = 2.5f },
-                Alpha = 0,
             });
 
             _categories.CollectionChanged += (_, e) =>
@@ -93,7 +81,6 @@ namespace Qsor.Game.Overlays.Settings.Drawables
                     e.OldValue.Selected = false;
                 
                 e.NewValue.Selected = true;
-                _selector.MoveTo(e.NewValue.Position, 350, Easing.OutElasticQuarter);
             };
         }
 
@@ -103,9 +90,9 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             if (sprite == null)
                 return;
 
-            _selector.FadeInFromZero(250);
+            //_selector.FadeInFromZero(250);
             Select(sprite);
-            _selector.Position = sprite.Position;
+            //_selector.Position = sprite.Position;
         }
         
         public void Select(DrawableSettingsIconSprite sprite) => SelectedSprite.Value = sprite;
