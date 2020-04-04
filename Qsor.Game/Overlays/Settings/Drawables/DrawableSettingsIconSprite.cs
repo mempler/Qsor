@@ -15,6 +15,8 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         [Resolved]
         private DrawableSettingsToolBar ToolBar { get; set; }
 
+        private readonly Bindable<SettingsCategoryContainer> SelectedCategory = new Bindable<SettingsCategoryContainer>();
+
         private readonly SpriteIcon _icon = new SpriteIcon();
         private Box _selector;
 
@@ -25,21 +27,17 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             set => _icon.Icon = value;
         }
 
-        private bool _isSelected;
-        public bool Selected
+        public SettingsCategoryContainer Category { get; }
+
+        public DrawableSettingsIconSprite(SettingsCategoryContainer category)
         {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                _icon.FadeColour(value ? Color4.White : Color4.Gray, 100);
-                _selector.FadeTo(value ? 1f : 0f,  250);
-            }
+            Category = category;
         }
 
         [BackgroundDependencyLoader]
-        private void Load()
+        private void Load(SettingsOverlay settingsOverlay)
         {
+            SelectedCategory.BindTo(settingsOverlay.SelectedCategory);
             CornerRadius = 0;
 
             Width = 48;
@@ -62,11 +60,17 @@ namespace Qsor.Game.Overlays.Settings.Drawables
                 Margin = new MarginPadding { Right = 2.5f },
                 Alpha = 0,
             });
+
+            SelectedCategory.ValueChanged += e =>
+            {
+                _icon.FadeColour(e.NewValue == Category ? Color4.White : Color4.Gray, 100);
+                _selector.FadeTo(e.NewValue == Category ? 1f : 0f, 250);
+            };
         }
         
         protected override bool OnHover(HoverEvent e)
         {
-            if (Selected)
+            if (SelectedCategory.Value == Category)
                 return false;
             
             _icon.FadeColour(Color4.White, 100);
@@ -75,13 +79,13 @@ namespace Qsor.Game.Overlays.Settings.Drawables
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
-            if (!Selected)
+            if (SelectedCategory.Value != Category)
                 _icon.FadeColour(Color4.Gray, 100);
         }
 
         protected override bool OnClick(ClickEvent e)
         {
-            ToolBar.Select(this);
+            SelectedCategory.Value = Category;
             return true;
         }
     }

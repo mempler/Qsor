@@ -12,13 +12,13 @@ namespace Qsor.Game.Overlays.Settings.Drawables
     [Cached]
     public class DrawableSettingsToolBar : CompositeDrawable
     {
-        private readonly BindableList<ISettingsCategory> _categories = new BindableList<ISettingsCategory>();
+        private readonly BindableList<SettingsCategoryContainer> _categories = new BindableList<SettingsCategoryContainer>();
         private BasicScrollContainer _scrollContainer;
         private SearchContainer<DrawableSettingsIconSprite> _iconFlowContainer;
 
         private Bindable<DrawableSettingsIconSprite> SelectedSprite = new Bindable<DrawableSettingsIconSprite>();
 
-        public DrawableSettingsToolBar(BindableList<ISettingsCategory> categories)
+        public DrawableSettingsToolBar(BindableList<SettingsCategoryContainer> categories)
         {
             _categories.BindTo(categories);
         }
@@ -59,9 +59,9 @@ namespace Qsor.Game.Overlays.Settings.Drawables
                 {
                     foreach (var i in e.NewItems)
                     {
-                        var item = (ISettingsCategory) i;
+                        var item = (SettingsCategoryContainer) i;
                         
-                        var settingsIconSprite = new DrawableSettingsIconSprite
+                        var settingsIconSprite = new DrawableSettingsIconSprite(item)
                         {
                             Name = item.Name,
                             Icon = item.Icon,
@@ -74,14 +74,6 @@ namespace Qsor.Game.Overlays.Settings.Drawables
                     }
                 }
             };
-
-            SelectedSprite.ValueChanged += e =>
-            {
-                if (e.OldValue != null)
-                    e.OldValue.Selected = false;
-                
-                e.NewValue.Selected = true;
-            };
         }
 
         public void Default()
@@ -90,11 +82,10 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             if (sprite == null)
                 return;
 
+            
             //_selector.FadeInFromZero(250);
-            Select(sprite);
+            //Select(sprite);
             //_selector.Position = sprite.Position;
         }
-        
-        public void Select(DrawableSettingsIconSprite sprite) => SelectedSprite.Value = sprite;
     }
 }

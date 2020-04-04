@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
-using osu.Framework.Allocation;
+﻿using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -10,12 +8,15 @@ using Qsor.Game.Overlays.Settings.Drawables;
 
 namespace Qsor.Game.Overlays
 {
+    [Cached]
     public class SettingsOverlay : CompositeDrawable
     {
-        private BindableList<ISettingsCategory> _categories = new BindableList<ISettingsCategory>();
+        private BindableList<SettingsCategoryContainer> _categories = new BindableList<SettingsCategoryContainer>();
 
         private DrawableSettingsToolBar _toolBar;
         private DrawableSettingsMenu _menu;
+        
+        public readonly Bindable<SettingsCategoryContainer> SelectedCategory = new Bindable<SettingsCategoryContainer>();
         
         [BackgroundDependencyLoader]
         private void Load()
@@ -28,13 +29,6 @@ namespace Qsor.Game.Overlays
 
             AddCategory(new SettingsGeneralCategory());
             AddCategory(new SettingsGraphicsCategory());
-            AddCategory(new SettingsGameplayCategory());
-            AddCategory(new SettingsAudioCategory());
-            AddCategory(new SettingsSkinCategory());
-            AddCategory(new SettingsInputCategory());
-            AddCategory(new SettingsEditorCategory());
-            AddCategory(new SettingsOnlineCategory());
-            AddCategory(new SettingsMaintenanceCategory());
         }
 
         protected override void LoadComplete()
@@ -42,7 +36,7 @@ namespace Qsor.Game.Overlays
             _toolBar.Default();
         }
 
-        public void AddCategory(ISettingsCategory category)
+        public void AddCategory(SettingsCategoryContainer category)
         {
             _categories.Add(category);
         }

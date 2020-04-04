@@ -2,9 +2,9 @@
 
 namespace Qsor.Game.Overlays.Settings.Categories
 {
-    public class SettingsGeneralCategory : ISettingsCategory
+    public class SettingsGeneralCategory : SettingsCategoryContainer
     {
-        public string Name => "General";
-        public IconUsage Icon => FontAwesome.Solid.Cog;
+        public override string Name => "General";
+        public override IconUsage Icon => FontAwesome.Solid.Cog;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osuTK.Graphics;
 
@@ -11,6 +10,13 @@ namespace Qsor.Game.Overlays.Settings.Drawables
     {
         private SpriteText _text;
 
+        private SettingsCategoryContainer _categoryContainer;
+
+        public DrawableSettingsCategory(SettingsCategoryContainer category)
+        {
+            _categoryContainer = category;
+        }
+        
         [BackgroundDependencyLoader]
         private void Load()
         {
@@ -24,9 +30,10 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             };
 
             Direction = FillDirection.Vertical;
-            RelativeSizeAxes = Axes.Y;
 
             Add(_text);
+            
+            Add(_categoryContainer);
         }
     }
 }

@@ -4,7 +4,7 @@ using Qsor.Game;
 
 namespace Qsor.Desktop
 {
-    internal class Program
+    internal static class Program
     {
         public static async Task Main()
         {
