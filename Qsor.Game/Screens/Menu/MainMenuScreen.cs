@@ -103,39 +103,18 @@ namespace Qsor.Game.Screens.Menu
         public override void OnEntering(IScreen last)
         {
             clock.Start();
+            
             this.FadeInFromZero(2500, Easing.InExpo).Finally(e =>
             {
-                NotificationOverlay.PushNotification(
-                    new LocalisedString(
-                        "You can play custom Beatmaps by editing your config at\n" + 
-                        $"{Storage.GetFullPath("game.ini")}\n\n" +
-                        $"(Click to open folder!)"),
-                    Color4.Orange, 
-                    9000,
-                    () =>
-                    {
-                        Storage.OpenInNativeExplorer();
-                    });
-                
-                NotificationOverlay.PushNotification(
-                    new LocalisedString("Please note that this game is still in a very early alpha!"),
-                    Color4.Yellow,
-                    10000);
-                
-                NotificationOverlay.PushNotification(
-                    new LocalisedString(
-                        "Please consider reporting Every bug you find if it hasn't been found already in #bug-reports"),
-                        Color4.Red, 
-                    8000);
-                
-                NotificationOverlay.PushNotification(
-                    new LocalisedString(
-                        "Debug keys:\n" +
-                        "    Arrow up: Speed up\n" +
-                        "    Arrow down: Speed down\n" +
-                        "    Space: Pause\n"),
-                    Color4.Orange, 
-                    5000);
+                NotificationOverlay.AddNotification(new LocalisedString(
+                        "Please note that the client is still in a very early alpha, bugs will most likely occur! " +
+                        "Consider reporting each of them in #bug-reports in it hasn't been found already."),
+                    Color4.Orange, 10000);
+
+                NotificationOverlay.AddNotification(new LocalisedString(
+                        "You can play different beatmaps by editing \"game.ini\" config file. " +
+                        "To open the Qsor configuration directory, click this notification!"),
+                    Color4.Orange, 10000, Storage.OpenInNativeExplorer);
             });
         }
 

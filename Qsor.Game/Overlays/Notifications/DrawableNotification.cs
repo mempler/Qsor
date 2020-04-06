@@ -15,18 +15,11 @@ namespace Qsor.Game.Overlays.Drawables
 {
     public class DrawableNotification : CompositeDrawable
     {
-        private readonly double _duration;
+        private readonly StopwatchClock _clock;
         private readonly Action _clickAction;
-
-        private ColourInfo _borderColour
-        {
-            get => BindableBorderColour.Value;
-            set => BindableBorderColour.Value = value;
-        }
-        
-        public Bindable<ColourInfo> BindableBorderColour;
-
-        private TextFlowContainer _textFlowContainer;
+        private readonly ColourInfo _borderColour;
+        private readonly TextFlowContainer _textFlowContainer;
+        private readonly double _duration;
 
         /// <summary>
         /// Drawable Notification
@@ -35,25 +28,21 @@ namespace Qsor.Game.Overlays.Drawables
         /// <param name="colourInfo"></param>
         /// <param name="duration">Hide after X amount of MS, -1 = PositiveInfinity</param>
         /// <param name="clickAction"></param>
-        public DrawableNotification(LocalisedString text, ColourInfo colourInfo, double duration = double.PositiveInfinity, Action clickAction = null)
+        public DrawableNotification(LocalisedString text, ColourInfo colourInfo, int duration = -1, Action clickAction = null)
         {
-            _duration = duration;
+            _clock = new StopwatchClock();
             _clickAction = clickAction;
+            _borderColour = colourInfo;
             _textFlowContainer = new TextFlowContainer
             {
                 Direction = FillDirection.Full,
-                FillMode = FillMode.Fit,
                 AutoSizeAxes = Axes.Both,
-                MaximumSize = new Vector2(300, float.MaxValue),
+                MaximumSize = new Vector2(290, float.MaxValue),
                 Padding = new MarginPadding(10)
             };
+            _duration = duration == -1 ? Math.Max(3000, (double) (text.ToString().Length * 100)) : duration;
 
             _textFlowContainer.AddText(text);
-
-            BindableBorderColour = new Bindable<ColourInfo> {Default = colourInfo};
-            BindableBorderColour.ValueChanged += e => BorderColour = e.NewValue;
-            BindableBorderColour.DefaultChanged += e => BorderColour = e.NewValue;
-            BindableBorderColour.SetDefault();
         }
         
         [BackgroundDependencyLoader]
@@ -61,10 +50,11 @@ namespace Qsor.Game.Overlays.Drawables
         {
             Masking = true;
             BorderThickness = 2;
+            BorderColour = _borderColour;
             CornerRadius = 8;
+            AutoSizeAxes = Axes.Y;
+            Width = 300;
 
-            AutoSizeAxes = Axes.Both;
-            
             AddInternal(new Box
             {
                 Colour = new Color4(0f,0f,0f,.8f),
@@ -74,25 +64,27 @@ namespace Qsor.Game.Overlays.Drawables
         }
 
         public void FadeBorder(ColourInfo newColour, double duration = 0, Easing easing = Easing.None)
-            => this.TransformTo(nameof(_borderColour), newColour, duration, easing);
-
-
-        private readonly StopwatchClock _clock = new StopwatchClock();
+            => this.TransformTo(nameof(BorderColour), newColour.AverageColour, duration, easing);
+        
         protected override bool OnHover(HoverEvent e)
         {
             FadeBorder(Color4.White, 100);
+            
             _clock.Stop();
+            
             return true;
         }
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
-            FadeBorder(BindableBorderColour.Default, 100);
+            FadeBorder(_borderColour, 100);
+
             if (_clock.ElapsedMilliseconds > _duration)
                 OnClick(null);
         }
 
         private bool _gotClicked;
+        
         protected override bool OnClick(ClickEvent e)
         {
             if (_gotClicked)
@@ -102,6 +94,7 @@ namespace Qsor.Game.Overlays.Drawables
                 _clickAction?.Invoke();
             
             _gotClicked = true;
+            
             this.FadeOutFromOne(250).Finally(_ =>
             {
                 if (Parent is FillFlowContainer<DrawableNotification> container)

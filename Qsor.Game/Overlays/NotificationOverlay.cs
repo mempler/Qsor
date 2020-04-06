@@ -28,9 +28,9 @@ namespace Qsor.Game.Overlays
                 Direction = FillDirection.Vertical,
                 AutoSizeAxes = Axes.X,
                 RelativeSizeAxes = Axes.Y,
-                Spacing = new Vector2(5),
-                LayoutEasing = Easing.OutBack,
-                LayoutDuration = 500
+                Spacing = new Vector2(6),
+                LayoutEasing = Easing.OutQuint,
+                LayoutDuration = 400
             };
 
             Padding = new MarginPadding(10);
@@ -38,14 +38,10 @@ namespace Qsor.Game.Overlays
             AddInternal(_drawableNotifications);
         }
 
-        public void PushNotification(LocalisedString text, ColourInfo colourInfo, double duration = double.PositiveInfinity, Action clickAction = null)
-        {
-            var notification = new DrawableNotification(text, colourInfo, duration, clickAction);
+        public void AddNotification(LocalisedString text, ColourInfo colourInfo, int duration = -1, Action clickAction = null)
+            => AddNotification(new DrawableNotification(text, colourInfo, duration, clickAction));
 
-            PushNotification(notification);
-        }
-        
-        public void PushNotification(DrawableNotification notification)
+        public void AddNotification(DrawableNotification notification)
         {
             Scheduler.AddOnce(() =>
             {
