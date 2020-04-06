@@ -30,9 +30,10 @@ namespace Qsor.Tests.Visual.Overlays
             {
                 var random = new Random();
                 var randomColour = new Color4((float) random.NextDouble(), (float) random.NextDouble(), (float) random.NextDouble(), 1f);
-                notificationOverlay.PushNotification(
-                    new LocalisedString(lipsumGenerator.GenerateLipsum(4, Features.Sentences,
-                        FormatStrings.Paragraph.LineBreaks)), randomColour, 5000);
+
+                notificationOverlay.AddNotification(
+                    new LocalisedString(lipsumGenerator.GenerateLipsum(4, Features.Sentences, FormatStrings.Paragraph.LineBreaks)),
+                    randomColour, 5000);
             });
         }
     }
