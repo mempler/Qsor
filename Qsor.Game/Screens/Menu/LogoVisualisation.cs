@@ -45,7 +45,7 @@ namespace Qsor.Game.Screens.Menu
         /// <summary>
         /// How much should each bar go down each millisecond (based on a full bar).
         /// </summary>
-        private const float DecayPerMilisecond = 0.0024f;
+        private const float DecayPerMillisecond = 0.0024f;
 
         /// <summary>
         /// Number of milliseconds between each amplitude update.
@@ -126,7 +126,7 @@ namespace Qsor.Game.Screens.Menu
         {
             base.Update();
 
-            var decayFactor = (float)Time.Elapsed * DecayPerMilisecond;
+            var decayFactor = (float)Time.Elapsed * DecayPerMillisecond;
 
             for (var i = 0; i < BarsPerVisualiser; i++)
             {
