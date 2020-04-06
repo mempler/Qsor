@@ -6,7 +6,7 @@ using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Localisation;
 using osuTK;
-using Qsor.Game.Overlays.Drawables;
+using Qsor.Game.Overlays.Notifications;
 
 namespace Qsor.Game.Overlays
 {

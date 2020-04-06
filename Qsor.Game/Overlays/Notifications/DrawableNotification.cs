@@ -1,6 +1,5 @@
 ﻿using System;
 using osu.Framework.Allocation;
-using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
@@ -11,7 +10,7 @@ using osu.Framework.Timing;
 using osuTK;
 using osuTK.Graphics;
 
-namespace Qsor.Game.Overlays.Drawables
+namespace Qsor.Game.Overlays.Notifications
 {
     public class DrawableNotification : CompositeDrawable
     {
