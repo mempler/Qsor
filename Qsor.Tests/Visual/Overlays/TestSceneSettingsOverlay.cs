@@ -17,8 +17,7 @@ namespace Qsor.Tests.Visual.Overlays
             {
                 typeof(SettingsOverlay), typeof(SettingsGeneralCategory),
                 typeof(DrawableSettingsToolBar), typeof(DrawableSettingsIconSprite),
-                typeof(DrawableSettingsMenu), typeof(DrawableSettingsCategory),
-                typeof(DrawableSettingsDropdown)
+                typeof(DrawableSettingsMenu), typeof(DrawableSettingsCategory)
             };
 
         [BackgroundDependencyLoader]
@@ -27,15 +26,9 @@ namespace Qsor.Tests.Visual.Overlays
             var bg = new BackgroundImageContainer();
             Add(bg);
             bg.SetTexture(ts.Get("https://3.bp.blogspot.com/-906HDJiF4Nk/UbAN4_DrK_I/AAAAAAAAAvE/pZQwo-u2RbQ/s1600/Background+images.jpg"));
-            var settingsOverlay = new SettingsOverlay();
-
-            AddSetupStep("Setup Overlay", () =>
-            {
-                if (settingsOverlay != null)
-                    Remove(settingsOverlay);
-                
-                Add(settingsOverlay = new SettingsOverlay());
-            });
+            
+            SettingsOverlay settingsOverlay;
+            Add(settingsOverlay = new SettingsOverlay());
 
             AddStep("Show Overlay", settingsOverlay.Show);
             AddStep("Hide Overlay", settingsOverlay.Hide);

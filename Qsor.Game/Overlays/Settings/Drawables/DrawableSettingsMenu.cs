@@ -13,7 +13,6 @@ namespace Qsor.Game.Overlays.Settings.Drawables
     public class DrawableSettingsMenu : CompositeDrawable
     {
         private readonly BindableList<SettingsCategoryContainer> _categories = new BindableList<SettingsCategoryContainer>();
-        private Box Background;
         private SearchContainer _searchContainer;
         private BasicScrollContainer _scrollContainer;
 
@@ -25,12 +24,13 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         [BackgroundDependencyLoader]
         private void Load()
         {
+            Masking = true;
             RelativeSizeAxes = Axes.Y;
             
             Margin = new MarginPadding{ Left = 48 };
             Width = 400;
             
-            AddInternal(Background = new Box
+            AddInternal(new Box
             {
                 RelativeSizeAxes = Axes.Both,
                 Colour = Color4.Black,
@@ -39,8 +39,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
  
             AddInternal(_scrollContainer = new BasicScrollContainer
             {
-                RelativeSizeAxes = Axes.Y,
-                Width = 400,
+                RelativeSizeAxes = Axes.Both,
                 ScrollbarVisible = true
             });
             
@@ -49,7 +48,8 @@ namespace Qsor.Game.Overlays.Settings.Drawables
                 Anchor = Anchor.TopCentre,
                 Origin = Anchor.TopCentre,
                 TextAnchor = Anchor.TopCentre,
-                RelativeSizeAxes = Axes.X,
+                //RelativeSizeAxes = Axes.X,
+                Width = 400,
                 AutoSizeAxes = Axes.Y,
                 
                 Margin = new MarginPadding{ Top = 50 }

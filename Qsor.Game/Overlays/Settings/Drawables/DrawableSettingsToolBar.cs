@@ -16,19 +16,21 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         private BasicScrollContainer _scrollContainer;
         private SearchContainer<DrawableSettingsIconSprite> _iconFlowContainer;
 
-        private Bindable<DrawableSettingsIconSprite> SelectedSprite = new Bindable<DrawableSettingsIconSprite>();
-
+        private readonly Bindable<SettingsCategoryContainer> _selectedCategory = new Bindable<SettingsCategoryContainer>();
+        
         public DrawableSettingsToolBar(BindableList<SettingsCategoryContainer> categories)
         {
             _categories.BindTo(categories);
         }
         
         [BackgroundDependencyLoader]
-        private void Load()
+        private void Load(SettingsOverlay settingsOverlay)
         {
+            _selectedCategory.BindTo(settingsOverlay.SelectedCategory);
+            
             RelativeSizeAxes = Axes.Y;
             Width = 48;
-            
+
             AddInternal(new Box
             {
                 RelativeSizeAxes = Axes.Both,
@@ -82,10 +84,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             if (sprite == null)
                 return;
 
-            
-            //_selector.FadeInFromZero(250);
-            //Select(sprite);
-            //_selector.Position = sprite.Position;
+            _selectedCategory.Value = sprite.Category;
         }
     }
 }

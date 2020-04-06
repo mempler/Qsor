@@ -1,4 +1,5 @@
-﻿using osu.Framework.Graphics.Sprites;
+﻿using osu.Framework.Allocation;
+using osu.Framework.Graphics.Sprites;
 
 namespace Qsor.Game.Overlays.Settings.Categories
 {
@@ -6,5 +7,11 @@ namespace Qsor.Game.Overlays.Settings.Categories
     {
         public override string Name => "General";
         public override IconUsage Icon => FontAwesome.Solid.Cog;
+        
+        [BackgroundDependencyLoader]
+        private void Load()
+        {
+
+        }
     }
 }

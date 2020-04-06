@@ -15,7 +15,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         [Resolved]
         private DrawableSettingsToolBar ToolBar { get; set; }
 
-        private readonly Bindable<SettingsCategoryContainer> SelectedCategory = new Bindable<SettingsCategoryContainer>();
+        private readonly Bindable<SettingsCategoryContainer> _selectedCategory = new Bindable<SettingsCategoryContainer>();
 
         private readonly SpriteIcon _icon = new SpriteIcon();
         private Box _selector;
@@ -37,7 +37,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         [BackgroundDependencyLoader]
         private void Load(SettingsOverlay settingsOverlay)
         {
-            SelectedCategory.BindTo(settingsOverlay.SelectedCategory);
+            _selectedCategory.BindTo(settingsOverlay.SelectedCategory);
             CornerRadius = 0;
 
             Width = 48;
@@ -61,7 +61,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
                 Alpha = 0,
             });
 
-            SelectedCategory.ValueChanged += e =>
+            _selectedCategory.ValueChanged += e =>
             {
                 _icon.FadeColour(e.NewValue == Category ? Color4.White : Color4.Gray, 100);
                 _selector.FadeTo(e.NewValue == Category ? 1f : 0f, 250);
@@ -70,7 +70,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         
         protected override bool OnHover(HoverEvent e)
         {
-            if (SelectedCategory.Value == Category)
+            if (_selectedCategory.Value == Category)
                 return false;
             
             _icon.FadeColour(Color4.White, 100);
@@ -79,13 +79,13 @@ namespace Qsor.Game.Overlays.Settings.Drawables
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
-            if (SelectedCategory.Value != Category)
+            if (_selectedCategory.Value != Category)
                 _icon.FadeColour(Color4.Gray, 100);
         }
 
         protected override bool OnClick(ClickEvent e)
         {
-            SelectedCategory.Value = Category;
+            _selectedCategory.Value = Category;
             return true;
         }
     }

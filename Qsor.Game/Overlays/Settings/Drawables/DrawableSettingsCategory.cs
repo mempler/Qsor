@@ -10,7 +10,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
     {
         private SpriteText _text;
 
-        private SettingsCategoryContainer _categoryContainer;
+        private readonly SettingsCategoryContainer _categoryContainer;
 
         public DrawableSettingsCategory(SettingsCategoryContainer category)
         {

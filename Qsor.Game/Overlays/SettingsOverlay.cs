@@ -43,12 +43,14 @@ namespace Qsor.Game.Overlays
 
         public override void Show()
         {
-            this.FadeInFromZero(1000, Easing.In);
+            this.FadeInFromZero(200);
+            _menu.ResizeWidthTo(400, 400, Easing.InOutCubic);
         }
 
         public override void Hide()
         {
-            this.FadeOutFromOne(1000, Easing.Out);
+            this.FadeOutFromOne(800);
+            _menu.ResizeWidthTo(0, 1000, Easing.InOutCubic);
         }
     }
 }
