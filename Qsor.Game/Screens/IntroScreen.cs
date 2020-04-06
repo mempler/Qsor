@@ -27,16 +27,18 @@ namespace Qsor.Game.Screens
             var warningIcon = _textFlowContainer.AddPlaceholder(new SpriteIcon
             {
                 Icon = FontAwesome.Solid.ExclamationTriangle,
-                
                 Size = new Vector2(48),
-                
                 Colour = Color4.Yellow,
             });
 
-            _textFlowContainer.AddText($"[{warningIcon}]\n");
-            _textFlowContainer.AddText("Warning!\n", text => { text.Colour = Color4.Yellow; text.Font = new FontUsage(size: 32, weight: "Bold");});
-            _textFlowContainer.AddText("This game is currently in really early alpha! Bugs to be expected.\n");
-            _textFlowContainer.AddText("Please consider reporting them all, no matter how small they are.\n");
+            _textFlowContainer.AddParagraph($"[{warningIcon}]");
+            _textFlowContainer.AddParagraph("Warning!", text =>
+            {
+                text.Colour = Color4.Yellow;
+                text.Font = new FontUsage(size: 32, weight: "Bold");
+            });
+            _textFlowContainer.AddParagraph("This game is currently in really early alpha! Bugs to be expected.");
+            _textFlowContainer.AddParagraph("Please consider reporting them all, no matter how small they are.");
             
             AddInternal(_textFlowContainer);
         }

@@ -44,16 +44,16 @@ namespace Qsor.Game.Overlays
 
             PushNotification(notification);
         }
+        
         public void PushNotification(DrawableNotification notification)
         {
             Scheduler.AddOnce(() =>
             {
                 notification.Anchor = Anchor.BottomRight;
                 notification.Origin = Anchor.BottomRight;
-
                 notification.Alpha = 0;
-                _drawableNotifications.Add(notification);
                 
+                _drawableNotifications.Add(notification);
                 _drawableNotifications.SetLayoutPosition(notification, -_drawableNotifications.FlowingChildren.Count());
             
                 notification.FadeInFromZero(200);
