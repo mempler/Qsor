@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Qsor</id>
+        <version>0.0.0</version>
+        <title>Qsor</title>
+        <authors>Akatsuki</authors>
+        <owners>Robin A. P.</owners>
+        <projectUrl>https://akatsuki.pw</projectUrl>
+        <copyright>Copyright (c) 2020 Akatsuki</copyright>
+        <description>Next generation Akatsuki client</description>
+    </metadata>
+    <files>
+        <file src="**.exe" target="lib\net45\" exclude="**vshost**"/>
+        <file src="**.dll" target="lib\net45\"/>
+        <file src="**.config" target="lib\net45\"/>
+    </files>
+</package>

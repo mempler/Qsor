@@ -20,6 +20,9 @@ namespace Qsor.Game
         protected QsorConfigManager ConfigManager;
         
         protected NotificationOverlay NotificationOverlay;
+        protected UpdaterOverlay UpdaterOverlay;
+        
+        public Updater.Updater Updater;
         
         private DependencyContainer _dependencies;
 
@@ -40,7 +43,7 @@ namespace Qsor.Game
             _dependencies.Cache(NotificationOverlay = new NotificationOverlay());
             
             _dependencies.CacheAs(this);
-
+            
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             
             QsorDbContextFactory.Get().Migrate();
@@ -48,6 +51,16 @@ namespace Qsor.Game
             AddInternal(BeatmapManager);
             AddInternal(NotificationOverlay);
 
+            if (Updater != null)
+            {
+                UpdaterOverlay = new UpdaterOverlay();
+                
+                _dependencies.Cache(UpdaterOverlay);
+                _dependencies.CacheAs(Updater);
+                
+                LoadComponent(Updater);
+            }
+            
             ConfigManager.Save();
         }
 
