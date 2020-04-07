@@ -11,6 +11,7 @@ namespace Qsor.Game
 {
     public class QsorBaseGame : osu.Framework.Game
     {
+        protected readonly string[] Args;
         protected BeatmapManager BeatmapManager;
         protected UserManager UserManager;
         
@@ -21,7 +22,7 @@ namespace Qsor.Game
         
         protected NotificationOverlay NotificationOverlay;
         protected UpdaterOverlay UpdaterOverlay;
-        
+
         public Updater.Updater Updater;
         
         private DependencyContainer _dependencies;
@@ -29,6 +30,11 @@ namespace Qsor.Game
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
             _dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
+        public QsorBaseGame(string[] args)
+        {
+            Args = args;
+        }
+        
         [BackgroundDependencyLoader]
         private void Load(Storage storage)
         {
@@ -41,8 +47,9 @@ namespace Qsor.Game
             _dependencies.Cache(ConfigManager = new QsorConfigManager(storage));
             
             _dependencies.Cache(NotificationOverlay = new NotificationOverlay());
-            
+
             _dependencies.CacheAs(this);
+            _dependencies.CacheAs(Host);
             
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             

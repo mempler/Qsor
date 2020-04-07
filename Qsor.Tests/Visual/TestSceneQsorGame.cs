@@ -13,7 +13,7 @@ namespace Qsor.Tests.Visual
         [BackgroundDependencyLoader]
         private void Load(GameHost host)
         {
-            var game = new QsorGame();
+            var game = new QsorGame(new []{ string.Empty });
             game.SetHost(host);
 
             Children = new Drawable[]

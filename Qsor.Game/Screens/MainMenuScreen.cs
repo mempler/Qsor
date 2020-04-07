@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;
@@ -39,6 +40,9 @@ namespace Qsor.Game.Screens
         
         [Resolved]
         private Updater.Updater Updater { get; set; }
+
+        [Resolved] 
+        private GameHost Host { get; set; }
         
         [BackgroundDependencyLoader]
         private void Load(UpdaterOverlay updaterOverlay, AudioManager audioManager, QsorDbContextFactory ctxFactory, BeatmapManager beatmapManager)
@@ -122,7 +126,14 @@ namespace Qsor.Game.Screens
                         "You can play different beatmaps by editing \"game.ini\" config file. " +
                         "To open the Qsor configuration directory, click this notification!"),
                     Color4.Orange, 10000, Storage.OpenInNativeExplorer);
+
+                var version = Assembly.GetEntryAssembly()?.GetName().Version;
                 
+                NotificationOverlay.AddNotification(new LocalisedString(
+                        $"You're currently running {version}. " +
+                        "Click here to view the changelog!"),
+                    Color4.Gray, 10000, () => Host.OpenUrlExternally($"https://github.com/osuAkatsuki/Qsor/releases/tag/{version}"));
+
                 if (!DebugUtils.IsDebugBuild)
                     Updater.CheckAvailable();
             });

@@ -14,5 +14,9 @@ namespace Qsor.Tests
 
             Add(new TestBrowser("Qsor.Tests"));
         }
+
+        public QsorTestGame(string[] args) : base(args)
+        {
+        }
     }
 }

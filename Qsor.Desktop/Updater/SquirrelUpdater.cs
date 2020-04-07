@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Threading;
 using Newtonsoft.Json;
 using osu.Framework.Allocation;
@@ -15,6 +18,9 @@ namespace Qsor.Desktop.Updater
     {
         [Resolved]
         private Storage Storage { get; set; }
+        
+        [Resolved]
+        private GameHost Host { get; set; }
 
         private UpdateManager _updateManager;
         
@@ -43,6 +49,21 @@ namespace Qsor.Desktop.Updater
         private bool _hasStarted;
         public override async void UpdateGame()
         {
+            if (BindableStatus.Value == UpdaterStatus.Ready)
+            {
+                var entry = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
+                if (entry == null)
+                    throw new NullReferenceException();
+                
+                var path = Path.Join(entry, "../");
+                
+                Console.WriteLine(path);
+
+                Process.Start(Path.Join(path, "./Qsor.exe"), "--updated");
+
+                Host.Exit();
+            }
+                        
             if (_hasStarted)
                 return;
             
@@ -51,6 +72,8 @@ namespace Qsor.Desktop.Updater
             _hasStarted = true;
             
             await _updateManager.UpdateApp(progress => BindableProgress.Value = progress);
+
+            BindableStatus.Value = UpdaterStatus.Ready;
         }
         
         public class GitHubRelease
