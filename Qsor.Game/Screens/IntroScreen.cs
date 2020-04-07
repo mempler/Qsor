@@ -10,6 +10,7 @@ namespace Qsor.Game.Screens
 {
     public class IntroScreen : Screen
     {
+        private SpriteIcon _spriteIcon;
         private CustomizableTextContainer _textFlowContainer;
         
         [BackgroundDependencyLoader]
@@ -24,7 +25,7 @@ namespace Qsor.Game.Screens
                 TextAnchor = Anchor.Centre,
             };
             
-            var warningIcon = _textFlowContainer.AddPlaceholder(new SpriteIcon
+            var warningIcon = _textFlowContainer.AddPlaceholder(_spriteIcon = new SpriteIcon
             {
                 Icon = FontAwesome.Solid.ExclamationTriangle,
                 Size = new Vector2(48),
@@ -47,8 +48,8 @@ namespace Qsor.Game.Screens
         {
             for (var i = 0; i < _textFlowContainer.Count; i++)
                 _textFlowContainer[i].FadeInFromZero(250 + 100 * i);
-            
-            Scheduler.AddDelayed(() => _textFlowContainer[0].FlashColour(Color4.White, 1000), 1000, true);
+
+            Scheduler.AddDelayed(() => _spriteIcon.FlashColour(Color4.White, 1000), 1000, true);
             
             base.OnEntering(last);
         }
