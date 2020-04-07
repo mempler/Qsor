@@ -6,6 +6,7 @@ using Qsor.Game.Configuration;
 using Qsor.Game.Database;
 using Qsor.Game.Online;
 using Qsor.Game.Overlays;
+using Qsor.Game.Updater;
 
 namespace Qsor.Game
 {
@@ -58,15 +59,15 @@ namespace Qsor.Game
             AddInternal(BeatmapManager);
             AddInternal(NotificationOverlay);
 
-            if (Updater != null)
-            {
-                UpdaterOverlay = new UpdaterOverlay();
+            if (Updater == null)
+                Updater = new DummyUpdater();
+            
+            UpdaterOverlay = new UpdaterOverlay();
                 
-                _dependencies.Cache(UpdaterOverlay);
-                _dependencies.CacheAs(Updater);
+            _dependencies.Cache(UpdaterOverlay);
+            _dependencies.CacheAs(Updater);
                 
-                LoadComponent(Updater);
-            }
+            LoadComponent(Updater);
             
             ConfigManager.Save();
         }

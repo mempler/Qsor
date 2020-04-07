@@ -5,7 +5,6 @@ using osu.Framework.Allocation;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
 using Qsor.Game.Screens;
-using Qsor.Game.Screens.Menu;
 
 namespace Qsor.Tests.Visual.Scenes
 {

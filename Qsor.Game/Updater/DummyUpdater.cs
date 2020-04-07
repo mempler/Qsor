@@ -1,10 +1,9 @@
 ﻿using osu.Framework.Allocation;
-using Qsor.Game.Updater;
 
-namespace Qsor.Desktop.Updater
+namespace Qsor.Game.Updater
 {
    [Cached]
-   public class DummyUpdater : Game.Updater.Updater
+   public class DummyUpdater : Updater
    {
       public override void CheckAvailable()
       {

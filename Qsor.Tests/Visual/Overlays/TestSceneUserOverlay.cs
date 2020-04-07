@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using osu.Framework.Allocation;
 using osu.Framework.Testing;
-using osuTK;
 using Qsor.Game.Online.Users;
 using Qsor.Game.Online.Users.Drawables;
 using Qsor.Game.Overlays;

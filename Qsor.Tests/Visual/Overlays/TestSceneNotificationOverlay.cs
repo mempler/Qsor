@@ -6,7 +6,6 @@ using osu.Framework.Localisation;
 using osu.Framework.Testing;
 using osuTK.Graphics;
 using Qsor.Game.Overlays;
-using Qsor.Game.Overlays.Drawables;
 using Qsor.Game.Overlays.Notifications;
 
 namespace Qsor.Tests.Visual.Overlays

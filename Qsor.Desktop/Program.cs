@@ -13,9 +13,7 @@ namespace Qsor.Desktop
             using var host = Host.GetSuitableHost("Qsor");
             using var game = new QsorGame(args)
             {
-                Updater = DebugUtils.IsDebugBuild
-                    ? (Game.Updater.Updater) new DummyUpdater()
-                    : (Game.Updater.Updater) new SquirrelUpdater()
+                Updater = !DebugUtils.IsDebugBuild ? new SquirrelUpdater() : null
             };
             
             host.Run(game);
