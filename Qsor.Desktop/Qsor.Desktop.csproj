@@ -1,12 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <AssemblyName>Qsor</AssemblyName>
         <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Qsor.Game\Qsor.Game.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ppy.squirrel.windows" Version="1.9.0.4" />
     </ItemGroup>
 
 </Project>

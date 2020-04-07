@@ -353,3 +353,7 @@ MigrationBackup/
 .ionide/
 
 .idea/
+
+releases/
+
+staging/

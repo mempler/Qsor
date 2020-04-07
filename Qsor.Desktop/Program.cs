@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using osu.Framework;
+using Qsor.Desktop.Updater;
 using Qsor.Game;
 
 namespace Qsor.Desktop
@@ -9,7 +10,8 @@ namespace Qsor.Desktop
         public static async Task Main()
         {
             using var host = Host.GetSuitableHost("Qsor");
-            using var game = new QsorGame();
+            using var updater = new SquirrelUpdater();
+            using var game = new QsorGame { Updater = updater};
             
             host.Run(game);
         }

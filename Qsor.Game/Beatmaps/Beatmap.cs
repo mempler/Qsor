@@ -208,8 +208,6 @@ namespace Qsor.Game.Beatmaps
                             
                             timingPoint.Velocity = Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier / 600f;
                             
-                            Console.WriteLine(timingPoint.Velocity);
-
                             TimingPoints.Add(timingPoint);
                         }
                         break;

@@ -17,17 +17,18 @@ using Qsor.Game.Database;
 using Qsor.Game.Gameplay.osu.Screens;
 using Qsor.Game.Graphics.Containers;
 using Qsor.Game.Overlays;
+using Qsor.Game.Screens.Menu;
 
-namespace Qsor.Game.Screens.Menu
+namespace Qsor.Game.Screens
 {
     public class MainMenuScreen : Screen
     {
         private BackgroundImageContainer _background;
         private QsorLogo _qsorLogo;
-        private Toolbar Toolbar;
-        private BottomBar bottomBar;
+        private Toolbar _toolbar;
+        private BottomBar _bottomBar;
         
-        private Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
+        private Bindable<WorkingBeatmap> _workingBeatmap = new Bindable<WorkingBeatmap>();
         
         [Resolved]
         private NotificationOverlay NotificationOverlay { get; set; }
@@ -35,8 +36,11 @@ namespace Qsor.Game.Screens.Menu
         [Resolved]
         private Storage Storage { get; set; }
         
+        [Resolved]
+        private Updater.Updater Updater { get; set; }
+        
         [BackgroundDependencyLoader]
-        private void Load(AudioManager audioManager, QsorDbContextFactory ctxFactory, BeatmapManager beatmapManager)
+        private void Load(UpdaterOverlay updaterOverlay, AudioManager audioManager, QsorDbContextFactory ctxFactory, BeatmapManager beatmapManager)
         {
             var parallaxBack = new ParallaxContainer
             {
@@ -58,11 +62,11 @@ namespace Qsor.Game.Screens.Menu
             var beatmapStorage = Storage.GetStorageForDirectory(beatmapModel?.Path);
             beatmapManager.LoadBeatmap(beatmapStorage, beatmapModel?.File);
             LoadComponent(beatmapManager.WorkingBeatmap.Value);
-            WorkingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
+            _workingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
             
-            _background.SetTexture(WorkingBeatmap.Value.Background);
+            _background.SetTexture(_workingBeatmap.Value.Background);
             
-            audioManager.AddItem(WorkingBeatmap.Value.Track);
+            audioManager.AddItem(_workingBeatmap.Value.Track);
             
             
             
@@ -88,21 +92,23 @@ namespace Qsor.Game.Screens.Menu
 
             
             
-            AddInternal(Toolbar = new Toolbar());
+            AddInternal(_toolbar = new Toolbar());
             
-            AddInternal(bottomBar = new BottomBar());
+            AddInternal(_bottomBar = new BottomBar());
+            
+            AddInternal(updaterOverlay);
         }
         
         protected override void LoadComplete()
         {
-            WorkingBeatmap.Value.Play();
+            _workingBeatmap.Value.Play();
             
             base.LoadComplete();
         }
         
         public override void OnEntering(IScreen last)
         {
-            clock.Start();
+            _clock.Start();
             
             this.FadeInFromZero(2500, Easing.InExpo).Finally(e =>
             {
@@ -115,6 +121,8 @@ namespace Qsor.Game.Screens.Menu
                         "You can play different beatmaps by editing \"game.ini\" config file. " +
                         "To open the Qsor configuration directory, click this notification!"),
                     Color4.Orange, 10000, Storage.OpenInNativeExplorer);
+                
+                Updater.CheckAvailable();
             });
         }
 
@@ -124,30 +132,30 @@ namespace Qsor.Game.Screens.Menu
             return true;
         }
 
-        private StopwatchClock clock = new StopwatchClock();
+        private StopwatchClock _clock = new StopwatchClock();
         public bool IsFading;
         
         protected override void Update()
         {
-            if (IsFading || clock.ElapsedMilliseconds <= 5000)
+            if (IsFading || _clock.ElapsedMilliseconds <= 5000)
                 return;
             
-            Toolbar.FadeOut(13000);
-            bottomBar.FadeOut(13000);
+            _toolbar.FadeOut(13000);
+            _bottomBar.FadeOut(13000);
             
             IsFading = true;
         }
 
         protected override bool OnMouseMove(MouseMoveEvent e)
         {
-            Toolbar.ClearTransforms();
-            bottomBar.ClearTransforms();
+            _toolbar.ClearTransforms();
+            _bottomBar.ClearTransforms();
             
-            Toolbar.FadeIn(250);
-            bottomBar.FadeIn(250);
+            _toolbar.FadeIn(250);
+            _bottomBar.FadeIn(250);
             
             IsFading = false;
-            clock.Restart();
+            _clock.Restart();
             return true;
         }
 
