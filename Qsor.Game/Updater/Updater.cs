@@ -44,7 +44,7 @@ namespace Qsor.Game.Updater
             };
 
             BindableProgress.ValueChanged += e =>
-                UpdaterOverlay.Text = new LocalisedString($"Updating Qsor... {e.NewValue:P}");
+                UpdaterOverlay.Text = new LocalisedString($"Updating Qsor... {e.NewValue}%");
         }
     }
 }

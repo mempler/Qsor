@@ -48,9 +48,9 @@ namespace Qsor.Desktop.Updater
             
             BindableStatus.Value = UpdaterStatus.Downloading;
 
-            await _updateManager.UpdateApp(progress => BindableProgress.Value = progress);
-
             _hasStarted = true;
+            
+            await _updateManager.UpdateApp(progress => BindableProgress.Value = progress);
         }
         
         public class GitHubRelease

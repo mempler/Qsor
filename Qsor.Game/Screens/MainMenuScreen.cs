@@ -3,6 +3,7 @@ using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;
+using osu.Framework.Development;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
@@ -122,7 +123,8 @@ namespace Qsor.Game.Screens
                         "To open the Qsor configuration directory, click this notification!"),
                     Color4.Orange, 10000, Storage.OpenInNativeExplorer);
                 
-                Updater.CheckAvailable();
+                if (!DebugUtils.IsDebugBuild)
+                    Updater.CheckAvailable();
             });
         }
 
