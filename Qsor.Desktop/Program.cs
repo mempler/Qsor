@@ -11,7 +11,7 @@ namespace Qsor.Desktop
         {
             using var host = Host.GetSuitableHost("Qsor");
             using var updater = new SquirrelUpdater();
-            using var game = new QsorGame { Updater = updater};
+            using var game = new QsorGame { Updater = updater };
             
             host.Run(game);
         }
