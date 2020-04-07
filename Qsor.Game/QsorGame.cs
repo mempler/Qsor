@@ -1,11 +1,12 @@
-﻿using osu.Framework.Allocation;
+﻿using System.Linq;
+using osu.Framework.Allocation;
 using osu.Framework.Development;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
+using osu.Framework.Platform;
 using osu.Framework.Screens;
 using osuTK.Input;
 using Qsor.Game.Screens;
-using Qsor.Game.Screens.Menu;
 
 namespace Qsor.Game
 {
@@ -67,6 +68,10 @@ namespace Qsor.Game
                 default:
                     return false;
             }
+        }
+
+        public QsorGame(string[] args) : base(args)
+        {
         }
     }
 }
