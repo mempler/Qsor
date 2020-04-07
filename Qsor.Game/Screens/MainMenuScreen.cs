@@ -127,11 +127,11 @@ namespace Qsor.Game.Screens
                         "To open the Qsor configuration directory, click this notification!"),
                     Color4.Orange, 10000, Storage.OpenInNativeExplorer);
 
-                var version = Assembly.GetEntryAssembly()?.GetName().Version;
+                var version = Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3);
                 
                 NotificationOverlay.AddNotification(new LocalisedString(
-                        $"You're currently running {version}. " +
-                        "Click here to view the changelog!"),
+                        $"You're currently running {version}! " +
+                        "Click here to view the changelog."),
                     Color4.Gray, 10000, () => Host.OpenUrlExternally($"https://github.com/osuAkatsuki/Qsor/releases/tag/{version}"));
 
                 if (!DebugUtils.IsDebugBuild)
