@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using osu.Framework;
 using osu.Framework.Development;
 using Qsor.Desktop.Updater;

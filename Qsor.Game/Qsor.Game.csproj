@@ -13,6 +13,7 @@
       <PackageReference Include="ppy.osu.Framework" Version="2020.407.1" />
       <PackageReference Include="Sentry" Version="2.1.1" />
       <PackageReference Include="SharpZipLib" Version="1.2.0" />
+      <PackageReference Include="Qsor.NativeLibs" Version="1.0.0" />
     </ItemGroup>
     
     <ItemGroup>
@@ -27,6 +28,8 @@
     
     <ItemGroup>
       <Folder Include="Database\Migrations" />
+      <Folder Include="Discord\GameSDK" />
+      <Folder Include="Discord\x86_64" />
     </ItemGroup>
-
+    
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using osu.Framework.Allocation;
+using osu.Framework.Development;
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
 using Qsor.Game.Beatmaps;
@@ -27,12 +28,14 @@ namespace Qsor.Game
         protected NotificationOverlay NotificationOverlay;
         protected UpdaterOverlay UpdaterOverlay;
         protected SentryLogger SentryLogger;
-
+        
         public Updater.Updater Updater;
         
         private DependencyContainer _dependencies;
 
-        public string Version => Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? string.Empty;
+        public static string Version => !DebugUtils.IsDebugBuild
+            ? Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3)
+            : DateTime.Now.ToString("yyyy.Mdd.0") + (DebugUtils.IsDebugBuild ? " Debug Build" : string.Empty);
 
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
             _dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
@@ -45,7 +48,7 @@ namespace Qsor.Game
         [BackgroundDependencyLoader]
         private void Load(Storage storage)
         {
-            _dependencies.CacheAs(BeatmapManager = new BeatmapManager());
+            _dependencies.Cache(BeatmapManager = new BeatmapManager());
             _dependencies.Cache(UserManager = new UserManager());
             
             _dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
@@ -54,8 +57,9 @@ namespace Qsor.Game
             _dependencies.Cache(ConfigManager = new QsorConfigManager(storage));
             
             _dependencies.Cache(NotificationOverlay = new NotificationOverlay());
-            _dependencies.Cache(SentryLogger = new SentryLogger(this));
             
+            _dependencies.Cache(SentryLogger = new SentryLogger(this));
+
             _dependencies.CacheAs(this);
             _dependencies.CacheAs(Host);
             
@@ -66,8 +70,7 @@ namespace Qsor.Game
             AddInternal(BeatmapManager);
             AddInternal(NotificationOverlay);
 
-            if (Updater == null)
-                Updater = new DummyUpdater();
+            Updater ??= new DummyUpdater();
             
             UpdaterOverlay = new UpdaterOverlay();
                 

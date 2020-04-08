@@ -17,7 +17,7 @@ namespace Qsor.Game.Utils
             var sentryOptions = new SentryOptions
             {
                 Dsn = new Dsn("https://ddefbeb05e074f9c993bf1a72eb2a602@o169266.ingest.sentry.io/5193034"),
-                Release = game.Version
+                Release = QsorBaseGame.Version
             };
             
             _sentry = new SentryClient(sentryOptions);

@@ -18,7 +18,7 @@ namespace Qsor.Game.Gameplay.osu.Screens
         
         [Resolved]
         private Storage Storage { get; set; }
-
+        
         private BeatmapContainer _beatmapContainer;
 
         [BackgroundDependencyLoader]
@@ -33,13 +33,21 @@ namespace Qsor.Game.Gameplay.osu.Screens
         protected override void LoadComplete()
         {
             _beatmapContainer.PlayBeatmap();
+            _beatmapContainer.WorkingBeatmap.Value.Track.Completed += () => ((QsorGame) Game).ExitScreen();
             
             base.LoadComplete();
         }
         
         public override void OnEntering(IScreen last)
         {
-            this.FadeInFromZero(2000, Easing.InQuad);
+            this.FadeInFromZero(1000, Easing.InQuad);
+        }
+
+        public override bool OnExiting(IScreen next)
+        {
+            this.FadeOutFromOne(1000, Easing.OutQuad);
+
+            return true;
         }
     }
 }
