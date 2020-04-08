@@ -19,7 +19,7 @@ you'll need Prior knowledge in C\# and .NET Core 3 and osu!Framework if you want
 * [Dotnet Core 3.1](https://dotnet.microsoft.com)
 
 ## Setup Qsor
-If you're a not a developer, you can simple go over to the [releases here](https://github.com/osuAkatsuki/Qsor/releases) and get the latest release.
+If you're a not a developer, you can simply go over to the [releases here](https://github.com/osuAkatsuki/Qsor/releases) and get the latest release.
 
 but if you're one, there you go: 
 ```text
