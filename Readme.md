@@ -12,11 +12,11 @@ Next generation Akatsuki client.
 
 #### Knowledge
 
-you'll need Prior knowledge in C\# and .NET Core 3 and osu!Framework if you want to Develope on Qsor!
+you'll need prior knowledge in C\# and .NET Core 3 and osu!Framework if you want to develope on Qsor!
 
 #### Dependencies
 
-* [Dotnet Core 3.1](https://dotnet.microsoft.com)
+* [.Net Core 3.1](https://dotnet.microsoft.com)
 
 ## Setup Qsor
 If you're a not a developer, you can simply go over to the [releases here](https://github.com/osuAkatsuki/Qsor/releases) and get the latest release.
