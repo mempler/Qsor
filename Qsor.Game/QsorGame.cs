@@ -21,7 +21,7 @@ namespace Qsor.Game
         {
             Audio.Frequency.Set(1);
             Audio.Volume.Set(.05);
-            
+
             _stack = new ScreenStack(false);
             Add(_stack);
             
@@ -30,6 +30,8 @@ namespace Qsor.Game
             // Discord Game SDK is not thread safe, it must run on the Update Thread
             Scheduler.Add(() =>
             {
+                Scheduler.AddDelayed(() => DiscordGameSdk?.RunCallbacks(), 0, true);
+                
                 DiscordGameSdk = new Discord.Discord(694816216442863667, 0);
                 
                 DiscordGameSdk
@@ -100,11 +102,6 @@ namespace Qsor.Game
 
         public QsorGame(string[] args) : base(args)
         {
-        }
-
-        protected override void UpdateAfterChildren()
-        {
-            DiscordGameSdk?.RunCallbacks();
         }
     }
 }
