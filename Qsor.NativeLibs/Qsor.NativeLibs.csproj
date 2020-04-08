@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Nuget">
+        <IsPackable>true</IsPackable>
+        <Title>Qsor Native Libraries</Title>
+        <Description>Native libraries for Qsor</Description>
+        <PackageId>Qsor.NativeLibs</PackageId>
+        <PackageTags>qsor libraries</PackageTags>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <None Include="runtimes\**\*">
+            <Pack>true</Pack>
+            <PackagePath>runtimes</PackagePath>
+        </None>
+        
+        <None Include="_._">
+            <!-- https://docs.microsoft.com/en-us/nuget/reference/errors-and-warnings/nu5128#scenario-2 . -->
+            <Pack>true</Pack>
+            <PackagePath>lib\$(TargetFramework)</PackagePath>
+        </None>
+    </ItemGroup>
+</Project>

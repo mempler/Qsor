@@ -28,9 +28,8 @@ namespace Qsor.Deploy
                 Directory.CreateDirectory("releases");
 
             var stagingDirectory = currentDirectory.GetStorageForDirectory("staging");
-            var currentDate = DateTime.Now.ToString("yyyy.MMdd.");
+            var currentDate = DateTime.Now.ToString("yyyy.Mdd.");
             
-            currentDate = currentDate.Replace(".0", ".");
             currentDate += currentDirectory.GetDirectories("releases").Count(s => s.Contains(currentDate));
 
             var releaseDirectory = currentDirectory.GetStorageForDirectory($"./releases/App-{currentDate}");
@@ -84,7 +83,7 @@ namespace Qsor.Deploy
                 if (Path.GetFileName(a).StartsWith('.'))
                     continue;
 
-                Console.WriteLine("- Pushing asset {a}...");
+                Console.WriteLine($"- Pushing asset {a}...");
                 var upload = new WebRequest(assetUploadUrl, Path.GetFileName(a))
                 {
                     Method = HttpMethod.Post,

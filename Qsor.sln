@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qsor.Desktop", "Qsor.Deskto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qsor.Deploy", "Qsor.Deploy\Qsor.Deploy.csproj", "{2D2B2A6E-B641-46E5-97EE-02B9172C9494}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qsor.NativeLibs", "Qsor.NativeLibs\Qsor.NativeLibs.csproj", "{BB29328A-2A1A-440A-8B50-AA0C7E2E2BC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{2D2B2A6E-B641-46E5-97EE-02B9172C9494}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D2B2A6E-B641-46E5-97EE-02B9172C9494}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D2B2A6E-B641-46E5-97EE-02B9172C9494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB29328A-2A1A-440A-8B50-AA0C7E2E2BC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB29328A-2A1A-440A-8B50-AA0C7E2E2BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB29328A-2A1A-440A-8B50-AA0C7E2E2BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB29328A-2A1A-440A-8B50-AA0C7E2E2BC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
