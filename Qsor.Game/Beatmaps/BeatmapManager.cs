@@ -40,7 +40,6 @@ namespace Qsor.Game.Beatmaps
             WorkingBeatmap.ValueChanged += e =>
             {
                 e.OldValue?.Track.Stop();
-                e.OldValue?.Dispose();
             };
         }
         

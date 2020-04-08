@@ -16,7 +16,6 @@ using osuTK;
 using osuTK.Graphics;
 using Qsor.Game.Beatmaps;
 using Qsor.Game.Database;
-using Qsor.Game.Gameplay.osu.Screens;
 using Qsor.Game.Graphics.Containers;
 using Qsor.Game.Overlays;
 using Qsor.Game.Screens.Menu;
@@ -66,7 +65,7 @@ namespace Qsor.Game.Screens
             var beatmapModel = db.Beatmaps.ToList().OrderBy(r => Guid.NewGuid()).FirstOrDefault();
             var beatmapStorage = Storage.GetStorageForDirectory(beatmapModel?.Path);
             beatmapManager.LoadBeatmap(beatmapStorage, beatmapModel?.File);
-            LoadComponent(beatmapManager.WorkingBeatmap.Value);
+            //LoadComponent(beatmapManager.WorkingBeatmap.Value);
             _workingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
             
             _background.SetTexture(_workingBeatmap.Value.Background);
@@ -172,6 +171,7 @@ namespace Qsor.Game.Screens
 
         protected override bool OnClick(ClickEvent e)
         {
+            /*
             if (_qsorLogo.IsHovered)
                 ((QsorGame) Game).PushScreen(new OsuScreen
                 {
@@ -180,6 +180,7 @@ namespace Qsor.Game.Screens
                     Origin = Anchor.Centre,
                     FillMode = FillMode.Fill,
                 });
+            */
             
             return base.OnClick(e);
         }

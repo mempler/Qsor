@@ -4,7 +4,8 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
-using Qsor.Game.Gameplay.osu.Containers;
+using Qsor.Game.Gameplay;
+using Qsor.Game.Gameplay.Containers;
 using Qsor.Game.Graphics.Containers;
 
 namespace Qsor.Game.Beatmaps
@@ -25,14 +26,14 @@ namespace Qsor.Game.Beatmaps
         }
         
         [BackgroundDependencyLoader]
-        private void Load(TextureStore store)
+        private void Load(RulesetManager rulesetManager, TextureStore store)
         {
             RelativeSizeAxes = Axes.Both;
             Anchor = Anchor.Centre;
             Origin = Anchor.Centre;
             FillMode = FillMode.Fill;
             
-            LoadComponent(WorkingBeatmap.Value);
+            //LoadComponent(WorkingBeatmap.Value);
 
             AddInternal(_background = new BackgroundImageContainer
             {
@@ -45,10 +46,11 @@ namespace Qsor.Game.Beatmaps
             _background.SetTexture(WorkingBeatmap.Value.Background);
             Audio.AddItem(WorkingBeatmap.Value.Track);
             
-            LoadComponents(WorkingBeatmap.Value.HitObjects); // Preload HitObjects, this makes it twice as fast!
-            
             if (Playfield == null)
-                AddInternal(Playfield = new PlayfieldAdjustmentContainer(new PlayfieldContainer{ RelativeSizeAxes = Axes.Both }));
+                AddInternal(Playfield = new PlayfieldAdjustmentContainer());
+
+            var ruleset = rulesetManager.GetRuleset(0);
+            Playfield.SetPlayfield(ruleset.CreatePlayfield());
         }
         
         public void PlayBeatmap()

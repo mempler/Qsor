@@ -1,17 +1,17 @@
-﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
+// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osuTK;
 
-namespace Qsor.Game.Gameplay.osu.Containers
+namespace Qsor.Game.Gameplay.Containers
 {
     public class PlayfieldAdjustmentContainer : Container
     {
         private readonly Container _content;
         
-        public PlayfieldAdjustmentContainer(PlayfieldContainer playfieldContainer)
+        public PlayfieldAdjustmentContainer()
         {
             RelativeSizeAxes = Axes.Both;
             
@@ -31,8 +31,12 @@ namespace Qsor.Game.Gameplay.osu.Containers
                 FillAspectRatio = 4f / 3,
                 Child = _content = new ScalingContainer { RelativeSizeAxes = Axes.Both }
             };
-            
-            _content.Add(playfieldContainer);
+        }        
+        
+        public void SetPlayfield(Playfield playfield)
+        { 
+            _content.Clear();
+            _content.Add(playfield);
         }
         
         /// <summary>
@@ -55,12 +59,10 @@ namespace Qsor.Game.Gameplay.osu.Containers
                 //
                 // Scale = 819.2 / 512
                 // Scale = 1.6
-                Scale = new Vector2(Parent.ChildSize.X / PlayfieldContainer.PlayfieldSize.X);
+                Scale = new Vector2(Parent.ChildSize.X / 512);
                 // Size = 0.625
                 Size = Vector2.Divide(Vector2.One, Scale);
             }
         }
     }
-    
-    
 }
