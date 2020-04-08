@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using osu.Framework;
 using osu.Framework.Development;
 using Qsor.Desktop.Updater;
@@ -13,7 +14,7 @@ namespace Qsor.Desktop
             using var host = Host.GetSuitableHost("Qsor");
             using var game = new QsorGame(args)
             {
-                Updater = !DebugUtils.IsDebugBuild ? new SquirrelUpdater() : null
+                Updater = !DebugUtils.IsDebugBuild && RuntimeInfo.OS == RuntimeInfo.Platform.Windows ? new SquirrelUpdater() : null
             };
             
             host.Run(game);
