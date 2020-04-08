@@ -75,8 +75,6 @@ namespace Qsor.Game
             _dependencies.CacheAs(Updater);
                 
             LoadComponent(Updater);
-
-            Scheduler.AddDelayed(() => throw new NotImplementedException("Test Exception"), 5000);
             
             ConfigManager.Save();
         }
