@@ -1,4 +1,4 @@
-﻿namespace Discord
+﻿namespace Qsor.Game.Discord.GameSDK
 {
     static class Constants
     {

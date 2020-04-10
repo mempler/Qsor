@@ -1,5 +1,4 @@
-﻿using Discord;
-using osu.Framework.Allocation;
+﻿using osu.Framework.Allocation;
 using osu.Framework.Development;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
@@ -13,9 +12,7 @@ namespace Qsor.Game
     public class QsorGame : QsorBaseGame
     {
         private ScreenStack _stack;
-        
-        public Discord.Discord DiscordGameSdk;
-        
+
         [BackgroundDependencyLoader]
         private void Load()
         {
@@ -27,28 +24,6 @@ namespace Qsor.Game
             
             Window.Title = $"Qsor - {Version}";
             
-            // Discord Game SDK is not thread safe, it must run on the Update Thread
-            Scheduler.Add(() =>
-            {
-                Scheduler.AddDelayed(() => DiscordGameSdk?.RunCallbacks(), 0, true);
-                
-                DiscordGameSdk = new Discord.Discord(694816216442863667, 0);
-                
-                DiscordGameSdk
-                    .GetActivityManager()
-                    .UpdateActivity(new Activity
-                {
-                    Name = "Qsor",
-                    Details = $"Running Qsor {Version}",
-                    Assets = new ActivityAssets
-                    {
-                        LargeImage = "logo",
-                        LargeText = "Qsor"
-                    },
-                    State = "cup o’ cheater tears"
-                }, e => {});
-            });
-
             if (!DebugUtils.IsDebugBuild)
             {
                 _stack.Anchor = Anchor.Centre;

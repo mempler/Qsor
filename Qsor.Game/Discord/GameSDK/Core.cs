@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Discord
+namespace Qsor.Game.Discord.GameSDK
 {
     public enum Result
     {
@@ -694,6 +694,7 @@ namespace Discord
 
         public ResultException(Result result) : base(result.ToString())
         {
+            Result = result;
         }
     }
 
