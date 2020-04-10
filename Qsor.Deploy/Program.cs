@@ -37,6 +37,7 @@ namespace Qsor.Deploy
             Console.WriteLine($"Package: Qsor");
             Console.WriteLine($"Release Version: {currentDate}");
             Console.WriteLine($"Release Directory: {releaseDirectory.GetFullPath(".")}");
+            Console.WriteLine($"Changelog: \n{ChangelogGenerator.GenerateChangelog()}");
 
             var logo = solutionDirectory.GetFullPath("Qsor.Game/Resources/Textures/Logo-256x256.png");
             var icon = solutionDirectory.GetFullPath("Qsor.Desktop/icon.ico");
@@ -70,11 +71,12 @@ namespace Qsor.Deploy
             {
                 Name = currentDate,
                 Draft = true,
+                Body = ChangelogGenerator.GenerateChangelog()
             }));
             
             req.AddHeader("Authorization", $"token {GithubAccessToken}");
             req.Perform();
-  
+
             var targetRelease = req.ResponseObject;
             
             var assetUploadUrl = targetRelease.UploadUrl.Replace("{?name,label}", "?name={0}");
@@ -146,5 +148,8 @@ namespace Qsor.Deploy
 
         [JsonProperty(@"upload_url")]
         public string UploadUrl;
+
+        [JsonProperty(@"body")]
+        public string Body;
     }
 }
