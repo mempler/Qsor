@@ -19,8 +19,6 @@ namespace Qsor.Deploy
 
         private static void Main()
         {
-            Console.WriteLine(ChangelogGenerator.GenerateChangelog());
-            return;
             var currentDirectory = new NativeStorage(".");
             var solutionDirectory = new NativeStorage("..");
             
@@ -39,6 +37,7 @@ namespace Qsor.Deploy
             Console.WriteLine($"Package: Qsor");
             Console.WriteLine($"Release Version: {currentDate}");
             Console.WriteLine($"Release Directory: {releaseDirectory.GetFullPath(".")}");
+            Console.WriteLine($"Changelog: \n{ChangelogGenerator.GenerateChangelog()}");
 
             var logo = solutionDirectory.GetFullPath("Qsor.Game/Resources/Textures/Logo-256x256.png");
             var icon = solutionDirectory.GetFullPath("Qsor.Desktop/icon.ico");
@@ -72,6 +71,7 @@ namespace Qsor.Deploy
             {
                 Name = currentDate,
                 Draft = true,
+                Body = ChangelogGenerator.GenerateChangelog()
             }));
             
             req.AddHeader("Authorization", $"token {GithubAccessToken}");
@@ -148,5 +148,8 @@ namespace Qsor.Deploy
 
         [JsonProperty(@"upload_url")]
         public string UploadUrl;
+
+        [JsonProperty(@"body")]
+        public string Body;
     }
 }

@@ -21,7 +21,6 @@ namespace Qsor.Deploy
 
                 changeLog += $"`{commit.Sha.Remove(7)}` {commit.MessageShort} - {commit.Author.Name} {Environment.NewLine}";
             }
-            
 
             return changeLog;
         }
