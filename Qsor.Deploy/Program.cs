@@ -19,6 +19,8 @@ namespace Qsor.Deploy
 
         private static void Main()
         {
+            Console.WriteLine(ChangelogGenerator.GenerateChangelog());
+            return;
             var currentDirectory = new NativeStorage(".");
             var solutionDirectory = new NativeStorage("..");
             
@@ -74,7 +76,7 @@ namespace Qsor.Deploy
             
             req.AddHeader("Authorization", $"token {GithubAccessToken}");
             req.Perform();
-  
+
             var targetRelease = req.ResponseObject;
             
             var assetUploadUrl = targetRelease.UploadUrl.Replace("{?name,label}", "?name={0}");
