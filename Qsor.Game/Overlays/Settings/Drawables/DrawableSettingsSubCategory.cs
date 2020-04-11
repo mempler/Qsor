@@ -5,6 +5,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Localisation;
+using osuTK;
 using Qsor.Game.Overlays.Settings.Drawables.Objects;
 
 namespace Qsor.Game.Overlays.Settings.Drawables
@@ -18,6 +19,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         {
             RelativeSizeAxes = Axes.X,
             AutoSizeAxes = Axes.Y,
+            Spacing = new Vector2(0, 2.5f),
             Margin = new MarginPadding { Left = 10, Top = 50 }
         };
         
