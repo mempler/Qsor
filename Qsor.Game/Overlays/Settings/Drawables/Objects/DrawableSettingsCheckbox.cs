@@ -17,6 +17,9 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
         [BackgroundDependencyLoader]
         private void Load()
         {
+            Origin = Anchor.Centre;
+            Anchor = Anchor.Centre;
+            
             AddInternal(new DrawableSettingsCheckboxNode(Value));
             AddInternal(_label = new SpriteText
             {
