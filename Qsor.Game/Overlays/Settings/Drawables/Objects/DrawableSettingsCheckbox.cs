@@ -12,13 +12,12 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
 {
     public class DrawableSettingsCheckbox : DrawableSettingsObject<bool>
     {
-        private DrawableSettingsCheckboxNode _checkboxBox;
         private SpriteText _label;
         
         [BackgroundDependencyLoader]
         private void Load()
         {
-            AddInternal(_checkboxBox = new DrawableSettingsCheckboxNode(Value));
+            AddInternal(new DrawableSettingsCheckboxNode(Value));
             AddInternal(_label = new SpriteText
             {
                 Origin = Anchor.CentreLeft,
@@ -38,6 +37,9 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
 
         protected override bool OnClick(ClickEvent e)
         {
+            if (Value.Disabled)
+                return false;
+            
             Value.Value = !Value.Value;
             return true;
         }
@@ -77,6 +79,11 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
                 });
 
                 Checked.ValueChanged += e => _box.FadeTo(e.NewValue ? 1 : 0, 100, Easing.In);
+                Checked.DisabledChanged += e =>
+                {
+                    _box.Colour = e ? Color4.DimGray : Color4.PaleVioletRed;
+                    BorderColour = e ? Color4.Gray : Color4.PaleVioletRed;
+                };
             }
         }
     }
