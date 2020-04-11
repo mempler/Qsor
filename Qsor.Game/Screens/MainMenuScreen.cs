@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;

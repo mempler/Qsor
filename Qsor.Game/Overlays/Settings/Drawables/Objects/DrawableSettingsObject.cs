@@ -15,7 +15,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
     {
         public readonly Bindable<LocalisedString> Label = new Bindable<LocalisedString>(string.Empty);
         public readonly Bindable<LocalisedString> ToolTip = new Bindable<LocalisedString>(string.Empty);
-        public readonly Bindable<T> Value = new Bindable<T>();
+        public readonly Bindable<T> Value;
 
         private Box _hoverBox;
         private DrawableTooltip _tooltip;
@@ -24,8 +24,9 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
         {
             Label.Value = label;
             ToolTip.Value = toolTip;
-            Value.Default = defaultValue;
             
+            Value = new Bindable<T>(defaultValue);
+
             Value.SetDefault();
         }
         

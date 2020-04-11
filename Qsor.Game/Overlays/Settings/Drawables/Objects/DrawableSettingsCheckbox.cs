@@ -1,4 +1,3 @@
-using System;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
@@ -25,6 +24,8 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
                 Origin = Anchor.CentreLeft,
                 
                 Margin = new MarginPadding{ Left = 18f },
+                
+                Font = new FontUsage(size: 18),
                 Text = Label.Value
             });
 
