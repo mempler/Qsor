@@ -15,15 +15,13 @@ namespace Qsor.Game.Input
         public GlobalKeyBindingInputHandler(QsorBaseGame game)
             : base(matchingMode: KeyCombinationMatchingMode.Modifiers)
         {
-            if (game is IKeyBindingHandler<GlobalAction>)
-                _handler = game;
+            _handler = game;
         }
         
         public override IEnumerable<KeyBinding> DefaultKeyBindings => new[]
         {
-
-            new KeyBinding(new [] { InputKey.Control, InputKey.O }, GlobalAction.ToggleOptions), 
-
+            new KeyBinding(new [] { InputKey.Control, InputKey.O }, GlobalAction.ToggleOptions),
+            new KeyBinding(InputKey.Escape, GlobalAction.ExitOverlay), 
         };
         
         protected override IEnumerable<Drawable> KeyBindingInputQueue =>
@@ -32,6 +30,7 @@ namespace Qsor.Game.Input
 
     public enum GlobalAction
     {
-        ToggleOptions
+        ToggleOptions,
+        ExitOverlay
     }
 }

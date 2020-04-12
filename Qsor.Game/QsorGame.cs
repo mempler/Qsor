@@ -88,7 +88,6 @@ namespace Qsor.Game
 
         public bool OnPressed(GlobalAction action)
         {
-            Logger.LogPrint(action.ToString());
             switch (action)
             {
                 case GlobalAction.ToggleOptions:
@@ -96,13 +95,18 @@ namespace Qsor.Game
                         SettingsOverlay.Hide();
                     else
                         SettingsOverlay.Show();
-                    return true;
+                    break;
+
+                case GlobalAction.ExitOverlay:
+                    if (SettingsOverlay.IsShown)
+                        SettingsOverlay.Hide();
+                    break;
                 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }
-
-            return false;
+            
+            return true;
         }
 
         public void OnReleased(GlobalAction action)
