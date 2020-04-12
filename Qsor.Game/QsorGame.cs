@@ -112,5 +112,13 @@ namespace Qsor.Game
         public void OnReleased(GlobalAction action)
         {
         }
+
+        protected override bool OnClick(ClickEvent e)
+        {
+            if (SettingsOverlay.IsShown && !SettingsOverlay.IsHovered)
+                SettingsOverlay.Hide();
+            
+            return base.OnClick(e);
+        }
     }
 }
