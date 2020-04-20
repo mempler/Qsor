@@ -10,7 +10,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.3" />
-      <PackageReference Include="ppy.osu.Framework" Version="2020.411.0" />
+      <PackageReference Include="ppy.osu.Framework" Version="2020.417.0" />
       <PackageReference Include="Sentry" Version="2.1.1" />
       <PackageReference Include="SharpZipLib" Version="1.2.0" />
       <PackageReference Include="Qsor.NativeLibs" Version="1.0.0" />
