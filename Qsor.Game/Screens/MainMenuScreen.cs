@@ -29,7 +29,7 @@ namespace Qsor.Game.Screens
         private Toolbar _toolbar;
         private BottomBar _bottomBar;
         
-        private Bindable<WorkingBeatmap> _workingBeatmap = new Bindable<WorkingBeatmap>();
+        private readonly Bindable<WorkingBeatmap> _workingBeatmap = new Bindable<WorkingBeatmap>();
         
         [Resolved]
         private NotificationOverlay NotificationOverlay { get; set; }
@@ -59,12 +59,11 @@ namespace Qsor.Game.Screens
             AddInternal(parallaxBack);
             
             
-            
-            
             var db = ctxFactory.Get();
             var beatmapModel = db.Beatmaps.ToList().OrderBy(r => Guid.NewGuid()).FirstOrDefault();
             var beatmapStorage = Storage.GetStorageForDirectory(beatmapModel?.Path);
             beatmapManager.LoadBeatmap(beatmapStorage, beatmapModel?.File);
+            
             //LoadComponent(beatmapManager.WorkingBeatmap.Value);
             _workingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
             
@@ -94,10 +93,8 @@ namespace Qsor.Game.Screens
             
             AddInternal(parallaxFront);
 
-            
-            
+
             AddInternal(_toolbar = new Toolbar());
-            
             AddInternal(_bottomBar = new BottomBar());
             
             AddInternal(updaterOverlay);

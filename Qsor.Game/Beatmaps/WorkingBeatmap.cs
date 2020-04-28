@@ -18,6 +18,12 @@ namespace Qsor.Game.Beatmaps
             Background = Texture.FromStream(BeatmapStorage.GetStream(BackgroundFilename));
         }
 
-        public void Play() => Track.Start();
+        public void Play()
+        {
+            if (Track == null)
+                throw new BeatmapException("Track is null! is the beatmap not loaded ?");
+            
+            Track.Start();
+        }
     }
 }

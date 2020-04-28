@@ -77,8 +77,7 @@ namespace Qsor.Game.Graphics.Containers
                 timingPoint = beatmap.GetTimingPointAt(currentTrackTime);
             }
 
-            if (timingPoint == null)
-                timingPoint = _defaultTiming;
+            timingPoint ??= _defaultTiming;
 
             IsBeatSyncedWithTrack = timingPoint.MsPerBeat > 0;
             

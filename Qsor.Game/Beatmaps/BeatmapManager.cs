@@ -4,6 +4,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Platform;
 using Qsor.Game.Configuration;
@@ -14,7 +15,7 @@ using Qsor.Game.Online;
 
 namespace Qsor.Game.Beatmaps
 {
-    public class BeatmapManager : Component
+    public class BeatmapManager : Container
     {
         public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new Bindable<WorkingBeatmap>();
 
@@ -103,6 +104,8 @@ namespace Qsor.Game.Beatmaps
         public BeatmapContainer LoadBeatmap(Storage storage, string fileName)
         {
             WorkingBeatmap.Value = Beatmap.ReadBeatmap<WorkingBeatmap>(storage, fileName);
+            
+            LoadComponent(WorkingBeatmap.Value);
             
             return new BeatmapContainer(WorkingBeatmap);
         }

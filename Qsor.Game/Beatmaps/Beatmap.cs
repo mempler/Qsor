@@ -7,6 +7,7 @@ using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osuTK.Graphics;
 using Qsor.Game.Gameplay;
+using Component = osu.Framework.Graphics.Component;
 
 namespace Qsor.Game.Beatmaps
 {
@@ -50,7 +51,7 @@ namespace Qsor.Game.Beatmaps
         public double SpeedMultiplier;
     }
     
-    public class Beatmap
+    public class Beatmap : Component
     {
         public int BeatmapVersion = 0;
         public List<HitObject> HitObjects = new List<HitObject>();
