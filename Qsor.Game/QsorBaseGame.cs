@@ -7,6 +7,7 @@ using osu.Framework.Platform;
 using Qsor.Game.Beatmaps;
 using Qsor.Game.Configuration;
 using Qsor.Game.Database;
+using Qsor.Game.Discord;
 using Qsor.Game.Online;
 using Qsor.Game.Overlays;
 using Qsor.Game.Updater;
@@ -28,6 +29,7 @@ namespace Qsor.Game
         protected NotificationOverlay NotificationOverlay;
         protected UpdaterOverlay UpdaterOverlay;
         protected SentryLogger SentryLogger;
+        protected DiscordManager DiscordManager;
         
         public Updater.Updater Updater;
         
@@ -59,9 +61,13 @@ namespace Qsor.Game
             _dependencies.Cache(NotificationOverlay = new NotificationOverlay());
             
             _dependencies.Cache(SentryLogger = new SentryLogger(this));
+            
+            _dependencies.Cache(DiscordManager = new DiscordManager());
 
             _dependencies.CacheAs(this);
             _dependencies.CacheAs(Host);
+            
+            AddInternal(DiscordManager);
             
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             

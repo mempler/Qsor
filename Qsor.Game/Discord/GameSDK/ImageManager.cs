@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 #endif
 
-namespace Discord
+namespace Qsor.Game.Discord.GameSDK
 {
 	public partial struct ImageHandle
     {
