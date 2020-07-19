@@ -92,7 +92,7 @@ namespace Qsor.Game.Screens.Menu
             {
                 if (track?.IsRunning ?? false)
                 {
-                    var targetAmplitude = (temporalAmplitudes?[(i + _indexOffset) % BarsPerVisualiser] ?? 0) * (timingPoint?.KiaiMode == true ? 1 : 0.5f);
+                    var targetAmplitude = (temporalAmplitudes?.Span[(i + _indexOffset) % BarsPerVisualiser] ?? 0) * (timingPoint?.KiaiMode == true ? 1 : 0.5f);
                     if (targetAmplitude > _frequencyAmplitudes[i])
                         _frequencyAmplitudes[i] = targetAmplitude;
                 }

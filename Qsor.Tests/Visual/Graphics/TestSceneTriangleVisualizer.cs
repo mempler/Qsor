@@ -60,8 +60,8 @@ namespace Qsor.Tests.Visual.Graphics
             if (_track?.CurrentAmplitudes.FrequencyAmplitudes == null)
                 return;
             
-            var higherFreq = _track?.CurrentAmplitudes.FrequencyAmplitudes.TakeLast(50);
-            var lowerFreq = _track?.CurrentAmplitudes.FrequencyAmplitudes.TakeLast(100);
+            var higherFreq = _track?.CurrentAmplitudes.FrequencyAmplitudes.ToArray().TakeLast(50);
+            var lowerFreq = _track?.CurrentAmplitudes.FrequencyAmplitudes.ToArray().TakeLast(50);
 
             var avg = lowerFreq?.Sum() + higherFreq?.Sum() ?? 0;
             

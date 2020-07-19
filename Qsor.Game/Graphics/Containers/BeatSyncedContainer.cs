@@ -49,11 +49,11 @@ namespace Qsor.Game.Graphics.Containers
 
         private TimingPoint _defaultTiming;
         //private EffectControlPoint defaultEffect;
-        private TrackAmplitudes _defaultAmplitudes;
+        private ChannelAmplitudes _defaultAmplitudes;
 
         protected bool IsBeatSyncedWithTrack { get; private set; }
 
-        private TimingPoint LastValidTimingPoint;
+        private TimingPoint _lastValidTimingPoint;
 
         protected override void Update()
         {
@@ -85,11 +85,11 @@ namespace Qsor.Game.Graphics.Containers
             if (!IsBeatSyncedWithTrack)
             {
                 currentTrackTime = Clock.CurrentTime;
-                timingPoint = LastValidTimingPoint;
+                timingPoint = _lastValidTimingPoint;
             }
             else
             {
-                LastValidTimingPoint = timingPoint;
+                _lastValidTimingPoint = timingPoint;
             }
             
             var beatLength = timingPoint.MsPerBeat / Divisor;
@@ -132,15 +132,10 @@ namespace Qsor.Game.Graphics.Containers
                 MsPerBeat = DefaultBeatLength,
             };
             
-            _defaultAmplitudes = new TrackAmplitudes
-            {
-                FrequencyAmplitudes = new float[256],
-                LeftChannel = 0,
-                RightChannel = 0
-            };
+            _defaultAmplitudes = new ChannelAmplitudes(0, 0, new float[256]);
         }
 
-        protected virtual void OnNewBeat(int beatIndex, TimingPoint timingPoint, TrackAmplitudes amplitudes)
+        protected virtual void OnNewBeat(int beatIndex, TimingPoint timingPoint, ChannelAmplitudes amplitudes)
         {
         }
     }
