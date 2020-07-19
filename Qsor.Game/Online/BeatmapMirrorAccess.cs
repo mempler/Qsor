@@ -6,7 +6,7 @@ namespace Qsor.Game.Online
 {
     public class BeatmapMirrorAccess
     {
-        private const string BeatmapMirror = "https://pisstau.be";
+        private const string BeatmapMirror = "https://storage.ripple.moe";
         
         public static async Task<Stream> DownloadBeatmap(int setId)
         {

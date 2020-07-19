@@ -4,9 +4,9 @@
 
 ## Qsor
 
-[![Official Discord](https://discordapp.com/api/guilds/365406575893938177/widget.png?style=shield)](https://discordapp.com/invite/5cBtMPW)
+[![Official Discord](https://discordapp.com/api/guilds/734400831511855175/widget.png?style=shield)](https://discord.gg/rbFsYZx)
 
-Next generation Akatsuki client.
+for people who don't like lazer but want the performance benefits of the new engine :)
 
 ## Requirements
 

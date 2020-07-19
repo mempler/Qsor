@@ -106,7 +106,7 @@ namespace Qsor.Game.Screens.Menu
             _visualisation.Size = _qsorLogo.Size;
         }
 
-        protected override void OnNewBeat(int beatIndex, TimingPoint timingPoint, TrackAmplitudes amplitudes)
+        protected override void OnNewBeat(int beatIndex, TimingPoint timingPoint, ChannelAmplitudes amplitudes)
         {
             _lastBeatIndex = beatIndex;
             
