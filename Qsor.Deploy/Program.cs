@@ -12,7 +12,7 @@ namespace Qsor.Deploy
     internal static class Program
     {
         private static string NugetPackages => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".nuget\packages");
-        private static string NugetPath => Path.Combine(NugetPackages, @"nuget.commandline\5.4.0\tools\NuGet.exe");
+        private static string NugetPath => Path.Combine(NugetPackages, @"nuget.commandline\5.6.0\tools\NuGet.exe");
         private static string SquirrelPath => Path.Combine(NugetPackages, @"ppy.squirrel.windows\1.9.0.4\tools\Squirrel.exe");
 
         private static string GithubAccessToken => Environment.GetEnvironmentVariable("GITHUB_ACCESS_TOKEN");
@@ -60,7 +60,7 @@ namespace Qsor.Deploy
             
             stagingDirectory.DeleteDirectory(".");
             
-            var req = new JsonWebRequest<GitHubRelease>($"https://api.github.com/repos/osuAkatsuki/Qsor/releases")
+            var req = new JsonWebRequest<GitHubRelease>($"https://api.github.com/repos/Mempler/Qsor/releases")
             {
                 Method = HttpMethod.Post,
             };
