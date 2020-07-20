@@ -4,7 +4,7 @@
 
 ## Qsor
 
-[![Official Discord](https://discordapp.com/api/guilds/734400831511855175/widget.png?style=shield)](https://discord.gg/rbFsYZx)
+[![Official Discord](https://discordapp.com/api/guilds/734400831511855175/widget.png?style=shield)](https://discord.gg/rbFsYZx) [![CodeFactor](https://www.codefactor.io/repository/github/mempler/qsor/badge)](https://www.codefactor.io/repository/github/mempler/qsor) [![Build status](https://ci.appveyor.com/api/projects/status/0jec4r3nxqa6nq8g?svg=true)](https://ci.appveyor.com/project/Mempler/qsor)
 
 for people who don't like lazer but want the performance benefits of the new engine :)
 

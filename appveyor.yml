@@ -1,0 +1,34 @@
+﻿version: '{build}'
+image: Visual Studio 2019
+configuration: Release
+init:
+  - ps: Update-AppveyorBuild -Version "$(Get-Date -format yyyy.Mdd).$env:appveyor_build_number"
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  version_prefix: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+environment:
+  WEBHOOK_URL:
+    secure: 5iyntOmaNX1ztZQHITwehOjGHrTQW9SzqnqigVtYWGtGU43vHAGJjptusYTBZS13GdkJ/9G6uUrDqRoQPPkrdJnx59C9YKZK1qI4zRxuoPNUkoocP0+oPU50C+HgqF+z1+/ORoWrJxDPJCk58x3zFy6DPVBdHn1w9KrFRgMbRpQ=
+before_build:
+  - ps: dotnet restore
+build:
+  project: Qsor.Desktop
+  parallel: true
+  verbosity: minimal
+deploy: off
+on_success:
+  - ps: >-
+      Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+
+      ./send.ps1 success $env:WEBHOOK_URL
+on_failure:
+  - sh: >-
+      Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+
+      ./send.ps1 failure $env:WEBHOOK_URL
