@@ -1,16 +1,21 @@
-﻿using osu.Framework.Allocation;
+﻿using System;
+using osu.Framework.Allocation;
 using osu.Framework.Development;
 using osu.Framework.Graphics;
+using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
+using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osuTK.Input;
+using Qsor.Game.Input;
 using Qsor.Game.Screens;
 
 namespace Qsor.Game
 {
     [Cached]
-    public class QsorGame : QsorBaseGame
+    public class QsorGame : QsorBaseGame, IKeyBindingHandler<GlobalAction>
     {
+        private GlobalKeyBindingInputHandler KeyBindingInputHandler;
         private ScreenStack _stack;
 
         [BackgroundDependencyLoader]
@@ -23,6 +28,8 @@ namespace Qsor.Game
             Add(_stack);
             
             Window.Title = $"Qsor - {Version}";
+            
+            AddInternal(KeyBindingInputHandler = new GlobalKeyBindingInputHandler(this));
             
             if (!DebugUtils.IsDebugBuild)
             {
@@ -77,6 +84,41 @@ namespace Qsor.Game
 
         public QsorGame(string[] args) : base(args)
         {
+        }
+
+        public bool OnPressed(GlobalAction action)
+        {
+            switch (action)
+            {
+                case GlobalAction.ToggleOptions:
+                    if (SettingsOverlay.IsShown)
+                        SettingsOverlay.Hide();
+                    else
+                        SettingsOverlay.Show();
+                    break;
+
+                case GlobalAction.ExitOverlay:
+                    if (SettingsOverlay.IsShown)
+                        SettingsOverlay.Hide();
+                    break;
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
+            }
+            
+            return true;
+        }
+
+        public void OnReleased(GlobalAction action)
+        {
+        }
+
+        protected override bool OnClick(ClickEvent e)
+        {
+            if (SettingsOverlay.IsShown && !SettingsOverlay.IsHovered)
+                SettingsOverlay.Hide();
+            
+            return base.OnClick(e);
         }
     }
 }

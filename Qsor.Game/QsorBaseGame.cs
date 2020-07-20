@@ -30,6 +30,7 @@ namespace Qsor.Game
         protected UpdaterOverlay UpdaterOverlay;
         protected SentryLogger SentryLogger;
         protected DiscordManager DiscordManager;
+        protected SettingsOverlay SettingsOverlay;
         
         public Updater.Updater Updater;
         
@@ -86,6 +87,8 @@ namespace Qsor.Game
             LoadComponent(Updater);
             
             ConfigManager.Save();
+            
+            AddInternal(SettingsOverlay = new SettingsOverlay());
         }
 
         protected override void Dispose(bool isDisposing)

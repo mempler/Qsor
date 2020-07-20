@@ -29,6 +29,9 @@ namespace Qsor.Game.Overlays
 
             AddCategory(new SettingsGeneralCategory());
             AddCategory(new SettingsGraphicsCategory());
+            
+            _menu.Width = 0;
+            Alpha = 0;
         }
 
         protected override void LoadComplete()
@@ -40,16 +43,22 @@ namespace Qsor.Game.Overlays
         {
             _categories.Add(category);
         }
-
+        
+        
+        public bool IsShown { get; private set; }
         public override void Show()
         {
-            this.FadeInFromZero(200);
+            IsShown = true;
+            
+            this.FadeIn(200);
             _menu.ResizeWidthTo(400, 400, Easing.InOutCubic);
         }
 
         public override void Hide()
         {
-            this.FadeOutFromOne(800);
+            IsShown = false;
+            
+            this.FadeOut(800);
             _menu.ResizeWidthTo(0, 1000, Easing.InOutCubic);
         }
     }
