@@ -8,7 +8,7 @@ namespace Qsor.Game.Database
     {
         public readonly QsorDbContext Context;
         private readonly Action<DatabaseWriteUsage> _usageCompleted;
-        public readonly List<Exception> Errors = new List<Exception>();
+        public readonly List<Exception> Errors = new();
 
         private bool _isDisposed;
 

@@ -10,9 +10,9 @@ namespace Qsor.Game.Online.Users.Drawables
 {
     public class DrawableAvatar : CompositeDrawable
     {
-        private Sprite Avatar { get; } = new Sprite();
+        private Sprite Avatar { get; } = new();
 
-        public Bindable<User> User = new Bindable<User>(new User{ Id = 1 });
+        public Bindable<User> User = new(new User{ Id = 1 });
 
         [BackgroundDependencyLoader]
         private void Load(TextureStore ts)

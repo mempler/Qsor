@@ -13,8 +13,8 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
 {
     public abstract class DrawableSettingsObject<T> : CompositeDrawable, IRequireHighFrequencyMousePosition
     {
-        public readonly Bindable<LocalisedString> Label = new Bindable<LocalisedString>(string.Empty);
-        public readonly Bindable<LocalisedString> ToolTip = new Bindable<LocalisedString>(string.Empty);
+        public readonly Bindable<LocalisedString> Label = new(string.Empty);
+        public readonly Bindable<LocalisedString> ToolTip = new(string.Empty);
         public readonly Bindable<T> Value;
 
         private Box _hoverBox;

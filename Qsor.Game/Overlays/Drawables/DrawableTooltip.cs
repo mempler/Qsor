@@ -11,7 +11,7 @@ namespace Qsor.Game.Overlays.Drawables
 {
     public class DrawableTooltip : CompositeDrawable
     {
-        public readonly Bindable<LocalisedString> Value = new Bindable<LocalisedString>(string.Empty);
+        public readonly Bindable<LocalisedString> Value = new(string.Empty);
 
         private TextFlowContainer _textFlowContainer;
         

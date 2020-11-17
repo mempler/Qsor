@@ -11,12 +11,12 @@ namespace Qsor.Game.Overlays
     [Cached]
     public class SettingsOverlay : CompositeDrawable
     {
-        private BindableList<SettingsCategoryContainer> _categories = new BindableList<SettingsCategoryContainer>();
+        private BindableList<SettingsCategoryContainer> _categories = new();
 
         private DrawableSettingsToolBar _toolBar;
         private DrawableSettingsMenu _menu;
         
-        public readonly Bindable<SettingsCategoryContainer> SelectedCategory = new Bindable<SettingsCategoryContainer>();
+        public readonly Bindable<SettingsCategoryContainer> SelectedCategory = new();
         
         [BackgroundDependencyLoader]
         private void Load()

@@ -16,7 +16,7 @@ namespace Qsor.Game.Beatmaps
 {
     public class BeatmapManager : Component
     {
-        public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new Bindable<WorkingBeatmap>();
+        public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new();
 
         [Resolved]
         private BeatmapMirrorAccess MirrorAccess { get; set; }

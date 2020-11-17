@@ -1,5 +1,5 @@
-﻿using System.Threading;
-using Microsoft.EntityFrameworkCore.Internal;
+﻿using System.Linq;
+using System.Threading;
 using Microsoft.EntityFrameworkCore.Storage;
 using osu.Framework.Platform;
 
@@ -9,7 +9,7 @@ namespace Qsor.Game.Database
     public class QsorDbContextFactory
     {
         private readonly Storage _storage;
-        private readonly object _writeLock = new object();
+        private readonly object _writeLock = new();
         private bool _currentWriteDidError;
 
         private bool _currentWriteDidWrite;
@@ -120,7 +120,7 @@ namespace Qsor.Game.Database
         }
 
         protected virtual QsorDbContext CreateContext()
-            => new QsorDbContext(_storage.GetDatabaseConnectionString("qsor")) {Database = {AutoTransactionsEnabled = false}};
+            => new(_storage.GetDatabaseConnectionString("qsor")) {Database = {AutoTransactionsEnabled = false}};
 
         public void ResetDatabase()
         {

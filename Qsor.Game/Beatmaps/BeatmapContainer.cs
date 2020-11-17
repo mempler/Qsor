@@ -12,7 +12,7 @@ namespace Qsor.Game.Beatmaps
     public class BeatmapContainer : Container
     {
         private BackgroundImageContainer _background;
-        public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new Bindable<WorkingBeatmap>();
+        public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new();
         
         public PlayfieldAdjustmentContainer Playfield { get; private set; }
         

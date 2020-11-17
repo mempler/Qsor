@@ -29,7 +29,7 @@ namespace Qsor.Game.Screens
         private Toolbar _toolbar;
         private BottomBar _bottomBar;
         
-        private Bindable<WorkingBeatmap> _workingBeatmap = new Bindable<WorkingBeatmap>();
+        private Bindable<WorkingBeatmap> _workingBeatmap = new();
         
         [Resolved]
         private NotificationOverlay NotificationOverlay { get; set; }
@@ -142,7 +142,7 @@ namespace Qsor.Game.Screens
             return true;
         }
 
-        private StopwatchClock _clock = new StopwatchClock();
+        private StopwatchClock _clock = new();
         public bool IsFading;
         
         protected override void Update()

@@ -16,7 +16,7 @@ namespace Qsor.Game.Discord
     
     public class DiscordManager : Component
     {
-        public readonly Bindable<DiscordActivityStatus> BindableDiscordActivityStatus = new Bindable<DiscordActivityStatus>();
+        public readonly Bindable<DiscordActivityStatus> BindableDiscordActivityStatus = new();
         private GameSDK.Discord _gameSdk;
 
         [BackgroundDependencyLoader]

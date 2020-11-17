@@ -12,11 +12,11 @@ namespace Qsor.Game.Overlays.Settings.Drawables
     [Cached]
     public class DrawableSettingsToolBar : CompositeDrawable
     {
-        private readonly BindableList<SettingsCategoryContainer> _categories = new BindableList<SettingsCategoryContainer>();
+        private readonly BindableList<SettingsCategoryContainer> _categories = new();
         private BasicScrollContainer _scrollContainer;
         private SearchContainer<DrawableSettingsIconSprite> _iconFlowContainer;
 
-        private readonly Bindable<SettingsCategoryContainer> _selectedCategory = new Bindable<SettingsCategoryContainer>();
+        private readonly Bindable<SettingsCategoryContainer> _selectedCategory = new();
         
         public DrawableSettingsToolBar(BindableList<SettingsCategoryContainer> categories)
         {

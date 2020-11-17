@@ -25,10 +25,10 @@ namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
     /// </summary>
     public class SnakingSliderBody : SliderBody, ISliderProgress
     {
-        public readonly List<Vector2> CurrentCurve = new List<Vector2>();
+        public readonly List<Vector2> CurrentCurve = new();
 
-        public readonly Bindable<bool> SnakingIn = new Bindable<bool>();
-        public readonly Bindable<bool> SnakingOut = new Bindable<bool>();
+        public readonly Bindable<bool> SnakingIn = new();
+        public readonly Bindable<bool> SnakingOut = new();
 
         public double? SnakedStart { get; private set; }
         public double? SnakedEnd { get; private set; }
@@ -66,7 +66,7 @@ namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
             _slider = slider;
         }
 
-        private readonly Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
+        private readonly Bindable<WorkingBeatmap> WorkingBeatmap = new();
         
         [BackgroundDependencyLoader]
         private void Load(BeatmapManager beatmapManager)

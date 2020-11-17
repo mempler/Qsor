@@ -111,7 +111,7 @@ namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
         {
             private const float ShadowPortion = 0.06f;
 
-            private new Color4 AccentColour => new Color4(base.AccentColour.R, base.AccentColour.G, base.AccentColour.B, base.AccentColour.A * 0.70f);
+            private new Color4 AccentColour => new(base.AccentColour.R, base.AccentColour.G, base.AccentColour.B, base.AccentColour.A * 0.70f);
 
             protected override Color4 ColourAt(float position)
             {

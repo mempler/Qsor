@@ -15,9 +15,9 @@ namespace Qsor.Game.Overlays.Settings.Drawables
         [Resolved]
         private DrawableSettingsToolBar ToolBar { get; set; }
 
-        private readonly Bindable<SettingsCategoryContainer> _selectedCategory = new Bindable<SettingsCategoryContainer>();
+        private readonly Bindable<SettingsCategoryContainer> _selectedCategory = new();
 
-        private readonly SpriteIcon _icon = new SpriteIcon();
+        private readonly SpriteIcon _icon = new();
         private Box _selector;
 
         

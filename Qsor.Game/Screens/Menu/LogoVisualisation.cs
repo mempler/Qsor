@@ -154,7 +154,7 @@ namespace Qsor.Game.Screens.Menu
             private Color4 _colour;
             private float[] _audioData;
 
-            private readonly QuadBatch<TexturedVertex2D> _vertexBatch = new QuadBatch<TexturedVertex2D>(100, 10);
+            private readonly QuadBatch<TexturedVertex2D> _vertexBatch = new(100, 10);
 
             public VisualisationDrawNode(LogoVisualisation source)
                 : base(source)

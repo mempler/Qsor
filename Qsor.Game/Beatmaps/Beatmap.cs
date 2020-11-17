@@ -48,12 +48,12 @@ namespace Qsor.Game.Beatmaps
     public class Beatmap : Component
     {
         public int BeatmapVersion = 0;
-        public List<HitObject> HitObjects = new List<HitObject>();
+        public List<HitObject> HitObjects = new();
         
-        public readonly General General = new General();
-        public readonly Difficulty Difficulty = new Difficulty();
-        public readonly List<Color4> Colors = new List<Color4>();
-        public List<TimingPoint> TimingPoints = new List<TimingPoint>();
+        public readonly General General = new();
+        public readonly Difficulty Difficulty = new();
+        public readonly List<Color4> Colors = new();
+        public List<TimingPoint> TimingPoints = new();
 
         public string BackgroundFilename;
 
@@ -135,7 +135,7 @@ namespace Qsor.Game.Beatmaps
                                     _   => PathType.Linear
                                 };
 
-                                var curvePoints = new List<Vector2> {new Vector2((float) x, (float) y)};
+                                var curvePoints = new List<Vector2> {new((float) x, (float) y)};
 
                                 foreach (var s in sliderInfo)
                                 {
@@ -250,8 +250,8 @@ namespace Qsor.Game.Beatmaps
         }
         
         private int _categoryIndex;
-        private readonly List<Category> _categories = new List<Category>();
-        private readonly Dictionary<Category, List<string>> _keyValues = new Dictionary<Category, List<string>>();
+        private readonly List<Category> _categories = new();
+        private readonly Dictionary<Category, List<string>> _keyValues = new();
         
         private void Parse(string content)
         {

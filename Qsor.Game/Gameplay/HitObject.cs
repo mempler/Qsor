@@ -35,7 +35,7 @@ namespace Qsor.Game.Gameplay
         
         public TimingPoint TimingPoint { get; set; }
         
-        public readonly Bindable<int> StackHeightBindable = new Bindable<int>();
+        public readonly Bindable<int> StackHeightBindable = new();
         
         public Vector2 StackedPosition => Position + StackOffset;
         public Vector2 StackOffset => StackHeightBindable.Value * Scale * -6.4f;
@@ -45,8 +45,8 @@ namespace Qsor.Game.Gameplay
         
         public Beatmap Beatmap { get; }
 
-        public BindableDouble BindableScale = new BindableDouble();
-        public BindableDouble BindableProgress = new BindableDouble();
+        public BindableDouble BindableScale = new();
+        public BindableDouble BindableProgress = new();
         
         public HitObject(Beatmap beatmap, Vector2 position)
         {

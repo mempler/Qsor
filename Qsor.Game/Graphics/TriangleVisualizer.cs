@@ -36,7 +36,7 @@ namespace Qsor.Game.Graphics
     
     public class TriangleVisualizer : Container
     {
-        private Random _rand = new Random();
+        private Random _rand = new();
         
         [BackgroundDependencyLoader]
         private void Load()

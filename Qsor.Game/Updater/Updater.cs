@@ -10,8 +10,8 @@ namespace Qsor.Game.Updater
     [Cached]
     public abstract class Updater : Component
     {
-        public readonly Bindable<UpdaterStatus> BindableStatus = new Bindable<UpdaterStatus>();
-        public readonly BindableFloat BindableProgress = new BindableFloat();
+        public readonly Bindable<UpdaterStatus> BindableStatus = new();
+        public readonly BindableFloat BindableProgress = new();
         
         public abstract void CheckAvailable();
         public abstract void UpdateGame();

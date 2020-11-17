@@ -12,7 +12,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
     [Cached]
     public class DrawableSettingsMenu : CompositeDrawable
     {
-        private readonly BindableList<SettingsCategoryContainer> _categories = new BindableList<SettingsCategoryContainer>();
+        private readonly BindableList<SettingsCategoryContainer> _categories = new();
         private SearchContainer _searchContainer;
         private BasicScrollContainer _scrollContainer;
 

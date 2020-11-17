@@ -49,7 +49,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
         
         private class DrawableSettingsCheckboxNode : CompositeDrawable
         {
-            public readonly Bindable<bool> Checked = new Bindable<bool>();
+            public readonly Bindable<bool> Checked = new();
 
             public DrawableSettingsCheckboxNode(Bindable<bool> checkedBindable)
             {

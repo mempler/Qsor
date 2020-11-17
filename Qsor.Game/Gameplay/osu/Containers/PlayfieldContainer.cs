@@ -12,9 +12,9 @@ namespace Qsor.Game.Gameplay.osu.Containers
 {
     public class PlayfieldContainer : Container
     {
-        private Bindable<WorkingBeatmap> WorkingBeatmap = new Bindable<WorkingBeatmap>();
+        private Bindable<WorkingBeatmap> WorkingBeatmap = new();
 
-        public static Vector2 PlayfieldSize => new Vector2(512, 384);
+        public static Vector2 PlayfieldSize => new(512, 384);
 
         private double _currentTime;
 
