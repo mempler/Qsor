@@ -12,18 +12,18 @@ for people who don't like lazer but want the performance benefits of the new eng
 
 #### Knowledge
 
-you'll need prior knowledge in C\# and .NET Core 3 and osu!Framework if you want to develope on Qsor!
+you'll need prior knowledge in C\# and .NET 5 and osu!Framework if you want to develope on Qsor!
 
 #### Dependencies
 
-* [.Net Core 3.1](https://dotnet.microsoft.com)
+* [.NET 5](https://dotnet.microsoft.com)
 
 ## Setup Qsor
 If you're a not a developer, you can simply go over to the [releases](https://github.com/osuAkatsuki/Qsor/releases) and grab the latest release.
 
 but if you're one, there you go: 
 ```text
-:~$ git clone https://github.com/osuAkatsuki/qsor.git
+:~$ git clone https://github.com/Mempler/qsor.git
 :~$ cd qsor
 :~$ dotnet run Qsor.Desktop -c Release
 ```
