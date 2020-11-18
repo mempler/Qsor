@@ -107,7 +107,7 @@ namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
         /// The user-set distance of the path. If non-null, <see cref="Distance"/> will match this value,
         /// and the path will be shortened/lengthened to match this length.
         /// </summary>
-        public double? ExpectedDistance;
+        public double ExpectedDistance;
 
         /// <summary>
         /// The type of path.
@@ -129,7 +129,7 @@ namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
         /// <param name="expectedDistance">A user-set distance of the path that may be shorter or longer than the true distance between all
         /// <paramref name="controlPoints"/>. The path will be shortened/lengthened to match this length.
         /// If null, the path will use the true distance between all <paramref name="controlPoints"/>.</param>
-        public SliderPath(PathType type, Vector2[] controlPoints, double? expectedDistance = null)
+        public SliderPath(PathType type, Vector2[] controlPoints, double expectedDistance)
         {
             this = default;
             _controlPoints = controlPoints;
@@ -152,6 +152,17 @@ namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
             }
         }
 
+        /// <summary>
+        /// Return all distances
+        /// </summary>
+        public ReadOnlySpan<double> Distances
+        {
+            get
+            {
+                EnsureInitialised();
+                return _cumulativeLength.ToArray().AsSpan();
+            }
+        }
         /// <summary>
         /// The distance of the path after lengthening/shortening to account for <see cref="ExpectedDistance"/>.
         /// </summary>
@@ -292,12 +303,12 @@ namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
                 double d = diff.Length;
 
                 // Shorted slider paths that are too long compared to the expected distance
-                if (ExpectedDistance.HasValue && ExpectedDistance - l < d)
+                if (ExpectedDistance - l < d)
                 {
                     _calculatedPath[i + 1] = _calculatedPath[i] + diff * (float)((ExpectedDistance - l) / d);
                     _calculatedPath.RemoveRange(i + 2, _calculatedPath.Count - 2 - i);
 
-                    l = ExpectedDistance.Value;
+                    l = ExpectedDistance;
                     _cumulativeLength.Add(l);
                     break;
                 }
@@ -307,7 +318,7 @@ namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
             }
 
             // Lengthen slider paths that are too short compared to the expected distance
-            if (ExpectedDistance.HasValue && l < ExpectedDistance && _calculatedPath.Count > 1)
+            if (l < ExpectedDistance && _calculatedPath.Count > 1)
             {
                 var diff = _calculatedPath[^1] - _calculatedPath[^2];
                 double d = diff.Length;
@@ -317,7 +328,7 @@ namespace Qsor.Game.Gameplay.osu.HitObjects.Slider
 
                 // ReSharper disable once UseIndexFromEndExpression (this breaks the Compiler)
                 _calculatedPath[_calculatedPath.Count -1] += diff * (float)((ExpectedDistance - l) / d);
-                _cumulativeLength[_calculatedPath.Count - 1] = ExpectedDistance.Value;
+                _cumulativeLength[_calculatedPath.Count - 1] = ExpectedDistance;
             }
         }
 

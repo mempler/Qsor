@@ -27,6 +27,7 @@ namespace Qsor.Game.Beatmaps
         
         // Sliders
         public double SliderMultiplier;
+        public double TickRate;
     }
 
     public class TimingPoint
@@ -41,8 +42,13 @@ namespace Qsor.Game.Beatmaps
         public bool KiaiMode;
         
         public double BPM;
-        public double Velocity;
         public double SpeedMultiplier;
+
+        public double GetVelocity(Beatmap beatmap)
+        {
+            var scoringDistance = (100 * beatmap.Difficulty.SliderMultiplier) / beatmap.Difficulty.TickRate;
+            return scoringDistance * beatmap.Difficulty.TickRate * (1000.0 / BPM);
+        }
     }
     
     public class Beatmap : Component
@@ -173,6 +179,7 @@ namespace Qsor.Game.Beatmaps
                         Difficulty.ApproachRate = GetValue<double>("ApproachRate");
                         Difficulty.OverallDifficulty = GetValue<double>("OverallDifficulty");
                         Difficulty.SliderMultiplier = GetValue<double>("SliderMultiplier");
+                        Difficulty.TickRate = GetValue<double>("SliderTickRate");
                         break;
                     case Category.Colours:
                         foreach (var value in GetValues())
@@ -197,17 +204,24 @@ namespace Qsor.Game.Beatmaps
                                 SampleIndex = int.Parse(tPoint[4].Trim()),
                                 Volume = int.Parse(tPoint[5].Trim()),
                                 Inherited = tPoint[6].Trim() == "0", // this is reversed for some fucking reason.
-                                KiaiMode = tPoint[7].Trim() == "1"
+                                KiaiMode = tPoint[7].Trim() == "1",
+                                
+                                SpeedMultiplier = 1,
+                                BPM = 0
                             };
-                            timingPoint.BPM = 60000d / Math.Clamp(timingPoint.MsPerBeat, 6, 60000);
 
+                            timingPoint.BPM = timingPoint.MsPerBeat;
                             if (timingPoint.Inherited)
-                                timingPoint.SpeedMultiplier = -100 * lastBpm / timingPoint.MsPerBeat;
+                            {
+                                timingPoint.BPM = lastBpm;
+                                if (!double.IsNaN(timingPoint.BPM))
+                                    timingPoint.BPM *= Math.Max(10, Math.Min(1000, -timingPoint.MsPerBeat)) / 100;
+                            }
                             else
-                                lastBpm = timingPoint.SpeedMultiplier = timingPoint.BPM;
-                            
-                            timingPoint.Velocity = Difficulty.SliderMultiplier * timingPoint.SpeedMultiplier / 600f;
-                            
+                            {
+                                lastBpm = timingPoint.MsPerBeat;
+                            }
+
                             TimingPoints.Add(timingPoint);
                         }
                         break;

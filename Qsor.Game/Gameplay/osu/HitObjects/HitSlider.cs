@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
 using Qsor.Game.Beatmaps;
@@ -15,7 +17,17 @@ namespace Qsor.Game.Gameplay.osu.HitObjects
     // TODO: Fully Implement.
     public class HitSlider : HitObject, IHasCurve
     {
-        public override double EndTime => BeginTime + this.SpanCount() * Path.Distance / TimingPoint.Velocity;
+        public override double EndTime
+        {
+            get
+            {
+                var multiply = TimingPoint.BPM * RepeatCount * TimingPoint.SpeedMultiplier *
+                               Path.ExpectedDistance;
+                var difficulty = 100 * Beatmap.Difficulty.SliderMultiplier;
+
+                return BeginTime + (multiply / difficulty);
+            }
+        }
         public IReadOnlyList<Vector2> ControlPoints { get; }
         public PathType PathType { get; }
         public override HitObjectType Type => HitObjectType.Slider;
@@ -26,7 +38,7 @@ namespace Qsor.Game.Gameplay.osu.HitObjects
         public SnakingSliderBody Body { get; private set; }
         public SliderBall Ball { get; private set; }
 
-        private Vector2? _lastPosition = null;
+        private Vector2? _lastPosition;
         
         [BackgroundDependencyLoader]
         private void Load(TextureStore store) {
@@ -61,16 +73,20 @@ namespace Qsor.Game.Gameplay.osu.HitObjects
             Ball.Position = this.CurvePositionAt(0);
             Ball.Scale = new Vector2(Body.PathRadius / 64f);
 
+            Logger.LogPrint($"B:{BeginTime} E:{EndTime}");
+
             BindableProgress.ValueChanged += prog =>
             {
-                if (prog.NewValue * this.SpanCount() >= 1)
+                if (prog.NewValue * RepeatCount >= 1)
                     Hide();
-                
-                Body.UpdateProgress(prog.NewValue);
-                
-                var newPos = this.CurvePositionAt(prog.NewValue);
 
-                var diff = _lastPosition.HasValue ? _lastPosition.Value - newPos : newPos - this.CurvePositionAt(prog.NewValue + 0.01f);
+                var progress = prog.NewValue / 2;
+
+                Body.UpdateProgress(progress);
+                
+                var newPos = this.CurvePositionAt(progress);
+
+                var diff = _lastPosition.HasValue ? _lastPosition.Value - newPos : newPos - this.CurvePositionAt(progress + 0.01f);
                 if (diff == Vector2.Zero)
                     return;
                 
