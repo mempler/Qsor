@@ -12,7 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="ppy.squirrel.windows" Version="1.9.0.4" />
-      <PackageReference Include="SharpCompress" Version="0.26.0" />
+      <PackageReference Include="SharpCompress" Version="0.29.0" />
       <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
       <PackageReference Include="System.IO.Packaging" Version="5.0.0" />
     </ItemGroup>
