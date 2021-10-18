@@ -42,7 +42,7 @@ namespace Qsor.Deploy
             var logo = solutionDirectory.GetFullPath("Qsor.Game/Resources/Textures/Logo-256x256.png");
             var icon = solutionDirectory.GetFullPath("Qsor.Desktop/icon.ico");
             
-            RunCommand("dotnet", $"publish -f netcoreapp3.1 Qsor.Desktop --configuration Release --runtime win-x64 -p:Version={currentDate} -o {stagingDirectory.GetFullPath(".")}",
+            RunCommand("dotnet", $"publish -f net5.0 Qsor.Desktop --configuration Release --runtime win-x64 -p:Version={currentDate} -o {stagingDirectory.GetFullPath(".")}",
                 solutionDirectory.GetFullPath("."));
             
             RunCommand("./tools/rcedit-x64.exe", $"\"{stagingDirectory.GetFullPath(".")}\\Qsor.exe\" --set-icon \"{icon}\"");
