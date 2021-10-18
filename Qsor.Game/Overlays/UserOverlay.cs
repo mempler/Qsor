@@ -55,7 +55,7 @@ namespace Qsor.Game.Overlays
                 {
                     Font = new FontUsage(size: 32, weight: "Bold"),
                     Colour = Color4.DarkGray,
-                    Text = new LocalisedString("#1"),
+                    Text = new LocalisableString("#1"),
                 
                     Anchor = Anchor.BottomRight,
                     Origin = Anchor.BottomRight,

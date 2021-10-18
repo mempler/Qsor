@@ -11,14 +11,6 @@ namespace Qsor.Tests.Visual.Overlays
 {
     public class TestSceneUserOverlay : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[]
-        {
-            typeof(UserOverlay),
-            typeof(DrawableAvatar),
-            typeof(DrawableLevelBar),
-            typeof(UserStatistics),
-        };
-
          [BackgroundDependencyLoader]
          private void Load()
          {

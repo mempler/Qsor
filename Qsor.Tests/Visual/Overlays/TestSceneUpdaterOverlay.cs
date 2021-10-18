@@ -8,9 +8,6 @@ namespace Qsor.Tests.Visual.Overlays
 {
     public class TestSceneUpdaterOverlay : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes =>
-            new[] { typeof(UpdaterOverlay) };
-        
         [BackgroundDependencyLoader]
         private void Load()
         {

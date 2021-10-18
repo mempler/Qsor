@@ -12,14 +12,6 @@ namespace Qsor.Tests.Visual.Overlays
 {
     public class TestSceneSettingsOverlay : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes
-            => new[]
-            {
-                typeof(SettingsOverlay), typeof(SettingsGeneralCategory),
-                typeof(DrawableSettingsToolBar), typeof(DrawableSettingsIconSprite),
-                typeof(DrawableSettingsMenu), typeof(DrawableSettingsCategory)
-            };
-
         [BackgroundDependencyLoader]
         private void Load(TextureStore ts)
         {

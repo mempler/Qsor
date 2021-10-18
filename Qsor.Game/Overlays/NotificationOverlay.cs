@@ -38,7 +38,7 @@ namespace Qsor.Game.Overlays
             AddInternal(_drawableNotifications);
         }
 
-        public void AddNotification(LocalisedString text, ColourInfo colourInfo, int duration = -1, Action clickAction = null)
+        public void AddNotification(LocalisableString text, ColourInfo colourInfo, int duration = -1, Action clickAction = null)
             => AddNotification(new DrawableNotification(text, colourInfo, duration, clickAction));
 
         public void AddNotification(DrawableNotification notification)

@@ -13,7 +13,7 @@ namespace Qsor.Game.Overlays
         private SpriteText _statusText;
         private SpriteIcon _spinningIcon;
         
-        public LocalisedString Text { get => _statusText.Text; set => _statusText.Text = value; }
+        public LocalisableString Text { get => _statusText.Text; set => _statusText.Text = value; }
         
         [Resolved]
         private Updater.Updater Updater { get; set; }

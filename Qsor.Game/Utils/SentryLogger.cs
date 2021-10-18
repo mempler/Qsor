@@ -7,24 +7,21 @@ namespace Qsor.Game.Utils
 {
     public class SentryLogger : IDisposable
     {
-        private readonly SentryClient _sentry;
+        private IDisposable _sentry;
 
         public SentryLogger(QsorBaseGame game)
         {
             if (DebugUtils.IsDebugBuild)
                 return;
-            
-            var sentryOptions = new SentryOptions
+
+            _sentry = SentrySdk.Init(o =>
             {
-                Dsn = new Dsn("https://ddefbeb05e074f9c993bf1a72eb2a602@o169266.ingest.sentry.io/5193034"),
-                Release = QsorBaseGame.Version
-            };
-            
-            _sentry = new SentryClient(sentryOptions);
-            var sentryScope = new Scope(sentryOptions);
+                o.Dsn = "https://ddefbeb05e074f9c993bf1a72eb2a602@o169266.ingest.sentry.io/5193034";
+                o.Release = QsorBaseGame.Version;
+            });
             
             Exception lastException = null;
-            Logger.NewEntry += async entry =>
+            Logger.NewEntry += entry =>
             {
                 if (entry.Level < LogLevel.Verbose)
                     return;
@@ -37,13 +34,13 @@ namespace Qsor.Game.Utils
                         lastException.Message == exception.Message &&
                         exception.StackTrace?.StartsWith(lastException.StackTrace ?? string.Empty) == true)
                         return;
-                    
-                    _sentry.CaptureEvent(new SentryEvent(exception) { Message = entry.Message }, sentryScope);
+
+                    SentrySdk.CaptureEvent(new SentryEvent(exception) { Message = entry.Message });
                     lastException = exception;
                 }
                 else
                 {
-                    sentryScope.AddBreadcrumb(DateTimeOffset.Now, entry.Message, entry.Target.ToString(), "qsor-logger");
+                    SentrySdk.AddBreadcrumb(entry.Message, entry.Target.ToString(), "qsor-logger");
                 }
             };
         }

@@ -27,7 +27,7 @@ namespace Qsor.Game.Overlays.Notifications
         /// <param name="colourInfo"></param>
         /// <param name="duration">Hide after X amount of MS, -1 = PositiveInfinity</param>
         /// <param name="clickAction"></param>
-        public DrawableNotification(LocalisedString text, ColourInfo colourInfo, int duration = -1, Action clickAction = null)
+        public DrawableNotification(LocalisableString text, ColourInfo colourInfo, int duration = -1, Action clickAction = null)
         {
             _clock = new StopwatchClock();
             _clickAction = clickAction;
@@ -41,7 +41,7 @@ namespace Qsor.Game.Overlays.Notifications
             };
             _duration = duration == -1 ? Math.Max(3000, (double) (text.ToString().Length * 100)) : duration;
 
-            _textFlowContainer.AddText(text);
+            _textFlowContainer.AddText(text.ToString());
         }
         
         [BackgroundDependencyLoader]

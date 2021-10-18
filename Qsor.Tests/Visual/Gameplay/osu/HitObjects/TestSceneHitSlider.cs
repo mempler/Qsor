@@ -14,8 +14,6 @@ namespace Qsor.Tests.Visual.Gameplay.osu.HitObjects
 {
     public class TestSceneHitSlider : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(HitSlider) };
-        
         [BackgroundDependencyLoader]
         private void Load()
         {

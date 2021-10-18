@@ -34,7 +34,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
             Label.ValueChanged += e => _label.Text = e.NewValue;
         }
 
-        public DrawableSettingsCheckbox(bool defaultValue, LocalisedString label, LocalisedString toolTip) : base(defaultValue, label, toolTip)
+        public DrawableSettingsCheckbox(bool defaultValue, LocalisableString label, LocalisableString toolTip) : base(defaultValue, label, toolTip)
         {
         }
 

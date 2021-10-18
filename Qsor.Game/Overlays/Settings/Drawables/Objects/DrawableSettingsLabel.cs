@@ -5,7 +5,7 @@ using osu.Framework.Localisation;
 
 namespace Qsor.Game.Overlays.Settings.Drawables.Objects
 {
-    public class DrawableSettingsLabel : DrawableSettingsObject<LocalisedString>
+    public class DrawableSettingsLabel : DrawableSettingsObject<LocalisableString>
     {
         private SpriteText _label;
         
@@ -26,7 +26,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
             Label.ValueChanged += e => _label.Text = e.NewValue;
         }
     
-        public DrawableSettingsLabel(LocalisedString defaultValue, LocalisedString toolTip) : base(defaultValue, string.Empty, toolTip)
+        public DrawableSettingsLabel(LocalisableString defaultValue, LocalisableString toolTip) : base(defaultValue, string.Empty, toolTip)
         {
         }
     }

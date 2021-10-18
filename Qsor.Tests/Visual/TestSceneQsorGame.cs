@@ -11,22 +11,9 @@ namespace Qsor.Tests.Visual
     public class TestSceneQsorGame : TestScene
     {
         [BackgroundDependencyLoader]
-        private void Load(GameHost host)
+        private void Load()
         {
-            var game = new QsorGame(new []{ string.Empty });
-            game.SetHost(host);
-
-            Children = new Drawable[]
-            {
-                new Box
-                {
-                    RelativeSizeAxes = Axes.Both,
-                    Colour = Color4.Black,
-                },
-                game
-            };
-
-            AddUntilStep("Wait for Load", () => game.IsLoaded);
+            AddGame(new QsorGame(new []{ string.Empty }));
         }
     }
 }

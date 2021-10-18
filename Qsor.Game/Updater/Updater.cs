@@ -35,7 +35,7 @@ namespace Qsor.Game.Updater
                         break;
                     
                     case UpdaterStatus.Ready:
-                        UpdaterOverlay.Text = new LocalisedString("Click here to restart!");
+                        UpdaterOverlay.Text = new LocalisableString("Click here to restart!");
                         UpdaterOverlay.Show();
                         break;
                     default:
@@ -44,7 +44,7 @@ namespace Qsor.Game.Updater
             };
 
             BindableProgress.ValueChanged += e =>
-                UpdaterOverlay.Text = new LocalisedString($"Updating Qsor... {e.NewValue}%");
+                UpdaterOverlay.Text = new LocalisableString($"Updating Qsor... {e.NewValue}%");
         }
     }
 }

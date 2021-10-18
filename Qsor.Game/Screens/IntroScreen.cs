@@ -50,8 +50,6 @@ namespace Qsor.Game.Screens
                 _textFlowContainer[i].FadeInFromZero(250 + 100 * i);
 
             Scheduler.AddDelayed(() => _spriteIcon.FlashColour(Color4.White, 1000), 1000, true);
-            
-            base.OnEntering(last);
         }
 
         public override bool OnExiting(IScreen next)

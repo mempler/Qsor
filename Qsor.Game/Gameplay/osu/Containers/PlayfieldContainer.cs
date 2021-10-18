@@ -18,22 +18,16 @@ namespace Qsor.Game.Gameplay.osu.Containers
 
         private double _currentTime;
 
-        private readonly Container _sliderLayer;
-        private readonly Container _circleLayer;
+        private readonly Container _hitObjectLayer;
         
         public PlayfieldContainer()
         {
             InternalChildren = new[]
             {
-                _sliderLayer = new Container
+                _hitObjectLayer = new Container
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Name = "Slider Layer"
-                },
-                _circleLayer = new Container
-                {
-                    RelativeSizeAxes = Axes.Both,
-                    Name = "Circle Layer"
+                    Name = "HitObject Layer"
                 }
             };
         }
@@ -51,12 +45,7 @@ namespace Qsor.Game.Gameplay.osu.Containers
             
             _currentTime = WorkingBeatmap.Value.Track?.CurrentTime + WorkingBeatmap.Value.General.AudioLeadIn ?? 0;
 
-            _sliderLayer // It's faster to iterate through Children. (or should be as there are less objects)
-                .OfType<HitObject>() // TODO: remove
-                .Where(obj => _currentTime > obj.EndTime)
-                .ForEach(obj => obj.Hide());
-
-            _circleLayer // same here.
+            _hitObjectLayer // It's faster to iterate through Children. (or should be as there are less objects)
                 .OfType<HitObject>() // TODO: remove
                 .Where(obj => _currentTime > obj.EndTime)
                 .ForEach(obj => obj.Hide());
@@ -64,27 +53,12 @@ namespace Qsor.Game.Gameplay.osu.Containers
             WorkingBeatmap.Value.HitObjects
                 .Where(obj => _currentTime < obj.EndTime)
                 .Where(obj => _currentTime > obj.BeginTime - (WorkingBeatmap.Value.Difficulty.ApproachRate + 400))
-                .Where(obj => !_circleLayer.Contains(obj) && !_sliderLayer.Contains(obj))
+                .Where(obj => !_hitObjectLayer.Contains(obj)) // Don't duplicate add
                 .ForEach(obj =>
                 {
                     // obj.TimingPoint = WorkingBeatmap.Value.TimingPoints.FirstOrDefault(s => s.Offset >= _currentTime);
                     
-                    switch (obj.Type)
-                    {
-                        case HitObjectType.Circle:
-                            _circleLayer.Add(obj);
-                            break;
-                        case HitObjectType.Slider:
-                            _sliderLayer.Add(obj);
-                            break;
-                        case HitObjectType.NewCombo:
-                            break;
-                        case HitObjectType.Spinner:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    
+                    _hitObjectLayer.Add(obj);
                     
                     obj.Show();
                 });

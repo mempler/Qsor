@@ -6,7 +6,7 @@ namespace Qsor.Tests
     {
         private static void Main(string[] args)
         {
-            using var host = Host.GetSuitableHost(@"Qsor.Game", true);
+            using var host = Host.GetSuitableHost(@"Qsor", true);
             host.Run(new QsorTestGame(args));
         }
     }

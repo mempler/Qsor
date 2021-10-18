@@ -12,7 +12,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
 {
     public class DrawableSettingsSubCategory : CompositeDrawable
     {
-        public Bindable<LocalisedString> Label = new(string.Empty);
+        public Bindable<LocalisableString> Label = new(string.Empty);
         private SpriteText _label;
         
         public FillFlowContainer Content { get; } = new FillFlowContainer
@@ -48,7 +48,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables
             AddInternal(Content);
         }
 
-        public DrawableSettingsSubCategory(LocalisedString label)
+        public DrawableSettingsSubCategory(LocalisableString label)
         {
             Label.Default = label;
             Label.SetDefault();

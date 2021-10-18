@@ -11,11 +11,6 @@ namespace Qsor.Tests.Visual.Scenes
     [TestFixture]
     public class MainMenuTestScene : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[]
-        {
-            typeof(MainMenuScreen)
-        };
-
         [BackgroundDependencyLoader]
         private void Load()
         {

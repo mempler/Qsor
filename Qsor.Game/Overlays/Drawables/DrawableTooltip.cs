@@ -11,11 +11,11 @@ namespace Qsor.Game.Overlays.Drawables
 {
     public class DrawableTooltip : CompositeDrawable
     {
-        public readonly Bindable<LocalisedString> Value = new(string.Empty);
+        public readonly Bindable<LocalisableString> Value = new(string.Empty);
 
         private TextFlowContainer _textFlowContainer;
         
-        public DrawableTooltip(Bindable<LocalisedString> value)
+        public DrawableTooltip(Bindable<LocalisableString> value)
         {
             Value.BindTo(value);
         }
@@ -44,10 +44,10 @@ namespace Qsor.Game.Overlays.Drawables
             {
                 AutoSizeAxes = Axes.Both,
                 MaximumSize = new Vector2(400, float.MaxValue),
-                Text = Value.Value
+                Text = Value.Value.ToString()
             });
 
-            Value.ValueChanged += e => _textFlowContainer.Text = e.NewValue;
+            Value.ValueChanged += e => _textFlowContainer.Text = e.NewValue.ToString();
         }
     }
 }

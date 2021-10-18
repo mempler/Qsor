@@ -13,8 +13,6 @@ namespace Qsor.Tests.Visual.Gameplay.osu.HitObjects
 {
     public class TestSceneHitCircle : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(HitCircle) };
-
         [BackgroundDependencyLoader]
         private void Load()
         {

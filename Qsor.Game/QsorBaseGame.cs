@@ -4,6 +4,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Development;
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
+using osu.Framework.Screens;
 using Qsor.Game.Beatmaps;
 using Qsor.Game.Configuration;
 using Qsor.Game.Database;
@@ -35,6 +36,8 @@ namespace Qsor.Game
         public Updater.Updater Updater;
         
         private DependencyContainer _dependencies;
+        
+        private ScreenStack _stack;
 
         public static string Version => !DebugUtils.IsDebugBuild
             ? Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3)
@@ -89,6 +92,9 @@ namespace Qsor.Game
             ConfigManager.Save();
             
             AddInternal(SettingsOverlay = new SettingsOverlay());
+            
+            _stack = new ScreenStack(true);
+            Add(_stack);
         }
 
         protected override void Dispose(bool isDisposing)
@@ -102,6 +108,16 @@ namespace Qsor.Game
             }
 
             base.Dispose(isDisposing);
+        }
+        
+        public void PushScreen(Screen screen)
+        {
+            _stack.Push(screen);
+        }
+
+        public void ExitScreen()
+        {
+            _stack.Exit();
         }
     }
 }

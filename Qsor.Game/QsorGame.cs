@@ -16,7 +16,6 @@ namespace Qsor.Game
     public class QsorGame : QsorBaseGame, IKeyBindingHandler<GlobalAction>
     {
         private GlobalKeyBindingInputHandler KeyBindingInputHandler;
-        private ScreenStack _stack;
 
         [BackgroundDependencyLoader]
         private void Load()
@@ -24,43 +23,28 @@ namespace Qsor.Game
             Audio.Frequency.Set(1);
             Audio.Volume.Set(.05);
 
-            _stack = new ScreenStack(false);
-            Add(_stack);
-            
             Window.Title = $"Qsor - {Version}";
             
             AddInternal(KeyBindingInputHandler = new GlobalKeyBindingInputHandler(this));
             
             if (!DebugUtils.IsDebugBuild)
             {
-                _stack.Anchor = Anchor.Centre;
-                _stack.Origin = Anchor.Centre;
-                
-                _stack.Push(new IntroScreen());
+                PushScreen(new IntroScreen());
                 
                 Scheduler.AddDelayed(() =>
                 {
-                    _stack.Exit();
+                    ExitScreen();
                     
-                    Scheduler.AddDelayed(() => _stack.Push(new MainMenuScreen()), 2000);
+                    Scheduler.AddDelayed(() => PushScreen(new MainMenuScreen()), 2000);
                 }, 6000);
             }
             else
             {
-                _stack.Push(new MainMenuScreen());
+                PushScreen(new MainMenuScreen());
             }
         }
 
-        public void PushScreen(Screen screen)
-        {
-            _stack.Push(screen);
-        }
 
-        public void ExitScreen()
-        {
-            _stack.Exit();
-        }
-        
         protected override bool OnKeyDown(KeyDownEvent e)
         {
             switch (e.Key)
@@ -86,9 +70,9 @@ namespace Qsor.Game
         {
         }
 
-        public bool OnPressed(GlobalAction action)
+        public bool OnPressed(KeyBindingPressEvent<GlobalAction> e)
         {
-            switch (action)
+            switch (e.Action)
             {
                 case GlobalAction.ToggleOptions:
                     if (SettingsOverlay.IsShown)
@@ -103,13 +87,13 @@ namespace Qsor.Game
                     break;
                 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
+                    throw new ArgumentOutOfRangeException(nameof(e.Action), e.Action, null);
             }
             
             return true;
         }
 
-        public void OnReleased(GlobalAction action)
+        public void OnReleased(KeyBindingReleaseEvent<GlobalAction> e)
         {
         }
 

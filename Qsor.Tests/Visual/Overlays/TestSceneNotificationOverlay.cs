@@ -12,27 +12,28 @@ namespace Qsor.Tests.Visual.Overlays
 {
     public class TestSceneNotificationOverlay : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes
-            => new[] {typeof(NotificationOverlay), typeof(DrawableNotification)};
+        private LipsumGenerator _lipsumGenerator;
+        private NotificationOverlay _notificationOverlay;
 
+        [SetUpSteps]
+        public void Setup()
+        {
+            _lipsumGenerator = new LipsumGenerator();
+            _notificationOverlay = new NotificationOverlay();
+            
+            Add(_notificationOverlay = new NotificationOverlay());
+        }
+        
         [BackgroundDependencyLoader]
         private void Load()
         {
-            var lipsumGenerator = new LipsumGenerator();
-            var notificationOverlay = new NotificationOverlay();
-            
-            AddSetupStep("Setup Overlay", () =>
-            {
-                Add(notificationOverlay = new NotificationOverlay());
-            });
-
             AddStep("Create random Lorem Ipsum", () =>
             {
                 var random = new Random();
                 var randomColour = new Color4((float) random.NextDouble(), (float) random.NextDouble(), (float) random.NextDouble(), 1f);
 
-                notificationOverlay.AddNotification(
-                    new LocalisedString(lipsumGenerator.GenerateLipsum(4, Features.Sentences, FormatStrings.Paragraph.LineBreaks)),
+                _notificationOverlay.AddNotification(
+                    new LocalisableString(_lipsumGenerator.GenerateLipsum(4, Features.Sentences, FormatStrings.Paragraph.LineBreaks)),
                     randomColour, 5000);
             });
         }

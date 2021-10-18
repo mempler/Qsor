@@ -116,17 +116,17 @@ namespace Qsor.Game.Screens
             
             this.FadeInFromZero(2500, Easing.InExpo).Finally(e =>
             {
-                NotificationOverlay.AddNotification(new LocalisedString(
+                NotificationOverlay.AddNotification(new LocalisableString(
                         "Please note that the client is still in a very early alpha, bugs will most likely occur! " +
                         "Consider reporting each of them in #bug-reports in it hasn't been found already."),
                     Color4.Orange, 10000);
 
-                NotificationOverlay.AddNotification(new LocalisedString(
+                NotificationOverlay.AddNotification(new LocalisableString(
                         "You can play different beatmaps by editing \"game.ini\" config file. " +
                         "To open the Qsor configuration directory, click this notification!"),
                     Color4.Orange, 10000, Storage.OpenInNativeExplorer);
 
-                NotificationOverlay.AddNotification(new LocalisedString(
+                NotificationOverlay.AddNotification(new LocalisableString(
                         $"You're currently running {QsorBaseGame.Version}! " +
                         "Click here to view the changelog."),
                     Color4.Gray, 10000, () => Host.OpenUrlExternally($"https://github.com/osuAkatsuki/Qsor/releases/tag/{QsorBaseGame.Version}"));
@@ -155,7 +155,6 @@ namespace Qsor.Game.Screens
             
             IsFading = true;
         }
-
         protected override bool OnMouseMove(MouseMoveEvent e)
         {
             _toolbar.ClearTransforms();
@@ -172,14 +171,17 @@ namespace Qsor.Game.Screens
         protected override bool OnClick(ClickEvent e)
         {
             if (_qsorLogo.IsHovered)
-                ((QsorGame) Game).PushScreen(new OsuScreen
+            {
+                var game = (QsorBaseGame) Game;
+                game.PushScreen(new OsuScreen
                 {
                     RelativeSizeAxes = Axes.X,
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
                     FillMode = FillMode.Fill,
                 });
-            
+            }
+
             return base.OnClick(e);
         }
     }

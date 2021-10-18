@@ -11,11 +11,6 @@ namespace Qsor.Tests.Visual.Scenes
     [TestFixture]
     public class IntroTestScene : TestScene
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[]
-        {
-            typeof(IntroScreen)
-        };
-
         [BackgroundDependencyLoader]
         private void Load()
         {
