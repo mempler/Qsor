@@ -77,13 +77,15 @@ namespace Qsor.Game.Graphics.Containers
                 timingPoint = beatmap.GetTimingPointAt(currentTrackTime);
             }
 
-            if (timingPoint == null)
-                timingPoint = _defaultTiming;
+            timingPoint ??= _defaultTiming;
 
             IsBeatSyncedWithTrack = timingPoint.MsPerBeat > 0;
             
             if (!IsBeatSyncedWithTrack)
             {
+                // Keep kiai
+                _lastValidTimingPoint.KiaiMode = timingPoint.KiaiMode;
+                
                 currentTrackTime = Clock.CurrentTime;
                 timingPoint = _lastValidTimingPoint;
             }
