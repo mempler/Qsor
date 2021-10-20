@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
@@ -42,6 +42,8 @@ namespace Qsor.Game.Screens
 
         [Resolved] 
         private GameHost Host { get; set; }
+        
+        private MenuSideFlashes SideFlashes { get; set; }
         
         [BackgroundDependencyLoader]
         private void Load(UpdaterOverlay updaterOverlay, AudioManager audioManager, QsorDbContextFactory ctxFactory, BeatmapManager beatmapManager)
@@ -94,10 +96,9 @@ namespace Qsor.Game.Screens
             
             AddInternal(parallaxFront);
 
-            
+            AddInternal(SideFlashes = new MenuSideFlashes());
             
             AddInternal(_toolbar = new Toolbar());
-            
             AddInternal(_bottomBar = new BottomBar());
             
             AddInternal(updaterOverlay);
@@ -141,7 +142,7 @@ namespace Qsor.Game.Screens
             this.FadeOutFromOne(2500, Easing.OutExpo);
             return true;
         }
-
+        
         // Fade clock
         private StopwatchClock _clock = new();
         public bool IsFading;
@@ -160,14 +161,14 @@ namespace Qsor.Game.Screens
         {
             if (_clock.ElapsedMilliseconds >= 5000)
             {
-            _toolbar.ClearTransforms();
-            _bottomBar.ClearTransforms();
-            
-            _toolbar.FadeIn(250);
-            _bottomBar.FadeIn(250);
-            
-            IsFading = false;
-            _clock.Restart();
+                _toolbar.ClearTransforms();
+                _bottomBar.ClearTransforms();
+
+                _toolbar.FadeIn(250);
+                _bottomBar.FadeIn(250);
+                
+                IsFading = false;
+                _clock.Restart();
             }
             
             return true;
