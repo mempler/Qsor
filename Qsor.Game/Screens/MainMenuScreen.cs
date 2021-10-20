@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
@@ -142,6 +142,7 @@ namespace Qsor.Game.Screens
             return true;
         }
 
+        // Fade clock
         private StopwatchClock _clock = new();
         public bool IsFading;
         
@@ -150,13 +151,15 @@ namespace Qsor.Game.Screens
             if (IsFading || _clock.ElapsedMilliseconds <= 5000)
                 return;
             
-            _toolbar.FadeOut(13000);
-            _bottomBar.FadeOut(13000);
+            _toolbar.FadeOut(8000);
+            _bottomBar.FadeOut(8000);
             
             IsFading = true;
         }
         protected override bool OnMouseMove(MouseMoveEvent e)
         {
+            if (_clock.ElapsedMilliseconds >= 5000)
+            {
             _toolbar.ClearTransforms();
             _bottomBar.ClearTransforms();
             
@@ -165,6 +168,8 @@ namespace Qsor.Game.Screens
             
             IsFading = false;
             _clock.Restart();
+            }
+            
             return true;
         }
 
