@@ -14,7 +14,7 @@ using Qsor.Game.Online;
 
 namespace Qsor.Game.Beatmaps
 {
-    public class BeatmapManager : Component
+    public class BeatmapManager
     {
         public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new();
 
@@ -48,16 +48,31 @@ namespace Qsor.Game.Beatmaps
         private void Load(TextureStore store)
         {
             // TODO: Remove
-            if (!Storage.ExistsDirectory($"./Songs/{ConfigManager.Get<int>(QsorSetting.BeatmapSetId)}"))
+            var setId = ConfigManager.Get<int>(QsorSetting.BeatmapSetId);
+            if (!Storage.ExistsDirectory($"./Songs/{setId}"))
             {
-                var beatmapFile = BeatmapMirrorAccess.DownloadBeatmap(ConfigManager.Get<int>(QsorSetting.BeatmapSetId))
-                    .GetAwaiter()
-                    .GetResult();
-                
-                ImportZip(beatmapFile);
+                MirrorAccess.DownloadBeatmap(setId);
+
+                ImportStalled();
             }
         }
 
+        /// <summary>
+        /// Import all .osz files inside %QSOR_DIR%/Songs/
+        /// </summary>
+        public void ImportStalled()
+        {
+            foreach (var osz in Storage.GetFiles("./Songs/", "*.osz"))
+            {
+                using (var oszStream = Storage.GetStream(osz, FileAccess.Read, FileMode.Open))
+                {
+                    ImportZip(oszStream);
+                }
+            
+                Storage.Delete(osz); // Cleanup
+            }
+        }
+        
         public void ImportZip(Stream beatmapFile)
         {
             using var db = QsorDbContextFactory.GetForWrite();

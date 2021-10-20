@@ -21,7 +21,7 @@ namespace Qsor.Game
         private void Load()
         {
             Audio.Frequency.Set(1);
-            Audio.Volume.Set(.05);
+            Audio.Volume.Set(.35);
 
             Window.Title = $"Qsor - {Version}";
             

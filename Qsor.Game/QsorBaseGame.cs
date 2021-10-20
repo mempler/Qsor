@@ -58,7 +58,8 @@ namespace Qsor.Game
             _dependencies.Cache(UserManager = new UserManager());
             
             _dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
-            
+            Dependencies.Inject(BeatmapMirrorAccess);
+
             _dependencies.Cache(QsorDbContextFactory = new QsorDbContextFactory(storage));
             _dependencies.Cache(ConfigManager = new QsorConfigManager(storage));
             
@@ -67,26 +68,25 @@ namespace Qsor.Game
             _dependencies.Cache(SentryLogger = new SentryLogger(this));
             
             _dependencies.Cache(DiscordManager = new DiscordManager());
+            AddInternal(DiscordManager);
 
             _dependencies.CacheAs(this);
             _dependencies.CacheAs(Host);
-            
-            AddInternal(DiscordManager);
             
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             
             QsorDbContextFactory.Get().Migrate();
             
-            AddInternal(BeatmapManager);
-            AddInternal(NotificationOverlay);
-
-            Updater ??= new DummyUpdater();
+            Dependencies.Inject(BeatmapManager);
             
+            AddInternal(NotificationOverlay);
+            
+            Updater ??= new DummyUpdater();
             UpdaterOverlay = new UpdaterOverlay();
-                
+            
             _dependencies.Cache(UpdaterOverlay);
             _dependencies.CacheAs(Updater);
-                
+            
             LoadComponent(Updater);
             
             ConfigManager.Save();
@@ -101,7 +101,6 @@ namespace Qsor.Game
         {
             if (isDisposing) {
                 ConfigManager?.Dispose();
-                BeatmapManager?.Dispose();
                 NotificationOverlay?.Dispose();
                 
                 SentryLogger?.Dispose();
