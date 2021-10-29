@@ -29,6 +29,8 @@ namespace Qsor.Game.Overlays.Notifications
         /// <param name="clickAction"></param>
         public DrawableNotification(LocalisableString text, ColourInfo colourInfo, int duration = -1, Action clickAction = null)
         {
+            Margin = new MarginPadding(6);
+            
             _clock = new StopwatchClock();
             _clickAction = clickAction;
             _borderColour = colourInfo;
