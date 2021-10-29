@@ -28,7 +28,8 @@ namespace Qsor.Game.Screens
         private QsorLogo _qsorLogo;
         private Toolbar _toolbar;
         private BottomBar _bottomBar;
-        
+        private MenuSideFlashes _sideFlashes;
+
         private Bindable<WorkingBeatmap> _workingBeatmap = new();
         
         [Resolved]
@@ -42,8 +43,6 @@ namespace Qsor.Game.Screens
 
         [Resolved] 
         private GameHost Host { get; set; }
-        
-        private MenuSideFlashes SideFlashes { get; set; }
         
         [BackgroundDependencyLoader]
         private void Load(UpdaterOverlay updaterOverlay, AudioManager audioManager, QsorDbContextFactory ctxFactory, BeatmapManager beatmapManager)
@@ -96,7 +95,7 @@ namespace Qsor.Game.Screens
             
             AddInternal(parallaxFront);
 
-            AddInternal(SideFlashes = new MenuSideFlashes());
+            AddInternal(_sideFlashes = new MenuSideFlashes());
             
             AddInternal(_toolbar = new Toolbar());
             AddInternal(_bottomBar = new BottomBar());
@@ -145,17 +144,17 @@ namespace Qsor.Game.Screens
         
         // Fade clock
         private StopwatchClock _clock = new();
-        public bool IsFading;
+        private bool _isFading;
         
         protected override void Update()
         {
-            if (IsFading || _clock.ElapsedMilliseconds <= 5000)
+            if (_isFading || _clock.ElapsedMilliseconds <= 5000)
                 return;
             
             _toolbar.FadeOut(8000);
             _bottomBar.FadeOut(8000);
             
-            IsFading = true;
+            _isFading = true;
         }
         protected override bool OnMouseMove(MouseMoveEvent e)
         {
@@ -167,7 +166,7 @@ namespace Qsor.Game.Screens
                 _toolbar.FadeIn(250);
                 _bottomBar.FadeIn(250);
                 
-                IsFading = false;
+                _isFading = false;
                 _clock.Restart();
             }
             
@@ -178,9 +177,9 @@ namespace Qsor.Game.Screens
         {
             if (_qsorLogo.IsHovered)
             {
-                NotificationOverlay.AddNotification("Gameplay as it stands right now is not implemented.\n" +
+                NotificationOverlay.AddBigNotification("Gameplay as it stands right now is not implemented.\n" +
                                                     "We want to implement the UI First before we do any gameplay features.\n" +
-                                                    "That way we can guarantee that it feels just right!", ColourInfo.SingleColour(Color4.Red));
+                                                    "That way we can guarantee that it feels just right!", 10000);
             }
 
             return base.OnClick(e);

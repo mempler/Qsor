@@ -25,6 +25,12 @@ namespace Qsor.Game.Screens.Menu
             });
             
             AddInternal(new UserOverlay());
+            
+            AddInternal(new MusicPlayerOverlay
+            {
+                Anchor = Anchor.TopRight,
+                Origin = Anchor.TopRight,
+            });
         }
     }
 }
