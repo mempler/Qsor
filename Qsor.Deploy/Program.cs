@@ -66,7 +66,7 @@ namespace Qsor.Deploy
             };
             
             Console.WriteLine($"Creating release {currentDate}...");
-                
+
             req.AddRaw(JsonConvert.SerializeObject(new GitHubRelease
             {
                 Name = currentDate,

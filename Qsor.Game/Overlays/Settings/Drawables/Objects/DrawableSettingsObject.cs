@@ -8,6 +8,7 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
+using osuTK;
 using osuTK.Graphics;
 using Qsor.Game.Graphics.Containers;
 using Qsor.Game.Overlays.Drawables;
@@ -22,7 +23,8 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
 
         public LocalisableString TooltipText => ToolTip.Value;
         
-        private Box _hoverBox;
+        [Resolved]
+        private SettingsOverlay SettingsOverlay { get; set; }
 
         public DrawableSettingsObject(T defaultValue, LocalisableString label, LocalisableString toolTip)
         {
@@ -40,31 +42,28 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
             RelativeSizeAxes = Axes.X;
 
             Height = 32;
-            Padding = new MarginPadding(10);
             
-            AddInternal(_hoverBox = new Box
-            {
-                Anchor = Anchor.TopCentre,
-                Origin = Anchor.Centre,
-                
-                Height = 32,
-                Width = 450,
+            Padding = new MarginPadding(10);
+        }
 
-                Colour = Color4.Black,
-                
-                Alpha = 0
-            });
+        protected override bool OnMouseMove(MouseMoveEvent e)
+        {
+            if (!IsHovered)
+                return base.OnMouseMove(e);
+            
+            SettingsOverlay.MoveIndexTo(this);
+            return true;
         }
 
         protected override bool OnHover(HoverEvent e)
         {
-            _hoverBox.FadeTo(.5f, 250, Easing.In);
+            SettingsOverlay.ObjectHovering();
             return true;
         }
 
         protected override void OnHoverLost(HoverLostEvent e)
         {
-            _hoverBox.FadeOut(100, Easing.In);
+            SettingsOverlay.ObjectHoverLost();
         }
     }
 }
