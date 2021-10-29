@@ -37,7 +37,7 @@ namespace Qsor.Game.Overlays
             {
                 AutoSizeAxes = Axes.Both,
                 Direction = FillDirection.Vertical,
-                Spacing = new Vector2(6)
+                Spacing = new Vector2(6),
             };
             
             _Icons = new FillFlowContainer<ClickableIcon>
@@ -52,6 +52,8 @@ namespace Qsor.Game.Overlays
                 Icon = FontAwesome.Solid.StepBackward,
                 Size = new Vector2(16),
                 
+                TooltipText = "Previous track",
+                
                 ClickEvent = e =>
                 {
                     notificationOverlay.AddBigNotification("<< Prev !Unimplemented!", 1100);
@@ -64,6 +66,8 @@ namespace Qsor.Game.Overlays
             {
                 Icon = FontAwesome.Solid.Play,
                 Size = new Vector2(16),
+                
+                TooltipText = "Play",
                 
                 ClickEvent = _ =>
                 {
@@ -90,6 +94,8 @@ namespace Qsor.Game.Overlays
             {
                 Icon = FontAwesome.Solid.Pause,
                 Size = new Vector2(16),
+                
+                TooltipText = "Pause",
                 
                 ClickEvent = e =>
                 {
@@ -123,6 +129,8 @@ namespace Qsor.Game.Overlays
                 Icon = FontAwesome.Solid.Stop,
                 Size = new Vector2(16),
                 
+                TooltipText = "Stop the music!",
+                
                 ClickEvent = e =>
                 {
                     notificationOverlay.AddBigNotification("Stop Playing", 1100);
@@ -139,6 +147,8 @@ namespace Qsor.Game.Overlays
                 Icon = FontAwesome.Solid.StepForward,
                 Size = new Vector2(16),
                 
+                TooltipText = "Next track",
+                
                 ClickEvent = e =>
                 {
                     notificationOverlay.AddBigNotification(">> Next !Unimplemented!", 1100);
@@ -150,6 +160,8 @@ namespace Qsor.Game.Overlays
             {
                 Icon = FontAwesome.Solid.Info,
                 Size = new Vector2(16),
+                
+                TooltipText = "View song info",
                 
                 ClickEvent = e =>
                 {
@@ -163,6 +175,8 @@ namespace Qsor.Game.Overlays
                 Icon = FontAwesome.Solid.Bars,
                 Size = new Vector2(16),
                 
+                TooltipText = "Jump To window",
+                
                 ClickEvent = e =>
                 {
                     notificationOverlay.AddBigNotification("!Unimplemented!", 1100);
@@ -174,7 +188,9 @@ namespace Qsor.Game.Overlays
             
             _flow.Add(Progressbar = new DragProgressbar
             {
-                Position = new Vector2(0, 24)
+                Position = new Vector2(0, 24),
+                
+                TooltipText = "Drag to seek to a specific point in the song.",
             });
             
             Progressbar.Current.ValueChanged += e =>

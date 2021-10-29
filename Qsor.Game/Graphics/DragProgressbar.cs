@@ -1,12 +1,16 @@
 ﻿using System.Linq;
+using osu.Framework.Graphics.Cursor;
 using osu.Framework.Input.Events;
+using osu.Framework.Localisation;
 using osuTK.Input;
 using Qsor.Game.Overlays.Drawables;
 
 namespace Qsor.Game.Graphics
 {
-    public class DragProgressbar : DrawableProgressbar
+    public class DragProgressbar : DrawableProgressbar, IHasTooltip
     {
+        public LocalisableString TooltipText { get; set; }
+        
         public bool IsDragging { get; private set; }
         public bool JustClicked { get; set; } // TODO: use an action
         

@@ -43,7 +43,6 @@ namespace Qsor.Game.Graphics.Containers
                     new Box
                     {
                         Colour = Color4.Black,
-                        Alpha = .5f,
                         RelativeSizeAxes = Axes.Both,
                     },
                     _textFlowContainer = new TextFlowContainer
