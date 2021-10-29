@@ -1,4 +1,4 @@
-using osu.Framework.Allocation;
+﻿using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
@@ -8,17 +8,6 @@ using Qsor.Game.Graphics;
 
 namespace Qsor.Game.Overlays
 {
-    public enum MusicPlayerButtonType
-    {
-        SkipBack,
-        Play,
-        Pause,
-        Stop,
-        Skip,
-        Info,
-        Collection
-    }
-    
     public class MusicPlayerOverlay : CompositeDrawable
     {
         private FillFlowContainer<Drawable> _flow;

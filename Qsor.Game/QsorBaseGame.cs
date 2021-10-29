@@ -2,6 +2,8 @@
 using System.Reflection;
 using osu.Framework.Allocation;
 using osu.Framework.Development;
+using osu.Framework.Graphics;
+using osu.Framework.Graphics.Cursor;
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
@@ -9,6 +11,7 @@ using Qsor.Game.Beatmaps;
 using Qsor.Game.Configuration;
 using Qsor.Game.Database;
 using Qsor.Game.Discord;
+using Qsor.Game.Graphics.Containers;
 using Qsor.Game.Online;
 using Qsor.Game.Overlays;
 using Qsor.Game.Updater;
@@ -32,6 +35,7 @@ namespace Qsor.Game
         protected SentryLogger SentryLogger;
         protected DiscordManager DiscordManager;
         protected SettingsOverlay SettingsOverlay;
+        protected TooltipContainer TooltipContainer;
         
         public Updater.Updater Updater;
         
@@ -72,14 +76,17 @@ namespace Qsor.Game
 
             _dependencies.CacheAs(this);
             _dependencies.CacheAs(Host);
-            
+
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             
             QsorDbContextFactory.Get().Migrate();
             
             Dependencies.Inject(BeatmapManager);
             
-            AddInternal(NotificationOverlay);
+            AddInternal(TooltipContainer = new QsorTooltipContainer(null)
+            {
+                RelativeSizeAxes = Axes.Both,
+            });
             
             Updater ??= new DummyUpdater();
             UpdaterOverlay = new UpdaterOverlay();
@@ -91,10 +98,11 @@ namespace Qsor.Game
             
             ConfigManager.Save();
             
-            AddInternal(SettingsOverlay = new SettingsOverlay());
-            
             _stack = new ScreenStack(true);
-            Add(_stack);
+            TooltipContainer.Add(_stack);
+            
+            TooltipContainer.Add(SettingsOverlay = new SettingsOverlay());
+            TooltipContainer.Add(NotificationOverlay);
         }
 
         protected override void Dispose(bool isDisposing)

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using osu.Framework.Allocation;
+﻿using osu.Framework.Allocation;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Testing;
 using Qsor.Game.Graphics.Containers;
 using Qsor.Game.Overlays;
-using Qsor.Game.Overlays.Settings.Categories;
-using Qsor.Game.Overlays.Settings.Drawables;
 
 namespace Qsor.Tests.Visual.Overlays
 {
@@ -21,7 +17,7 @@ namespace Qsor.Tests.Visual.Overlays
             
             SettingsOverlay settingsOverlay;
             Add(settingsOverlay = new SettingsOverlay());
-
+            
             AddStep("Show Overlay", settingsOverlay.Show);
             AddStep("Hide Overlay", settingsOverlay.Hide);
         }
