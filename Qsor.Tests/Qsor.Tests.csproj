@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <PackageReference Include="NLipsum" Version="1.1.0" />
+      <PackageReference Include="NuGet.ProjectModel" Version="5.11.0" />
     </ItemGroup>
 
 </Project>

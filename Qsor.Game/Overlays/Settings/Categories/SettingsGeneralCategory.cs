@@ -19,6 +19,8 @@ namespace Qsor.Game.Overlays.Settings.Categories
             subcat.Content.Add(new DrawableSettingsCheckbox(false, "Some label 2", "Some tooltip 2"));
             subcat.Content.Add(new DrawableSettingsCheckbox(true, "Some label 3", "Some tooltip 3"));
             
+            subcat.Content.Add(new DrawableSettingsInput("", "Enter some input", "Some tooltip 4"));
+            
             AddInternal(subcat);
         }
     }

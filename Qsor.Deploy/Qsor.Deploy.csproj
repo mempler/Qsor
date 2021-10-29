@@ -11,7 +11,7 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="ppy.osu.Framework" Version="2021.1026.0" />
+      <PackageReference Include="ppy.osu.Framework" Version="2021.1029.0" />
       <PackageReference Include="ppy.squirrel.windows" Version="1.9.0.5" />
     </ItemGroup>
 
