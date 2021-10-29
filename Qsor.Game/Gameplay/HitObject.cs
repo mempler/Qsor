@@ -7,7 +7,6 @@ using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osuTK;
 using Qsor.Game.Beatmaps;
-using Qsor.Game.Gameplay.osu.HitObjects.Slider;
 
 namespace Qsor.Game.Gameplay
 {
@@ -21,7 +20,7 @@ namespace Qsor.Game.Gameplay
         Spinner  = 1 << 3
     }
     
-    public abstract class HitObject : Container, IHasEndTime
+    public abstract class HitObject : Container
     {
         public double BeginTime;
         public virtual double EndTime => BeginTime + 300;
@@ -32,8 +31,6 @@ namespace Qsor.Game.Gameplay
         public ColourInfo HitObjectColour; // we do not use Colour, we use HitObjectColour instead, as Colour would Colour the whole HitCircle. (in theory, not tested)
 
         public abstract HitObjectType Type { get; }
-        
-        public TimingPoint TimingPoint { get; set; }
         
         public readonly Bindable<int> StackHeightBindable = new();
         
@@ -48,13 +45,17 @@ namespace Qsor.Game.Gameplay
         public BindableDouble BindableScale = new();
         public BindableDouble BindableProgress = new();
         
-        public HitObject(Beatmap beatmap, Vector2 position)
+        public HitObject(Beatmap beatmap, double beginTime, Vector2 position, Colour4 colour)
         {
             Position = position;
             Anchor = Anchor.TopLeft;
             Origin = Anchor.Centre;
 
             Beatmap = beatmap;
+
+            HitObjectColour = colour;
+
+            BeginTime = beginTime;
             
             BindableScale.Default = (1.0f - 0.7f * ((float) Beatmap.Difficulty.CircleSize - 5) / 5) / 2;
             BindableScale.SetDefault();

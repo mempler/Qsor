@@ -79,7 +79,7 @@ namespace Qsor.Game.Graphics.Containers
 
             timingPoint ??= _defaultTiming;
 
-            IsBeatSyncedWithTrack = timingPoint.MsPerBeat > 0;
+            IsBeatSyncedWithTrack = timingPoint._MsPerBeat > 0;
             
             if (!IsBeatSyncedWithTrack)
             {
@@ -94,7 +94,7 @@ namespace Qsor.Game.Graphics.Containers
                 _lastValidTimingPoint = timingPoint;
             }
             
-            var beatLength = timingPoint.MsPerBeat / Divisor;
+            var beatLength = timingPoint._MsPerBeat / Divisor;
 
             while (beatLength < MinimumBeatLength)
                 beatLength *= 2;
@@ -131,7 +131,7 @@ namespace Qsor.Game.Graphics.Containers
 
             _defaultTiming = new TimingPoint
             {
-                MsPerBeat = DefaultBeatLength,
+                _MsPerBeat = DefaultBeatLength,
             };
             
             _defaultAmplitudes = new ChannelAmplitudes(0, 0, new float[256]);

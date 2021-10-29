@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
-using osuTK;
 using osuTK.Graphics;
 using Qsor.Game.Gameplay;
-using Qsor.Game.Gameplay.osu.HitObjects;
-using Qsor.Game.Gameplay.osu.HitObjects.Slider;
 using Component = osu.Framework.Graphics.Component;
 
 namespace Qsor.Game.Beatmaps
@@ -34,6 +32,7 @@ namespace Qsor.Game.Beatmaps
     {
         public double Offset;
         public double MsPerBeat;
+        public double _MsPerBeat; // Internal use
         public int Meter;
         public int SampleSet;
         public int SampleIndex;
@@ -41,14 +40,7 @@ namespace Qsor.Game.Beatmaps
         public bool Inherited;
         public bool KiaiMode;
         
-        public double BPM;
-        public double SpeedMultiplier;
-
-        public double GetVelocity(Beatmap beatmap)
-        {
-            var scoringDistance = (100 * beatmap.Difficulty.SliderMultiplier) / beatmap.Difficulty.TickRate;
-            return scoringDistance * beatmap.Difficulty.TickRate * (1000.0 / BPM);
-        }
+        [CanBeNull] public TimingPoint Parent = null;
     }
     
     public class Beatmap : Component
@@ -100,6 +92,9 @@ namespace Qsor.Game.Beatmaps
                         var hitObjectColorIndex = 0;
                         var hitObjectColor = Color4.White;
                         
+                        // Not implemented just yet
+                        continue;
+                        
                         foreach (var hitObjectValue in GetValues().Select(s => s.Split(',')))
                         {
                             var x = double.Parse(hitObjectValue[0]);
@@ -121,15 +116,17 @@ namespace Qsor.Game.Beatmaps
                             
                             if ((hitObjectType & HitObjectType.Circle) != 0)
                             {
-                                HitObject circle = new HitCircle(this, new Vector2((float) x, (float) y));
-                                circle.BeginTime = timing;
-                                circle.HitObjectColour = hitObjectColor;
+                                /*
+                                HitObject circle =
+                                    new HitCircle(this, timing, new Vector2((float) x, (float) y), hitObjectColor);
 
                                 HitObjects.Add(circle);
+                                */
                             }
                             
                             if ((hitObjectType & HitObjectType.Slider) != 0)
                             {
+                                /*
                                 var sliderInfo = hitObjectValue[5].Split("|");
 
                                 var sliderType = sliderInfo[0] switch
@@ -162,15 +159,18 @@ namespace Qsor.Game.Beatmaps
                                 var repeats = int.Parse(hitObjectValue[6].Trim());
 
                                 HitObject slider = new HitSlider(
-                                    this,
+                                    // Hit object stuff
+                                    this, timing, hitObjectColor,
+                                    
+                                    // Slider stuff
                                     sliderType, curvePoints,
                                     pixelLength, repeats);
 
-                                slider.BeginTime = timing;
-                                slider.TimingPoint = TimingPoints.FirstOrDefault(s => s.Offset >= timing);
+                                //slider.TimingPoint = 
                                 slider.HitObjectColour = hitObjectColor;
                                 
                                 HitObjects.Add(slider);
+                                */
                             }
                         }
                         break;
@@ -191,37 +191,40 @@ namespace Qsor.Game.Beatmaps
                         }
                         break;
                     case Category.TimingPoints:
-                        double lastBpm = 0;
-                        
                         foreach (var tPoint in GetValues().Select(s => s.Split(',')))
                         {
                             var timingPoint = new TimingPoint
                             {
                                 Offset = double.Parse(tPoint[0].Trim()),
                                 MsPerBeat = double.Parse(tPoint[1].Trim()),
+                                _MsPerBeat = double.Parse(tPoint[1].Trim()),
                                 Meter = int.Parse(tPoint[2].Trim()),
                                 SampleSet = int.Parse(tPoint[3].Trim()),
                                 SampleIndex = int.Parse(tPoint[4].Trim()),
                                 Volume = int.Parse(tPoint[5].Trim()),
                                 Inherited = tPoint[6].Trim() == "0", // this is reversed for some fucking reason.
                                 KiaiMode = tPoint[7].Trim() == "1",
-                                
-                                SpeedMultiplier = 1,
-                                BPM = 0
                             };
 
-                            timingPoint.BPM = timingPoint.MsPerBeat;
-                            if (timingPoint.Inherited)
+                            if (timingPoint.Meter <= 0)
                             {
-                                timingPoint.BPM = lastBpm;
-                                if (!double.IsNaN(timingPoint.BPM))
-                                    timingPoint.BPM *= Math.Max(10, Math.Min(1000, -timingPoint.MsPerBeat)) / 100;
-                            }
-                            else
-                            {
-                                lastBpm = timingPoint.MsPerBeat;
+                                timingPoint.Meter = 4;
                             }
 
+                            if (timingPoint.MsPerBeat <= 0)
+                            {
+                                if (TimingPoints.Count == 0)
+                                {
+                                    throw new Exception("Illegal timing point, can't continue.");
+                                }
+
+                                timingPoint.Parent = TimingPoints.Last().Parent ?? TimingPoints.Last();
+                                
+                                var sliderVelocity = -100 / timingPoint.MsPerBeat;
+                                timingPoint.MsPerBeat = timingPoint.Parent.MsPerBeat / sliderVelocity;
+                                timingPoint.Meter = timingPoint.Parent.Meter;
+                            }
+                            
                             TimingPoints.Add(timingPoint);
                         }
                         break;

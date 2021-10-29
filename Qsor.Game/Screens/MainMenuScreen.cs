@@ -5,6 +5,7 @@ using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Development;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
@@ -15,7 +16,6 @@ using osuTK;
 using osuTK.Graphics;
 using Qsor.Game.Beatmaps;
 using Qsor.Game.Database;
-using Qsor.Game.Gameplay.osu.Screens;
 using Qsor.Game.Graphics.Containers;
 using Qsor.Game.Overlays;
 using Qsor.Game.Screens.Menu;
@@ -125,7 +125,7 @@ namespace Qsor.Game.Screens
                 NotificationOverlay.AddNotification(new LocalisableString(
                         "You can play different beatmaps by editing \"game.ini\" config file. " +
                         "To open the Qsor configuration directory, click this notification!"),
-                    Color4.Orange, 10000, Storage.OpenInNativeExplorer);
+                    Color4.Orange, 10000, () => { Storage.OpenFileExternally(string.Empty); });
 
                 NotificationOverlay.AddNotification(new LocalisableString(
                         $"You're currently running {QsorBaseGame.Version}! " +
@@ -178,14 +178,9 @@ namespace Qsor.Game.Screens
         {
             if (_qsorLogo.IsHovered)
             {
-                var game = (QsorBaseGame) Game;
-                game.PushScreen(new OsuScreen
-                {
-                    RelativeSizeAxes = Axes.X,
-                    Anchor = Anchor.Centre,
-                    Origin = Anchor.Centre,
-                    FillMode = FillMode.Fill,
-                });
+                NotificationOverlay.AddNotification("Gameplay as it stands right now is not implemented.\n" +
+                                                    "We want to implement the UI First before we do any gameplay features.\n" +
+                                                    "That way we can guarantee that it feels just right!", ColourInfo.SingleColour(Color4.Red));
             }
 
             return base.OnClick(e);

@@ -6,12 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
+      <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
       <PackageReference Include="NuGet.CommandLine" Version="5.11.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="ppy.osu.Framework" Version="2021.1014.0" />
+      <PackageReference Include="ppy.osu.Framework" Version="2021.1026.0" />
       <PackageReference Include="ppy.squirrel.windows" Version="1.9.0.5" />
     </ItemGroup>
 
