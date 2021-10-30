@@ -89,11 +89,11 @@ namespace Qsor.Game.Beatmaps
                     case Category.Editor:
                         break;
                     case Category.HitObjects:
+                        // Not implemented just yet
+                        
+                        /*
                         var hitObjectColorIndex = 0;
                         var hitObjectColor = Color4.White;
-                        
-                        // Not implemented just yet
-                        continue;
                         
                         foreach (var hitObjectValue in GetValues().Select(s => s.Split(',')))
                         {
@@ -116,17 +116,14 @@ namespace Qsor.Game.Beatmaps
                             
                             if ((hitObjectType & HitObjectType.Circle) != 0)
                             {
-                                /*
                                 HitObject circle =
                                     new HitCircle(this, timing, new Vector2((float) x, (float) y), hitObjectColor);
 
                                 HitObjects.Add(circle);
-                                */
                             }
                             
                             if ((hitObjectType & HitObjectType.Slider) != 0)
                             {
-                                /*
                                 var sliderInfo = hitObjectValue[5].Split("|");
 
                                 var sliderType = sliderInfo[0] switch
@@ -170,9 +167,10 @@ namespace Qsor.Game.Beatmaps
                                 slider.HitObjectColour = hitObjectColor;
                                 
                                 HitObjects.Add(slider);
-                                */
                             }
                         }
+                        */
+                        
                         break;
                     case Category.Difficulty:
                         Difficulty.CircleSize = GetValue<double>("CircleSize");
