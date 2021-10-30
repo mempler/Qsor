@@ -10,7 +10,6 @@ using osu.Framework.Screens;
 using Qsor.Game.Beatmaps;
 using Qsor.Game.Configuration;
 using Qsor.Game.Database;
-using Qsor.Game.Discord;
 using Qsor.Game.Graphics.Containers;
 using Qsor.Game.Online;
 using Qsor.Game.Overlays;
@@ -33,7 +32,6 @@ namespace Qsor.Game
         protected NotificationOverlay NotificationOverlay;
         protected UpdaterOverlay UpdaterOverlay;
         protected SentryLogger SentryLogger;
-        protected DiscordManager DiscordManager;
         protected SettingsOverlay SettingsOverlay;
         protected TooltipContainer TooltipContainer;
         
@@ -71,9 +69,6 @@ namespace Qsor.Game
             
             _dependencies.Cache(SentryLogger = new SentryLogger(this));
             
-            _dependencies.Cache(DiscordManager = new DiscordManager());
-            AddInternal(DiscordManager);
-
             _dependencies.CacheAs(this);
             _dependencies.CacheAs(Host);
 
