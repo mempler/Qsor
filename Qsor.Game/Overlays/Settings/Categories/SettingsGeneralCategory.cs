@@ -1,6 +1,5 @@
 ﻿using osu.Framework.Allocation;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Graphics.UserInterface;
 using Qsor.Game.Overlays.Settings.Drawables;
 using Qsor.Game.Overlays.Settings.Drawables.Objects;
 
@@ -14,14 +13,13 @@ namespace Qsor.Game.Overlays.Settings.Categories
         [BackgroundDependencyLoader]
         private void Load()
         {
-            var subcat = new DrawableSettingsSubCategory("Something");
-            subcat.Content.Add(new DrawableSettingsCheckbox(true, "Some label", "Some tooltip"));
-            subcat.Content.Add(new DrawableSettingsCheckbox(false, "Some label 2", "Some tooltip 2"));
-            subcat.Content.Add(new DrawableSettingsCheckbox(true, "Some label 3", "Some tooltip 3"));
+            var signIn = new DrawableSettingsSubCategory("SIGN IN");
+            signIn.Content.Add(new DrawableSettingsInput("", "Username", "Enter your username"));
+            signIn.Content.Add(new DrawableSettingsInput("false", "Password", "Enter your password", true));
+            signIn.Content.Add(new DrawableSettingsCheckbox(true, "Remember Username", "Remember the username next time Qsor starts."));
+            signIn.Content.Add(new DrawableSettingsCheckbox(false, "Remember Password", "Remember the password next time Qsor starts."));
             
-            subcat.Content.Add(new DrawableSettingsInput("", "Enter some input", "Some tooltip 4"));
-            
-            AddInternal(subcat);
+            AddInternal(signIn);
         }
     }
 }

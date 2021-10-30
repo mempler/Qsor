@@ -1,6 +1,8 @@
 ﻿using osu.Framework.Allocation;
 using osu.Framework.Bindables;
+using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
@@ -14,6 +16,7 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
 {
     public class DrawableSettingsInput : DrawableSettingsObject<string>
     {
+        private bool _isPassword;
         private DrawableSettingsInputNode _node;
         private SpriteText _label;
         
@@ -33,11 +36,11 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
                 Text = Label.Value
             });
             
-            AddInternal(_node = new DrawableSettingsInputNode(Value)
+            AddInternal(_node = new DrawableSettingsInputNode(Value, _isPassword)
             {
                 RelativeSizeAxes = Axes.X,
                 Position = new Vector2(-2, 16),
-                Height = 16
+                Height = 22
             });
 
             Label.ValueChanged += e => _label.Text = e.NewValue;
@@ -53,15 +56,25 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
             GetContainingInputManager().ChangeFocus(_node);
         }
 
-        public DrawableSettingsInput(string defaultValue, LocalisableString label, LocalisableString toolTip)
+        public DrawableSettingsInput(string defaultValue, LocalisableString label, LocalisableString toolTip,
+            bool isPassword = false)
             : base(defaultValue, label, toolTip)
         {
+            _isPassword = isPassword;
         }
 
         private class DrawableSettingsInputNode : TextBox
         {
-            public DrawableSettingsInputNode(Bindable<string> inputBox)
+            private readonly bool _isPassword;
+            
+            protected override bool AllowClipboardExport => !_isPassword;
+            protected override bool AllowWordNavigation => !_isPassword;
+            protected override Drawable AddCharacterToFlow(char c) =>
+                base.AddCharacterToFlow(_isPassword ? '*' : c);            
+            
+            public DrawableSettingsInputNode(Bindable<string> inputBox, bool isPassword)
             {
+                _isPassword = isPassword;
             }
 
             [BackgroundDependencyLoader]
@@ -69,10 +82,10 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
             {
                 Masking = true;
                 
-                CornerRadius = 3;
-                CornerExponent = 2f;
+                //CornerRadius = 3;
+                //CornerExponent = 2f;
 
-                BorderColour = Color4.Gray;
+                BorderColour = Color4.DarkGray;
                 BorderThickness = 3f;
 
                 AddInternal(new Box
@@ -94,6 +107,18 @@ namespace Qsor.Game.Overlays.Settings.Drawables.Objects
             protected override Caret CreateCaret()
             {
                 return new BasicTextBox.BasicCaret();
+            }
+
+            protected override void OnFocus(FocusEvent e)
+            {
+                this.TransformTo(nameof(BorderColour), (SRGBColour)Color4.White, 100);
+                base.OnFocus(e);
+            }
+
+            protected override void OnFocusLost(FocusLostEvent e)
+            {
+                this.TransformTo(nameof(BorderColour), (SRGBColour)Color4.DarkGray, 100);
+                base.OnFocusLost(e);
             }
         }
     }
