@@ -7,8 +7,8 @@ namespace Qsor.Game.Configuration
     {
         protected override void InitialiseDefaults()
         {
-            Set(QsorSetting.BeatmapSetId, 756794);
-            Set(QsorSetting.BeatmapFile, "TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu");
+            SetDefault(QsorSetting.BeatmapSetId, 756794);
+            SetDefault(QsorSetting.BeatmapFile, "TheFatRat - Mayday (feat. Laura Brehm) (Voltaeyx) [[2B] Calling Out Mayday].osu");
         }
 
         public QsorConfigManager(Storage storage) :
@@ -20,6 +20,6 @@ namespace Qsor.Game.Configuration
     public enum QsorSetting
     {
         BeatmapFile,
-        BeatmapSetId
+        BeatmapSetId,
     }
 }
