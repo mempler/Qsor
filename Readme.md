@@ -12,7 +12,7 @@ for people who don't like lazer but want the performance benefits of the new eng
 
 #### Knowledge
 
-you'll need prior knowledge in C\# and .NET 5 and osu!Framework if you want to develope on Qsor!
+you'll need prior knowledge in C\# and .NET 5 and osu!Framework if you want to develop on Qsor!
 
 #### Dependencies
 
