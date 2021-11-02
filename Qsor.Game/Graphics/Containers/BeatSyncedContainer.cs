@@ -52,6 +52,7 @@ namespace Qsor.Game.Graphics.Containers
         private ChannelAmplitudes _defaultAmplitudes;
 
         protected bool IsBeatSyncedWithTrack { get; private set; }
+        protected bool IsTrackPaused => Beatmap?.Value?.Track?.IsRunning ?? true;
 
         private TimingPoint _lastValidTimingPoint;
 
@@ -83,6 +84,10 @@ namespace Qsor.Game.Graphics.Containers
             
             if (!IsBeatSyncedWithTrack)
             {
+                // inherit kiai mode
+                if (_lastValidTimingPoint != null && timingPoint != null && timingPoint != _defaultTiming)
+                    _lastValidTimingPoint.KiaiMode = timingPoint.KiaiMode;
+                
                 currentTrackTime = Clock.CurrentTime;
                 timingPoint = _lastValidTimingPoint ?? _defaultTiming;
             }
@@ -135,7 +140,6 @@ namespace Qsor.Game.Graphics.Containers
             _defaultTiming = new TimingPoint
             {
                 MsPerBeat = DefaultBeatLength,
-                Meter = 4,
             };
             
             _defaultAmplitudes = new ChannelAmplitudes(0, 0, new float[256]);

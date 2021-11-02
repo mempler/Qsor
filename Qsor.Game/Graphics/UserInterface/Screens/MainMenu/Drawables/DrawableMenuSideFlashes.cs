@@ -78,21 +78,15 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
             _rightBox.Colour = ColourInfo.GradientHorizontal(gradientDark, gradientLight);
         }
 
-        private int _customBeatIndex = 0;
         protected override void OnNewBeat(int beatIndex, TimingPoint timingPoint, ChannelAmplitudes amplitudes)
         {
             var meter = timingPoint.Parent?.Meter ?? timingPoint.Meter;
-            if ((beatIndex < 0 || meter < 0) && !timingPoint.KiaiMode)
+            if (beatIndex < 0 || meter <= 0)
                 return;
 
-            if (timingPoint.KiaiMode)
-            {
-                _customBeatIndex += 1;
-            }
-            
-            if (timingPoint.KiaiMode ? _customBeatIndex % 2 == 0 : beatIndex % meter == 0)
+            if (timingPoint.KiaiMode ? beatIndex % 2 == 0 : beatIndex % meter == 0)
                 Flash(_leftBox, timingPoint.MsPerBeat, timingPoint.KiaiMode, amplitudes);
-            if (timingPoint.KiaiMode ? _customBeatIndex % 2 == 1 : beatIndex % meter == 0)
+            if (timingPoint.KiaiMode ? beatIndex % 2 == 1 : beatIndex % meter == 0)
                 Flash(_rightBox, timingPoint.MsPerBeat, timingPoint.KiaiMode, amplitudes);
         }
 
