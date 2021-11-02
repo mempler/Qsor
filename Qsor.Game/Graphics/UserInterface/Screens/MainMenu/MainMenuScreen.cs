@@ -50,7 +50,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
         {
             var parallaxBack = new ParallaxContainer
             {
-                ParallaxAmount = 0.005f
+                ParallaxAmount = -0.005f
             };
             parallaxBack._content.Add(_background = new BackgroundImageContainer
             {
@@ -79,7 +79,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
             
             var parallaxFront = new ParallaxContainer
             {
-                ParallaxAmount = -0.03f,
+                ParallaxAmount = -0.015f,
                 RelativeSizeAxes = Axes.Both,
             };
             parallaxFront._content.Add(new DrawSizePreservingFillContainer
