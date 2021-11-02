@@ -3,7 +3,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Testing;
 using osuTK.Graphics;
-using Qsor.Game.Overlays;
+using Qsor.Game.Graphics.UserInterface.Overlays;
 
 namespace Qsor.Tests.Visual.Overlays
 {

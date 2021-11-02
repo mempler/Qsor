@@ -3,7 +3,6 @@ using ICSharpCode.SharpZipLib.Zip;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;
-using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Platform;
 using Qsor.Game.Configuration;
@@ -100,7 +99,7 @@ namespace Qsor.Game.Beatmaps
                     }
                 }
 
-                if (!fileName.EndsWith(".osu"))
+                if (!fileName?.EndsWith(".osu") ?? false)
                     continue;
                 
                 var beatmapFilePath = directoryStorage.GetFullPath(theEntry.Name);

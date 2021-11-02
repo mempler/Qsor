@@ -6,7 +6,7 @@ using osu.Framework.Platform;
 namespace Qsor.Game.Database
 {
     // Modified version of https://github.com/ppy/osu/blob/master/osu.Game/Database/DatabaseContextFactory.cs under MIT License!
-    public class QsorDbContextFactory
+    public sealed class QsorDbContextFactory
     {
         private readonly Storage _storage;
         private readonly object _writeLock = new();
@@ -119,7 +119,7 @@ namespace Qsor.Game.Database
             _threadContexts = new ThreadLocal<QsorDbContext>(CreateContext, true);
         }
 
-        protected virtual QsorDbContext CreateContext()
+        private QsorDbContext CreateContext()
             => new(_storage.GetDatabaseConnectionString("qsor")) {Database = {AutoTransactionsEnabled = false}};
 
         public void ResetDatabase()
