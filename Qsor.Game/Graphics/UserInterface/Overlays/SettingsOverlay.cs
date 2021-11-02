@@ -106,10 +106,11 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
 
             _movingTo = settingsObject;
 
-            var pos = settingsObject.ToSpaceOfOtherDrawable(settingsObject.DrawPosition, _menu);
+            var pos = settingsObject.ToSpaceOfOtherDrawable(settingsObject.OriginPosition, _menu);
             Logger.LogPrint($"${pos.Y}");
             
-            _settingsIndex.MoveToY(pos.Y, 100, Easing.InOutCubic);
+            // -5f because of 10 padding around the settings object.
+            _settingsIndex.MoveToY(pos.Y - 5f, 100, Easing.InOutCubic);
             _settingsIndex.ResizeHeightTo(settingsObject.DrawSize.Y, 100, Easing.InOutCubic);
         }
     }
