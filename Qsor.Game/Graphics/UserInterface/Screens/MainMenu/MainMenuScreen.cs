@@ -58,7 +58,6 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
                 Origin = Anchor.Centre,
                 FillMode = FillMode.Fill,
             });
-            AddInternal(parallaxBack);
 
             _workingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
             _workingBeatmap.ValueChanged += e =>
@@ -87,15 +86,22 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
                     Scale = new Vector2(1f) * (DrawSize.X / DrawSize.Y)
                 }
             });
-            
-            AddInternal(parallaxFront);
 
-            AddInternal(_sideFlashes = new DrawableMenuSideFlashes());
-            
-            AddInternal(_toolbar = new Toolbar());
-            AddInternal(_bottomBar = new BottomBar());
-            
-            AddInternal(updaterOverlay);
+            InternalChildren = new Drawable[]
+            {
+                parallaxBack,
+                parallaxFront,
+
+                _sideFlashes = new DrawableMenuSideFlashes(),
+                _toolbar = new Toolbar(),
+                _bottomBar = new BottomBar(),
+
+                updaterOverlay
+            };
+
+            // Start a random map, TODO: remove this from here
+            beatmapManager.NextRandomMap();
+            beatmapManager.WorkingBeatmap.Value?.Play();
         }
         
         public override void OnEntering(IScreen last)

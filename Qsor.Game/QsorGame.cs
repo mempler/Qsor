@@ -25,6 +25,7 @@ namespace Qsor.Game
             
             AddInternal(_keyBindingInputHandler = new GlobalKeyBindingInputHandler(this));
             
+            
             if (!DebugUtils.IsDebugBuild)
             {
                 PushScreen(new IntroScreen());
@@ -41,7 +42,6 @@ namespace Qsor.Game
                 PushScreen(new MainMenuScreen());
             }
         }
-
 
         protected override bool OnKeyDown(KeyDownEvent e)
         {
