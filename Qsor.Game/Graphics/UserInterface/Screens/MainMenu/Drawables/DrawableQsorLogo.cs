@@ -94,14 +94,14 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
 
             const float scaleAdjustCutoff = 0.4f;
 
-            if (Beatmap.Value?.Track?.IsRunning == true)
+            if (!IsTrackPaused)
             {
                 var maxAmplitude = _lastBeatIndex >= 0 ? Beatmap.Value.Track.CurrentAmplitudes.Maximum : 0;
                 
                 _qsorLogo.ScaleTo(1 - Math.Max(0, maxAmplitude - scaleAdjustCutoff) * 0.04f, 75, Easing.OutQuint);
                 _ghostingLogo.ScaleTo(1 + Math.Max(0, maxAmplitude - scaleAdjustCutoff) * 0.04f, 75, Easing.OutQuint);
             }
-            
+
             _visualisation.Scale = _qsorLogo.Scale;
             _visualisation.Size = _qsorLogo.Size;
         }
@@ -126,7 +126,8 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
             _ripple
                 .ScaleTo(_qsorLogo.Scale)
                 .ScaleTo(_qsorLogo.Scale * (1 + 0.16f * amplitudeAdjust), timingPoint.MsPerBeat, Easing.OutQuint)
-                .FadeTo(0.3f * amplitudeAdjust).FadeOut(timingPoint.MsPerBeat, Easing.OutQuint);
+                .FadeTo(0.3f * amplitudeAdjust)
+                .FadeOut(timingPoint.MsPerBeat, Easing.OutQuint);
 
             if (timingPoint.KiaiMode)
             {

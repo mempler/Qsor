@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using ICSharpCode.SharpZipLib.Zip;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
@@ -31,6 +34,9 @@ namespace Qsor.Game.Beatmaps
         
         [Resolved]
         private QsorConfigManager ConfigManager { get; set; }
+
+        [Resolved]
+        private QsorDbContextFactory DbContextFactory { get; set; }
 
         public BackgroundImageContainer Background;
 
@@ -120,6 +126,70 @@ namespace Qsor.Game.Beatmaps
             WorkingBeatmap.Value = Beatmap.ReadBeatmap<WorkingBeatmap>(storage, fileName);
             
             return new BeatmapContainer(WorkingBeatmap);
+        }
+
+        private readonly List<int> _alreadyRandomized = new();
+
+        public BeatmapContainer NextRandomMap()
+        {
+            WorkingBeatmap.Value?.Track.Stop();
+            
+            var ctx = DbContextFactory.Get();
+            while (true)
+            {
+                var beatmapModel = ctx.Beatmaps.Where(s => !_alreadyRandomized.Contains(s.Id))
+                    .ToList()
+                    .OrderBy(_ => Guid.NewGuid())
+                    .FirstOrDefault();
+
+                // Never repeating beatmaps
+                if (beatmapModel == null)
+                {
+                    // We do not have a single beatmap we could use
+                    if (_alreadyRandomized.Count <= 0)
+                    {
+                        return null;
+                    }
+
+                    _alreadyRandomized.Clear();
+                    continue;
+                }
+
+                var beatmapStorage = Storage.GetStorageForDirectory(beatmapModel?.Path);
+                _alreadyRandomized.Add(beatmapModel.Id);
+                return LoadBeatmap(beatmapStorage, beatmapModel.File);
+            }
+        }
+
+        public BeatmapContainer PreviousRandomMap()
+        {
+            var ctx = DbContextFactory.Get();
+
+            while (!ctx.Beatmaps.Any(s => s.Id == _alreadyRandomized.LastOrDefault()))
+            {
+                if (_alreadyRandomized.Count <= 0)
+                {
+                    // We don't have any beatmaps to randomize take the next one
+                    return NextRandomMap();
+                }
+
+                // Beatmap deleted, lets try again
+                _alreadyRandomized.RemoveAt(_alreadyRandomized.Count - 1);
+            }
+ 
+            _alreadyRandomized.RemoveAt(_alreadyRandomized.Count - 1); // Pop back
+            
+            var beatmapModel = ctx.Beatmaps
+                .FirstOrDefault(s => s.Id == _alreadyRandomized.LastOrDefault());
+            
+            if (beatmapModel != null)
+            {
+                var beatmapStorage = Storage.GetStorageForDirectory(beatmapModel.Path);
+                return LoadBeatmap(beatmapStorage, beatmapModel.File);
+            }
+
+            // Couldn't find the last map, get the next map instead!
+            return NextRandomMap();
         }
     }
 }

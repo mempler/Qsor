@@ -133,7 +133,6 @@ namespace Qsor.Game.Beatmaps
                             {
                                 Offset = double.Parse(tPoint[0].Trim()),
                                 MsPerBeat = double.Parse(tPoint[1].Trim()),
-                                _MsPerBeat = double.Parse(tPoint[1].Trim()),
                                 Meter = int.Parse(tPoint[2].Trim()),
                                 SampleSet = int.Parse(tPoint[3].Trim()),
                                 SampleIndex = int.Parse(tPoint[4].Trim()),
@@ -155,10 +154,6 @@ namespace Qsor.Game.Beatmaps
                                 }
 
                                 timingPoint.Parent = bm.TimingPoints.Last().Parent ?? bm.TimingPoints.Last();
-                                
-                                var sliderVelocity = -100 / timingPoint.MsPerBeat;
-                                timingPoint.MsPerBeat = timingPoint.Parent.MsPerBeat / sliderVelocity;
-                                timingPoint.Meter = timingPoint.Parent.Meter;
                             }
                             
                             bm.TimingPoints.Add(timingPoint);

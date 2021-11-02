@@ -56,7 +56,10 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
                 
                 ClickEvent = e =>
                 {
-                    notificationOverlay.AddBigNotification("<< Prev !Unimplemented!", 1100);
+                    notificationOverlay.AddBigNotification("<< Prev", 1100);
+                    
+                    beatmapManager?.PreviousRandomMap();
+                    beatmapManager?.WorkingBeatmap?.Value?.Play();
                     
                     return true;
                 }
@@ -151,7 +154,11 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
                 
                 ClickEvent = e =>
                 {
-                    notificationOverlay.AddBigNotification(">> Next !Unimplemented!", 1100);
+                    notificationOverlay.AddBigNotification(">> Next", 1100);
+                    
+                    beatmapManager?.NextRandomMap();
+                    beatmapManager?.WorkingBeatmap?.Value?.Play();
+                    
                     return true;
                 }
             });

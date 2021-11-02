@@ -6,7 +6,6 @@ namespace Qsor.Game.Beatmaps
     {
         public double Offset;
         public double MsPerBeat;
-        public double _MsPerBeat; // Internal use
         public int Meter;
         public int SampleSet;
         public int SampleIndex;
