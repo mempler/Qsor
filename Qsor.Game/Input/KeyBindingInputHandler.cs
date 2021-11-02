@@ -16,7 +16,7 @@ namespace Qsor.Game.Input
             _handler = game;
         }
         
-        public override IEnumerable<KeyBinding> DefaultKeyBindings => new[]
+        public override IEnumerable<IKeyBinding> DefaultKeyBindings => new[]
         {
             new KeyBinding(new [] { InputKey.Control, InputKey.O }, GlobalAction.ToggleOptions),
             new KeyBinding(InputKey.Escape, GlobalAction.ExitOverlay), 

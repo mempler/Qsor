@@ -14,7 +14,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
     [Cached]
     public class SettingsOverlay : CompositeDrawable
     {
-        private BindableList<SettingsCategoryContainer> _categories = new();
+        private readonly BindableList<SettingsCategoryContainer> _categories = new();
 
         private DrawableSettingsToolBar _toolBar;
         private DrawableSettingsMenu _menu;
@@ -107,11 +107,10 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
             _movingTo = settingsObject;
 
             var pos = settingsObject.ToSpaceOfOtherDrawable(settingsObject.OriginPosition, _menu);
-            Logger.LogPrint($"${pos.Y}");
             
             // -5f because of 10 padding around the settings object.
-            _settingsIndex.MoveToY(pos.Y - 5f, 100, Easing.InOutCubic);
-            _settingsIndex.ResizeHeightTo(settingsObject.DrawSize.Y, 100, Easing.InOutCubic);
+            _settingsIndex.MoveToY(pos.Y - 5f, 100, Easing.OutBack);
+            _settingsIndex.ResizeHeightTo(settingsObject.DrawSize.Y, 140, Easing.OutBack);
         }
     }
 }
