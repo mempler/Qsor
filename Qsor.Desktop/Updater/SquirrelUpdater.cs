@@ -27,11 +27,11 @@ namespace Qsor.Desktop.Updater
         [BackgroundDependencyLoader]
         private async void Load()
         {
-            var jwr = new JsonWebRequest<GitHubRelease>("https://api.github.com/repos/osuAkatsuki/Qsor/releases/latest");
+            var jwr = new JsonWebRequest<GitHubRelease>("https://api.github.com/repos/Chimu-moe/Qsor/releases/latest");
             
             await jwr.PerformAsync();
             
-            _updateManager = new UpdateManager($"https://github.com/osuAkatsuki/Qsor/releases/download/{jwr.ResponseObject.TagName}/");
+            _updateManager = new UpdateManager($"https://github.com/Chimu-moe/Qsor/releases/download/{jwr.ResponseObject.TagName}/");
         }
         
         public override async void CheckAvailable()
