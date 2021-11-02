@@ -41,8 +41,6 @@ namespace Qsor.Game.Beatmaps
             
             _background.SetTexture(WorkingBeatmap.Value.Background);
             Audio.AddItem(WorkingBeatmap.Value.Track);
-            
-            LoadComponents(WorkingBeatmap.Value.HitObjects); // Preload HitObjects, this makes it twice as fast!
         }
         
         public void PlayBeatmap()
