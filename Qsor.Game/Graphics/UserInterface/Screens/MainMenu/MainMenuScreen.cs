@@ -59,23 +59,18 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
                 FillMode = FillMode.Fill,
             });
             AddInternal(parallaxBack);
-            
-            
-            
-            
-            var db = ctxFactory.Get();
-            var beatmapModel = db.Beatmaps.ToList().OrderBy(r => Guid.NewGuid()).FirstOrDefault();
-            var beatmapStorage = Storage.GetStorageForDirectory(beatmapModel?.Path);
-            beatmapManager.LoadBeatmap(beatmapStorage, beatmapModel?.File);
-            LoadComponent(beatmapManager.WorkingBeatmap.Value);
+
             _workingBeatmap.BindTo(beatmapManager.WorkingBeatmap);
+            _workingBeatmap.ValueChanged += e =>
+            {
+                if (e.NewValue == null)
+                    return;
+                
+                LoadComponent(e.NewValue);
             
-            _background.SetTexture(_workingBeatmap.Value.Background);
-            
-            audioManager.AddItem(_workingBeatmap.Value.Track);
-            
-            
-            
+                _background.SetTexture(e.NewValue.Background);
+                audioManager.AddItem(e.NewValue.Track);
+            };
             
             var parallaxFront = new ParallaxContainer
             {
@@ -101,13 +96,6 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
             AddInternal(_bottomBar = new BottomBar());
             
             AddInternal(updaterOverlay);
-        }
-        
-        protected override void LoadComplete()
-        {
-            _workingBeatmap.Value.Play();
-            
-            base.LoadComplete();
         }
         
         public override void OnEntering(IScreen last)

@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using ICSharpCode.SharpZipLib.Zip;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
@@ -31,6 +34,9 @@ namespace Qsor.Game.Beatmaps
         
         [Resolved]
         private QsorConfigManager ConfigManager { get; set; }
+
+        [Resolved]
+        private QsorDbContextFactory DbContextFactory { get; set; }
 
         public BackgroundImageContainer Background;
 
@@ -120,6 +126,39 @@ namespace Qsor.Game.Beatmaps
             WorkingBeatmap.Value = Beatmap.ReadBeatmap<WorkingBeatmap>(storage, fileName);
             
             return new BeatmapContainer(WorkingBeatmap);
+        }
+
+        private readonly List<int> _alreadyRandomized = new();
+
+        public BeatmapContainer NextRandomMap()
+        {
+            WorkingBeatmap.Value?.Track.Stop();
+            
+            while (true)
+            {
+                var ctx = DbContextFactory.Get();
+                var beatmapModel = ctx.Beatmaps.Where(s => !_alreadyRandomized.Contains(s.Id))
+                    .ToList()
+                    .OrderBy(_ => Guid.NewGuid())
+                    .FirstOrDefault();
+
+                // Never repeating beatmaps
+                if (beatmapModel == null)
+                {
+                    // We do not have a single beatmap we could use
+                    if (_alreadyRandomized.Count <= 0)
+                    {
+                        return null;
+                    }
+
+                    _alreadyRandomized.Clear();
+                    continue;
+                }
+
+                var beatmapStorage = Storage.GetStorageForDirectory(beatmapModel?.Path);
+                _alreadyRandomized.Add(beatmapModel.Id);
+                return LoadBeatmap(beatmapStorage, beatmapModel.File);
+            }
         }
     }
 }

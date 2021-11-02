@@ -79,22 +79,25 @@ namespace Qsor.Game.Graphics.Containers
 
             timingPoint ??= _defaultTiming;
 
-            IsBeatSyncedWithTrack = timingPoint._MsPerBeat > 0;
+            IsBeatSyncedWithTrack = timingPoint.MsPerBeat > 0;
             
             if (!IsBeatSyncedWithTrack)
             {
-                // Keep kiai
-                _lastValidTimingPoint.KiaiMode = timingPoint.KiaiMode;
-                
                 currentTrackTime = Clock.CurrentTime;
-                timingPoint = _lastValidTimingPoint;
+                timingPoint = _lastValidTimingPoint ?? _defaultTiming;
             }
             else
             {
                 _lastValidTimingPoint = timingPoint;
             }
+
+            if (!track?.IsRunning ?? true)
+            {
+                currentTrackTime = Clock.CurrentTime;
+                timingPoint = _defaultTiming;
+            }
             
-            var beatLength = timingPoint._MsPerBeat / Divisor;
+            var beatLength = timingPoint.MsPerBeat / Divisor;
 
             while (beatLength < MinimumBeatLength)
                 beatLength *= 2;
@@ -132,6 +135,7 @@ namespace Qsor.Game.Graphics.Containers
             _defaultTiming = new TimingPoint
             {
                 MsPerBeat = DefaultBeatLength,
+                Meter = 4,
             };
             
             _defaultAmplitudes = new ChannelAmplitudes(0, 0, new float[256]);
