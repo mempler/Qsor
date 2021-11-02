@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables
         }
 
         [BackgroundDependencyLoader]
-        private void Load()
+        private void Load(SettingsOverlay settingsOverlay)
         {
             Masking = true;
             RelativeSizeAxes = Axes.Y;
@@ -68,7 +69,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables
 
             _scrollContainer.ScrollContent.Add(headerContainer);
             
-            _scrollContainer.ScrollbarVisible = true;
+            _scrollContainer.ScrollbarVisible = false;
             _scrollContainer.ScrollContent.AutoSizeAxes = Axes.Y;
             _scrollContainer.ScrollContent.RelativeSizeAxes = Axes.X;
             
@@ -78,6 +79,23 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables
                 AutoSizeAxes = Axes.Y,
                 Margin = new MarginPadding{ Top = 150 },
             });
+
+            settingsOverlay.SelectedCategory.ValueChanged += e =>
+            {
+                // Little hack to make it feel smoother
+                if (_categories.FirstOrDefault() == e.NewValue)
+                {
+                    _scrollContainer.ScrollToStart();
+                }
+                else if (_categories.LastOrDefault() == e.NewValue)
+                {
+                    _scrollContainer.ScrollToEnd();
+                }
+                else
+                {
+                    _scrollContainer.ScrollTo(e.NewValue);
+                }
+            };
 
             _categories.CollectionChanged += (_, e) =>
             {

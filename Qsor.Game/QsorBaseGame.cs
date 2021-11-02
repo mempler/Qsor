@@ -13,6 +13,7 @@ using Qsor.Game.Database;
 using Qsor.Game.Graphics.Containers;
 using Qsor.Game.Graphics.UserInterface.Overlays;
 using Qsor.Game.Graphics.UserInterface.Overlays.Notification;
+using Qsor.Game.Graphics.UserInterface.Overlays.Settings;
 using Qsor.Game.Online;
 using Qsor.Game.Updater;
 using Qsor.Game.Utility;
