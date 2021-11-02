@@ -3,13 +3,11 @@ using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Logging;
 using osuTK.Graphics;
-using Qsor.Game.Graphics.UserInterface.Overlays.Settings;
 using Qsor.Game.Graphics.UserInterface.Overlays.Settings.Categories;
 using Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables;
 
-namespace Qsor.Game.Graphics.UserInterface.Overlays
+namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings
 {
     [Cached]
     public class SettingsOverlay : CompositeDrawable
@@ -44,7 +42,13 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
 
             AddCategory(new SettingsGeneralCategory());
             AddCategory(new SettingsGraphicsCategory());
-            
+            AddCategory(new SettingsGameplayCategory());
+            AddCategory(new SettingsSkinCategory());
+            AddCategory(new SettingsInputCategory());
+            AddCategory(new SettingsEditorCategory());
+            AddCategory(new SettingsOnlineCategory());
+            AddCategory(new SettingsMaintenanceCategory());
+
             _menu.Width = 0;
             Alpha = 0;
         }
