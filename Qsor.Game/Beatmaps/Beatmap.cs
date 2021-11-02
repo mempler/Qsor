@@ -7,7 +7,6 @@ using JetBrains.Annotations;
 using osu.Framework.Logging;
 using osu.Framework.Platform;
 using osuTK.Graphics;
-using Qsor.Game.Gameplay;
 using Component = osu.Framework.Graphics.Component;
 
 namespace Qsor.Game.Beatmaps
@@ -46,7 +45,6 @@ namespace Qsor.Game.Beatmaps
     public class Beatmap : Component
     {
         public int BeatmapVersion = 0;
-        public List<HitObject> HitObjects = new();
         
         public readonly General General = new();
         public readonly Difficulty Difficulty = new();
@@ -251,16 +249,6 @@ namespace Qsor.Game.Beatmaps
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-            }
-            
-            // Sort by Time
-            HitObjects.Sort((a, b) => (int) (a.BeginTime - b.BeginTime));
-
-            for (var i = HitObjects.Count - 1; i >= 0; i--)
-            {
-                var obj = HitObjects[i];
-                
-                obj.Depth = i;
             }
         }
         
