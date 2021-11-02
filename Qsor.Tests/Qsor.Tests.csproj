@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
         <LangVersion>9</LangVersion>
         <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +21,6 @@
 
     <ItemGroup>
       <PackageReference Include="NLipsum" Version="1.1.0" />
-      <PackageReference Include="NuGet.ProjectModel" Version="5.11.0" />
     </ItemGroup>
 
 </Project>
