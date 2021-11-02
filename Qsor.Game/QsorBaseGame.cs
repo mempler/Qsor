@@ -11,10 +11,11 @@ using Qsor.Game.Beatmaps;
 using Qsor.Game.Configuration;
 using Qsor.Game.Database;
 using Qsor.Game.Graphics.Containers;
+using Qsor.Game.Graphics.UserInterface.Overlays;
+using Qsor.Game.Graphics.UserInterface.Overlays.Notification;
 using Qsor.Game.Online;
-using Qsor.Game.Overlays;
 using Qsor.Game.Updater;
-using Qsor.Game.Utils;
+using Qsor.Game.Utility;
 
 namespace Qsor.Game
 {
@@ -56,46 +57,54 @@ namespace Qsor.Game
         [BackgroundDependencyLoader]
         private void Load(Storage storage)
         {
-            _dependencies.Cache(BeatmapManager = new BeatmapManager());
-            _dependencies.Cache(UserManager = new UserManager());
+            // Load important dependencies
+            {
+                _dependencies.Cache(UserManager = new UserManager());
             
-            _dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
-            Dependencies.Inject(BeatmapMirrorAccess);
+                _dependencies.Cache(BeatmapMirrorAccess = new BeatmapMirrorAccess());
+                Dependencies.Inject(BeatmapMirrorAccess);
 
-            _dependencies.Cache(QsorDbContextFactory = new QsorDbContextFactory(storage));
-            _dependencies.Cache(ConfigManager = new QsorConfigManager(storage));
+                _dependencies.Cache(QsorDbContextFactory = new QsorDbContextFactory(storage));
+                _dependencies.Cache(ConfigManager = new QsorConfigManager(storage));
             
-            _dependencies.Cache(NotificationOverlay = new NotificationOverlay());
+                _dependencies.Cache(NotificationOverlay = new NotificationOverlay());
             
-            _dependencies.Cache(SentryLogger = new SentryLogger(this));
+                _dependencies.Cache(SentryLogger = new SentryLogger(this));
             
-            _dependencies.CacheAs(this);
-            _dependencies.CacheAs(Host);
+                _dependencies.CacheAs(this);
+                _dependencies.CacheAs(Host);
+                
+                _dependencies.Cache(BeatmapManager = new BeatmapManager());
+                Dependencies.Inject(BeatmapManager);
+                
+                Updater ??= new DummyUpdater();
+                UpdaterOverlay = new UpdaterOverlay();
+            
+                _dependencies.Cache(UpdaterOverlay);
+                _dependencies.CacheAs(Updater);
+                
+                LoadComponent(Updater);
+            }
 
+            // Add our Resources/ directory
             Resources.AddStore(new NamespacedResourceStore<byte[]>(new DllResourceStore(typeof(QsorGame).Assembly), @"Resources"));
             
+            // Migrate the given database
             QsorDbContextFactory.Get().Migrate();
             
-            Dependencies.Inject(BeatmapManager);
-            
+            // Root container for everything and anything, we have QsorToolTipContainer as root
+            // so we can display our tooltips cleanly.
             AddInternal(TooltipContainer = new QsorTooltipContainer(null)
             {
                 RelativeSizeAxes = Axes.Both,
             });
             
-            Updater ??= new DummyUpdater();
-            UpdaterOverlay = new UpdaterOverlay();
-            
-            _dependencies.Cache(UpdaterOverlay);
-            _dependencies.CacheAs(Updater);
-            
-            LoadComponent(Updater);
-            
+            // Update config (if necessary)
             ConfigManager.Save();
             
-            _stack = new ScreenStack(true);
-            TooltipContainer.Add(_stack);
+            _stack = new ScreenStack();
             
+            TooltipContainer.Add(_stack);
             TooltipContainer.Add(SettingsOverlay = new SettingsOverlay());
             TooltipContainer.Add(NotificationOverlay);
         }

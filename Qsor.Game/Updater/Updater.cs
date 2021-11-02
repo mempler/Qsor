@@ -3,7 +3,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Localisation;
-using Qsor.Game.Overlays;
+using Qsor.Game.Graphics.UserInterface.Overlays;
 
 namespace Qsor.Game.Updater
 {

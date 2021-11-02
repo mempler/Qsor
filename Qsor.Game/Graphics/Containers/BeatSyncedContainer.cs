@@ -131,7 +131,7 @@ namespace Qsor.Game.Graphics.Containers
 
             _defaultTiming = new TimingPoint
             {
-                _MsPerBeat = DefaultBeatLength,
+                MsPerBeat = DefaultBeatLength,
             };
             
             _defaultAmplitudes = new ChannelAmplitudes(0, 0, new float[256]);

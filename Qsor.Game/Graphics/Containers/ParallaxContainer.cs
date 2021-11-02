@@ -22,6 +22,7 @@ namespace Qsor.Game.Graphics.Containers
         public ParallaxContainer()
         {
             RelativeSizeAxes = Axes.Both;
+            
             AddInternal(_content = new Container
             {
                 RelativeSizeAxes = Axes.Both,
@@ -38,7 +39,7 @@ namespace Qsor.Game.Graphics.Containers
         [BackgroundDependencyLoader]
         private void Load()
         {
-            _content.MoveTo(Vector2.Zero, firstUpdate ? 0 : 1000, Easing.OutQuint);
+            _content.MoveTo(Vector2.Zero, _firstUpdate ? 0 : 1000, Easing.OutQuint);
             _content.Scale = new Vector2(1 + Math.Abs(ParallaxAmount));
         }
 
@@ -48,7 +49,7 @@ namespace Qsor.Game.Graphics.Containers
             _input = GetContainingInputManager();
         }
 
-        private bool firstUpdate = true;
+        private bool _firstUpdate = true;
 
         protected override void Update()
         {
@@ -63,7 +64,7 @@ namespace Qsor.Game.Graphics.Containers
             _content.Position = Interpolation.ValueAt(elapsed, _content.Position, offset, 0, parallaxDuration, Easing.OutQuint);
             _content.Scale = Interpolation.ValueAt(elapsed, _content.Scale, new Vector2(1 + Math.Abs(ParallaxAmount)), 0, 1000, Easing.OutQuint);
 
-            firstUpdate = false;
+            _firstUpdate = false;
         }
     }
 }

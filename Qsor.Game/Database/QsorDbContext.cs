@@ -6,7 +6,8 @@ namespace Qsor.Game.Database
 {
     public sealed class QsorDbContext : DbContext
     {
-        private string ConnectionString;
+        private readonly string _connectionString;
+        
         public QsorDbContext()
             : this("DataSource=:memory:")
         {
@@ -14,7 +15,7 @@ namespace Qsor.Game.Database
         
         public QsorDbContext(string connectionString)
         {
-            ConnectionString = connectionString;
+            _connectionString = connectionString;
 
             var connection = Database.GetDbConnection();
 
@@ -44,7 +45,7 @@ namespace Qsor.Game.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(ConnectionString);
+            optionsBuilder.UseSqlite(_connectionString);
         }
     }
 }

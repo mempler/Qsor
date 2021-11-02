@@ -2,7 +2,7 @@
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Testing;
 using Qsor.Game.Graphics.Containers;
-using Qsor.Game.Overlays;
+using Qsor.Game.Graphics.UserInterface.Overlays;
 
 namespace Qsor.Tests.Visual.Overlays
 {

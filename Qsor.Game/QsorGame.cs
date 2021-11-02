@@ -1,21 +1,19 @@
 ﻿using System;
 using osu.Framework.Allocation;
 using osu.Framework.Development;
-using osu.Framework.Graphics;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
-using osu.Framework.Logging;
-using osu.Framework.Screens;
 using osuTK.Input;
+using Qsor.Game.Graphics.UserInterface.Screens;
+using Qsor.Game.Graphics.UserInterface.Screens.MainMenu;
 using Qsor.Game.Input;
-using Qsor.Game.Screens;
 
 namespace Qsor.Game
 {
     [Cached]
     public class QsorGame : QsorBaseGame, IKeyBindingHandler<GlobalAction>
     {
-        private GlobalKeyBindingInputHandler KeyBindingInputHandler;
+        private GlobalKeyBindingInputHandler _keyBindingInputHandler;
 
         [BackgroundDependencyLoader]
         private void Load()
@@ -25,7 +23,7 @@ namespace Qsor.Game
 
             Window.Title = $"Qsor - {Version}";
             
-            AddInternal(KeyBindingInputHandler = new GlobalKeyBindingInputHandler(this));
+            AddInternal(_keyBindingInputHandler = new GlobalKeyBindingInputHandler(this));
             
             if (!DebugUtils.IsDebugBuild)
             {

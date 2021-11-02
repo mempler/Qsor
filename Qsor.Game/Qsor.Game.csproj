@@ -32,6 +32,7 @@
     
     <ItemGroup>
       <Folder Include="Database\Migrations" />
+      <Folder Include="Graphics\UserInterface\Online" />
     </ItemGroup>
     
 </Project>

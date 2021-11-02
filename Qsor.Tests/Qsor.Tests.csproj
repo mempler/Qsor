@@ -16,10 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\Tracks" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Qsor.Game\Qsor.Game.csproj" />
     </ItemGroup>
 
