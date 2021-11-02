@@ -44,7 +44,13 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
 
             AddCategory(new SettingsGeneralCategory());
             AddCategory(new SettingsGraphicsCategory());
-            
+            AddCategory(new SettingsGameplayCategory());
+            AddCategory(new SettingsSkinCategory());
+            AddCategory(new SettingsInputCategory());
+            AddCategory(new SettingsEditorCategory());
+            AddCategory(new SettingsOnlineCategory());
+            AddCategory(new SettingsMaintenanceCategory());
+
             _menu.Width = 0;
             Alpha = 0;
         }
