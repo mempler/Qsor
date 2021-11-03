@@ -60,7 +60,7 @@ namespace Qsor.Deploy
             
             stagingDirectory.DeleteDirectory(".");
             
-            var req = new JsonWebRequest<GitHubRelease>($"https://api.github.com/repos/Mempler/Qsor/releases")
+            var req = new JsonWebRequest<GitHubRelease>($"https://api.github.com/repos/Chimu-moe/Qsor/releases")
             {
                 Method = HttpMethod.Post,
             };
