@@ -10,7 +10,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification.Drawables
 {
-    public class DrawableBigNotification : CompositeDrawable
+    public partial class DrawableBigNotification : CompositeDrawable
     {
         private readonly StopwatchClock _clock;
         private readonly double _duration;

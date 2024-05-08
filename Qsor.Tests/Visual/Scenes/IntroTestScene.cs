@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Screens;
 using osu.Framework.Testing;
@@ -9,7 +7,7 @@ using Qsor.Game.Graphics.UserInterface.Screens;
 namespace Qsor.Tests.Visual.Scenes
 {
     [TestFixture]
-    public class IntroTestScene : TestScene
+    public partial class IntroTestScene : TestScene
     {
         [BackgroundDependencyLoader]
         private void Load()

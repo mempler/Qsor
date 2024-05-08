@@ -9,7 +9,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.Containers
 {
-    public class QsorTooltipContainer : TooltipContainer
+    public partial class QsorTooltipContainer : TooltipContainer
     {
         protected override ITooltip CreateTooltip() => new QsorTooltip();
 
@@ -20,7 +20,7 @@ namespace Qsor.Game.Graphics.Containers
         {
         }
         
-        public class QsorTooltip : Tooltip
+        public partial class QsorTooltip : Tooltip
         {
             private TextFlowContainer _textFlowContainer;
 

@@ -5,7 +5,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables.Objects;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Categories
 {
-    public class SettingsGeneralCategory : SettingsCategoryContainer
+    public partial class SettingsGeneralCategory : SettingsCategoryContainer
     {
         public override string Name => "General";
         public override IconUsage Icon => FontAwesome.Solid.Cog;

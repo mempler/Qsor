@@ -16,7 +16,7 @@ using Qsor.Game.Online;
 
 namespace Qsor.Game.Beatmaps
 {
-    public class BeatmapManager
+    public partial class BeatmapManager : IDependencyInjectionCandidate
     {
         public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new();
 

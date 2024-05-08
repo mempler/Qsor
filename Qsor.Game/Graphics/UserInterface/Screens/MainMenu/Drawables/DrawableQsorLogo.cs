@@ -14,7 +14,7 @@ using Qsor.Game.Graphics.Containers;
 
 namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
 {
-    public class DrawableQsorLogo : BeatSyncedContainer
+    public partial class DrawableQsorLogo : BeatSyncedContainer
     {
         private const double EarlyActivation = 60;
 

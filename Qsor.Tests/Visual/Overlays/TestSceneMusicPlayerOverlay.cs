@@ -7,7 +7,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays;
 
 namespace Qsor.Tests.Visual.Overlays
 {
-    public class TestSceneMusicPlayerOverlay : TestScene
+    public partial class TestSceneMusicPlayerOverlay : TestScene
     {
         private MusicPlayerOverlay _musicPlayer;
         

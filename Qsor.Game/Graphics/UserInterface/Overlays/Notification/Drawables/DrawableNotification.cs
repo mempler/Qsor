@@ -12,7 +12,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification.Drawables
 {
-    public class DrawableNotification : CompositeDrawable
+    public partial class DrawableNotification : CompositeDrawable
     {
         private readonly StopwatchClock _clock;
         private readonly Action _clickAction;
@@ -65,7 +65,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification.Drawables
         }
 
         public void FadeBorder(ColourInfo newColour, double duration = 0, Easing easing = Easing.None)
-            => this.TransformTo(nameof(BorderColour), newColour.AverageColour, duration, easing);
+            => this.TransformTo(nameof(BorderColour), (ColourInfo)newColour.AverageColour, duration, easing);
         
         protected override bool OnHover(HoverEvent e)
         {
@@ -99,7 +99,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification.Drawables
             this.FadeOutFromOne(250).Finally(_ =>
             {
                 if (Parent is FillFlowContainer<DrawableNotification> container)
-                    container.Remove(this);
+                    container.Remove(this, true);
             });
             
             return true;

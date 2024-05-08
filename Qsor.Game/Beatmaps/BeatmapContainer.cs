@@ -8,7 +8,7 @@ using Qsor.Game.Graphics.Containers;
 
 namespace Qsor.Game.Beatmaps
 {
-    public class BeatmapContainer : Container
+    public partial class BeatmapContainer : Container
     {
         private BackgroundImageContainer _background;
         public Bindable<WorkingBeatmap> WorkingBeatmap { get; } = new();

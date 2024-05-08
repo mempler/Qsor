@@ -9,7 +9,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays.Notification.Drawables;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification
 {
-    public class NotificationOverlay : CompositeDrawable
+    public partial class NotificationOverlay : CompositeDrawable
     {
         private FillFlowContainer<DrawableNotification> _drawableNotifications;
         
@@ -45,9 +45,11 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification
         {
             Scheduler.AddOnce(() =>
             {
-                var notification = new DrawableBigNotification(text, duration);
-                notification.Anchor = Anchor.Centre;
-                notification.Origin = Anchor.Centre;
+                var notification = new DrawableBigNotification(text, duration)
+                {
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre
+                };
 
                 AddInternal(notification);
                 
@@ -72,7 +74,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification
 
         internal void RemoveBigNotification(DrawableBigNotification notification)
         {
-            RemoveInternal(notification);
+            RemoveInternal(notification, true);
         }
     }
 }

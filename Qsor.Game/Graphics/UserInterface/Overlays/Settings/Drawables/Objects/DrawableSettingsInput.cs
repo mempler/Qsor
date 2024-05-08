@@ -13,7 +13,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables.Objects
 {
-    public class DrawableSettingsInput : DrawableSettingsObject<string>
+    public partial class DrawableSettingsInput : DrawableSettingsObject<string>
     {
         private bool _isPassword;
         private DrawableSettingsInputNode _node;
@@ -62,7 +62,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables.Objects
             _isPassword = isPassword;
         }
 
-        private class DrawableSettingsInputNode : TextBox
+        private partial class DrawableSettingsInputNode : TextBox
         {
             private readonly bool _isPassword;
             

@@ -8,7 +8,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.UserInterface.Screens
 {
-    public class IntroScreen : Screen
+    public partial class IntroScreen : Screen
     {
         private SpriteIcon _spriteIcon;
         private CustomizableTextContainer _textFlowContainer;
@@ -44,7 +44,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens
             AddInternal(_textFlowContainer);
         }
 
-        public override void OnEntering(IScreen last)
+        public override void OnEntering(ScreenTransitionEvent e)
         {
             for (var i = 0; i < _textFlowContainer.Count; i++)
                 _textFlowContainer[i].FadeInFromZero(250 + 100 * i);
@@ -52,7 +52,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens
             Scheduler.AddDelayed(() => _spriteIcon.FlashColour(Color4.White, 1000), 1000, true);
         }
 
-        public override bool OnExiting(IScreen next)
+        public override bool OnExiting(ScreenExitEvent e)
         {
             _textFlowContainer.FadeOutFromOne(500);
 

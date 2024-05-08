@@ -6,19 +6,18 @@ using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Batches;
-using osu.Framework.Graphics.OpenGL.Vertices;
 using osu.Framework.Graphics.Primitives;
+using osu.Framework.Graphics.Rendering;
+using osu.Framework.Graphics.Rendering.Vertices;
 using osu.Framework.Graphics.Shaders;
 using osu.Framework.Graphics.Textures;
-using osu.Framework.Utils;
 using osuTK;
 using osuTK.Graphics;
 using Qsor.Game.Beatmaps;
 
 namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
 {
-    public class DrawableLogoVisualisation : Drawable
+    public partial class DrawableLogoVisualisation : Drawable
     {
         private readonly IBindable<WorkingBeatmap> _beatmap = new Bindable<WorkingBeatmap>();
 
@@ -64,19 +63,19 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
         private readonly float[] _frequencyAmplitudes = new float[256];
 
         private IShader _shader;
-        private readonly Texture _texture;
+        private Texture _texture;
 
         public DrawableLogoVisualisation()
         {
-            _texture = Texture.WhitePixel;
             Blending = BlendingParameters.Additive;
         }
 
         [BackgroundDependencyLoader]
-        private void Load(ShaderManager shaders, BeatmapManager beatmapManager)
+        private void Load(IRenderer renderer, ShaderManager shaders, BeatmapManager beatmapManager)
         {
+            _texture = renderer.WhitePixel;
             _beatmap.BindTo(beatmapManager.WorkingBeatmap);
-            _shader = shaders.Load(VertexShaderDescriptor.TEXTURE_2, FragmentShaderDescriptor.TEXTURE_ROUNDED);
+            _shader = shaders.Load(VertexShaderDescriptor.TEXTURE_2, FragmentShaderDescriptor.TEXTURE);
             
             UpdateColour();
         }
@@ -154,7 +153,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
             private Color4 _colour;
             private float[] _audioData;
 
-            private readonly QuadBatch<TexturedVertex2D> _vertexBatch = new(100, 10);
+            private IVertexBatch<TexturedVertex2D> _vertexBatch;
 
             public VisualisationDrawNode(DrawableLogoVisualisation source)
                 : base(source)
@@ -172,9 +171,11 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
                 _audioData = Source._frequencyAmplitudes;
             }
 
-            public override void Draw(Action<TexturedVertex2D> vertexAction)
+            protected override void Draw(IRenderer renderer)
             {
-                base.Draw(vertexAction);
+                base.Draw(renderer);
+
+                _vertexBatch ??= renderer.CreateQuadBatch<TexturedVertex2D>(100, 10);
 
                 _shader.Bind();
 
@@ -192,13 +193,13 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
                             if (_audioData[i] < AmplitudeDeadZone)
                                 continue;
 
-                            var rotation = MathUtils.DegreesToRadians(i / (float)BarsPerVisualiser * 360 + j * 360 / VisualiserRounds);
+                            var rotation = float.DegreesToRadians(i / (float)BarsPerVisualiser * 360 + j * 360 / VisualiserRounds);
                             var rotationCos = MathF.Cos(rotation);
                             var rotationSin = MathF.Sin(rotation);
                             //taking the cos and sin to the 0..1 range
                             var barPosition = new Vector2(rotationCos / 2 + 0.5f, rotationSin / 2 + 0.5f) * _size;
 
-                            var barSize = new Vector2(_size * MathF.Sqrt(2 * (1 - MathF.Cos(MathUtils.DegreesToRadians(360f / BarsPerVisualiser)))) / 2f, BarLength * _audioData[i]);
+                            var barSize = new Vector2(_size * MathF.Sqrt(2 * (1 - MathF.Cos(float.DegreesToRadians(360f / BarsPerVisualiser)))) / 2f, BarLength * _audioData[i]);
                             //The distance between the position and the sides of the bar.
                             var bottomOffset = new Vector2(-rotationSin * barSize.X / 2, rotationCos * barSize.X / 2);
                             //The distance between the bottom side of the bar and the top side.
@@ -211,7 +212,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
                                 Vector2Extensions.Transform(barPosition + bottomOffset + amplitudeOffset, DrawInfo.Matrix)
                             );
 
-                            DrawQuad(
+                            renderer.DrawQuad(
                                 _texture,
                                 rectangle,
                                 colourInfo,

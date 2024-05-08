@@ -10,7 +10,7 @@ using osuTK.Graphics;
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables
 {
     [Cached]
-    public class DrawableSettingsToolBar : CompositeDrawable
+    public partial class DrawableSettingsToolBar : CompositeDrawable
     {
         private readonly BindableList<SettingsCategoryContainer> _categories = new();
         private BasicScrollContainer _scrollContainer;

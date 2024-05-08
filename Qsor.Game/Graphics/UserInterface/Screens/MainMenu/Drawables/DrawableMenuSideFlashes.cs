@@ -14,7 +14,7 @@ using Qsor.Game.Graphics.Containers;
 
 namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables
 {
-    public class DrawableMenuSideFlashes : BeatSyncedContainer
+    public partial class DrawableMenuSideFlashes : BeatSyncedContainer
     {
         private readonly IBindable<WorkingBeatmap> _beatmap = new Bindable<WorkingBeatmap>();
 

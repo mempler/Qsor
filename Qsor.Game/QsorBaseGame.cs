@@ -20,7 +20,7 @@ using Qsor.Game.Utility;
 
 namespace Qsor.Game
 {
-    public class QsorBaseGame : osu.Framework.Game
+    public partial class QsorBaseGame : osu.Framework.Game
     {
         protected readonly string[] Args;
         protected BeatmapManager BeatmapManager;
@@ -37,7 +37,7 @@ namespace Qsor.Game
         protected SettingsOverlay SettingsOverlay;
         protected TooltipContainer TooltipContainer;
         
-        public Updater.Updater Updater;
+        public UpdateManager UpdateManager;
         
         private DependencyContainer _dependencies;
         
@@ -78,13 +78,13 @@ namespace Qsor.Game
                 _dependencies.Cache(BeatmapManager = new BeatmapManager());
                 Dependencies.Inject(BeatmapManager);
                 
-                Updater ??= new DummyUpdater();
+                UpdateManager ??= CreateUpdater();
                 UpdaterOverlay = new UpdaterOverlay();
             
                 _dependencies.Cache(UpdaterOverlay);
-                _dependencies.CacheAs(Updater);
+                _dependencies.CacheAs(UpdateManager);
                 
-                LoadComponent(Updater);
+                LoadComponent(UpdateManager);
             }
 
             // Add our Resources/ directory
@@ -95,7 +95,7 @@ namespace Qsor.Game
             
             // Root container for everything and anything, we have QsorToolTipContainer as root
             // so we can display our tooltips cleanly.
-            AddInternal(TooltipContainer = new QsorTooltipContainer(null)
+            Add(TooltipContainer = new QsorTooltipContainer(null)
             {
                 RelativeSizeAxes = Axes.Both,
             });
@@ -109,6 +109,8 @@ namespace Qsor.Game
             TooltipContainer.Add(SettingsOverlay = new SettingsOverlay());
             TooltipContainer.Add(NotificationOverlay);
         }
+
+        protected virtual UpdateManager CreateUpdater() => new DummyUpdater();
 
         protected override void Dispose(bool isDisposing)
         {

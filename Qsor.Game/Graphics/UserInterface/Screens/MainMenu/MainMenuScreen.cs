@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using osu.Framework.Allocation;
+﻿using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Development;
@@ -20,10 +18,11 @@ using Qsor.Game.Graphics.UserInterface.Overlays;
 using Qsor.Game.Graphics.UserInterface.Overlays.Notification;
 using Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Containers;
 using Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables;
+using Qsor.Game.Updater;
 
 namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
 {
-    public class MainMenuScreen : Screen
+    public partial class MainMenuScreen : Screen
     {
         private BackgroundImageContainer _background;
         private DrawableQsorLogo _drawableQsorLogo;
@@ -40,7 +39,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
         private Storage Storage { get; set; }
         
         [Resolved]
-        private Updater.Updater Updater { get; set; }
+        private UpdateManager UpdateManager { get; set; }
 
         [Resolved] 
         private GameHost Host { get; set; }
@@ -104,15 +103,15 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
             beatmapManager.WorkingBeatmap.Value?.Play();
         }
         
-        public override void OnEntering(IScreen last)
+        public override void OnEntering(ScreenTransitionEvent e)
         {
             _clock.Start();
             
             this.FadeInFromZero(2500, Easing.InExpo).Finally(e =>
             {
                 NotificationOverlay.AddNotification(new LocalisableString(
-                        "Please note that the client is still in a very early alpha, bugs will most likely occur! " +
-                        "Consider reporting each of them in #bug-reports in it hasn't been found already."),
+                        "Please note that this game is in very early development and is not representative of the final product. " +
+                        "If you encounter any issues, please report them on our GitHub repository!"),
                     Color4.Orange, 10000);
 
                 NotificationOverlay.AddNotification(new LocalisableString(
@@ -126,11 +125,11 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
                     Color4.Gray, 10000, () => Host.OpenUrlExternally($"https://github.com/osuAkatsuki/Qsor/releases/tag/{QsorBaseGame.Version}"));
 
                 if (!DebugUtils.IsDebugBuild)
-                    Updater.CheckAvailable();
+                    UpdateManager.CheckAvailable();
             });
         }
 
-        public override bool OnExiting(IScreen next)
+        public override bool OnExiting(ScreenExitEvent e)
         {
             this.FadeOutFromOne(2500, Easing.OutExpo);
             return true;

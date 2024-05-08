@@ -6,7 +6,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Containers
 {
-    public class BottomBar : CompositeDrawable
+    public partial class BottomBar : CompositeDrawable
     {
         [BackgroundDependencyLoader]
         private void Load()

@@ -5,7 +5,7 @@ using osu.Framework.Localisation;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables.Objects
 {
-    public class DrawableSettingsLabel : DrawableSettingsObject<LocalisableString>
+    public partial class DrawableSettingsLabel : DrawableSettingsObject<LocalisableString>
     {
         private SpriteText _label;
         

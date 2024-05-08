@@ -8,7 +8,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.Drawables
 {
-    public class DrawableProgressbar : Container, IHasCurrentValue<double>
+    public partial class DrawableProgressbar : Container, IHasCurrentValue<double>
     {
         private Box _progressBox;
         

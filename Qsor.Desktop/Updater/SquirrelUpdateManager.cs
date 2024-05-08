@@ -2,36 +2,34 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Threading;
 using Newtonsoft.Json;
 using osu.Framework.Allocation;
-using osu.Framework.IO.Network;
 using osu.Framework.Platform;
 using Qsor.Game.Updater;
 using Squirrel;
+using Squirrel.Sources;
+using UpdateManager = Qsor.Game.Updater.UpdateManager;
 
 namespace Qsor.Desktop.Updater
 {
     [Cached]
-    public class SquirrelUpdater : Game.Updater.Updater
+    [SupportedOSPlatform("windows")]
+    public partial class SquirrelUpdateManager : UpdateManager, IDisposable
     {
-        [Resolved]
-        private Storage Storage { get; set; }
-        
         [Resolved]
         private GameHost Host { get; set; }
 
-        private UpdateManager _updateManager;
+        private Squirrel.UpdateManager _updateManager;
         
 
         [BackgroundDependencyLoader]
-        private async void Load()
+        private void Load()
         {
-            var jwr = new JsonWebRequest<GitHubRelease>("https://api.github.com/repos/Chimu-moe/Qsor/releases/latest");
-            
-            await jwr.PerformAsync();
-            
-            _updateManager = new UpdateManager($"https://github.com/Chimu-moe/Qsor/releases/download/{jwr.ResponseObject.TagName}/");
+            const string GITHUB_ACCESS_TOKEN = null; // TODO: fill in your GitHub access token here
+
+            _updateManager = new Squirrel.UpdateManager(new GithubSource("https://github.com/mempler/Qsor/", GITHUB_ACCESS_TOKEN, true), "qsor");
         }
         
         public override async void CheckAvailable()
@@ -50,10 +48,7 @@ namespace Qsor.Desktop.Updater
         {
             if (BindableStatus.Value == UpdaterStatus.Ready)
             {
-                var entry = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
-                if (entry == null)
-                    throw new NullReferenceException();
-                
+                var entry = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? throw new NullReferenceException();
                 var path = Path.Join(entry, "../");
                 
                 Console.WriteLine(path);
@@ -74,7 +69,13 @@ namespace Qsor.Desktop.Updater
 
             BindableStatus.Value = UpdaterStatus.Ready;
         }
-        
+
+        protected override void Dispose(bool isDisposing)
+        {
+            base.Dispose(isDisposing);
+            _updateManager?.Dispose();
+        }
+
         public class GitHubRelease
         {
             [JsonProperty("tag_name")]

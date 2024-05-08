@@ -6,7 +6,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables
 {
-    public class DrawableSettingsCategory : FillFlowContainer<Drawable>
+    public partial class DrawableSettingsCategory : FillFlowContainer<Drawable>
     {
         private SpriteText _text;
 
