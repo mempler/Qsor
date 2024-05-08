@@ -11,7 +11,6 @@ using osu.Framework.Graphics.Rendering;
 using osu.Framework.Graphics.Rendering.Vertices;
 using osu.Framework.Graphics.Shaders;
 using osu.Framework.Graphics.Textures;
-using osu.Framework.Utils;
 using osuTK;
 using osuTK.Graphics;
 using Qsor.Game.Beatmaps;

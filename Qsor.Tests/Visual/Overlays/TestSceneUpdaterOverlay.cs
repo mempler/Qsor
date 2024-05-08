@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using osu.Framework.Allocation;
 using osu.Framework.Testing;
 using Qsor.Game.Graphics.UserInterface.Overlays;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using NLipsum.Core;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;

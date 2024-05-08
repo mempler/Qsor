@@ -45,9 +45,11 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification
         {
             Scheduler.AddOnce(() =>
             {
-                var notification = new DrawableBigNotification(text, duration);
-                notification.Anchor = Anchor.Centre;
-                notification.Origin = Anchor.Centre;
+                var notification = new DrawableBigNotification(text, duration)
+                {
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre
+                };
 
                 AddInternal(notification);
                 

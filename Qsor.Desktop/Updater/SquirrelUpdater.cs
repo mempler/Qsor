@@ -6,7 +6,6 @@ using System.Runtime.Versioning;
 using System.Threading;
 using Newtonsoft.Json;
 using osu.Framework.Allocation;
-using osu.Framework.IO.Network;
 using osu.Framework.Platform;
 using Qsor.Game.Updater;
 using Squirrel;
@@ -28,7 +27,7 @@ namespace Qsor.Desktop.Updater
         
 
         [BackgroundDependencyLoader]
-        private async void Load()
+        private void Load()
         {
             const string GITHUB_ACCESS_TOKEN = null; // TODO: fill in your GitHub access token here
 

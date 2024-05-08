@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using osu.Framework.Allocation;
+﻿using osu.Framework.Allocation;
 using osu.Framework.Audio;
 using osu.Framework.Bindables;
 using osu.Framework.Development;
@@ -111,8 +109,8 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
             this.FadeInFromZero(2500, Easing.InExpo).Finally(e =>
             {
                 NotificationOverlay.AddNotification(new LocalisableString(
-                        "Please note that the client is still in a very early alpha, bugs will most likely occur! " +
-                        "Consider reporting each of them in #bug-reports in it hasn't been found already."),
+                        "Please note that this game is in very early development and is not representative of the final product. " +
+                        "If you encounter any issues, please report them on our GitHub repository!"),
                     Color4.Orange, 10000);
 
                 NotificationOverlay.AddNotification(new LocalisableString(
