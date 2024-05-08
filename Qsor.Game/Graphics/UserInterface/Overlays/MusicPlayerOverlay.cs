@@ -13,14 +13,6 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
         private FillFlowContainer<Drawable> _flow;
         private FillFlowContainer<ClickableSpriteIcon> _icons;
 
-        private ClickableSpriteIcon _skipBackButton;
-        private ClickableSpriteIcon _playButton;
-        private ClickableSpriteIcon _pauseButton;
-        private ClickableSpriteIcon _stopButton;
-        private ClickableSpriteIcon _skipButton;
-        private ClickableSpriteIcon _infoButton;
-        private ClickableSpriteIcon _collectionButton;
-
         private DragableProgressbar _progressbar;
 
         private BeatmapManager _beatmapManager;
@@ -47,7 +39,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
                 Spacing = new Vector2(16, 0),
             };
             
-            _icons.Add(_skipBackButton = new ClickableSpriteIcon
+            _icons.Add(new ClickableSpriteIcon
             {
                 Icon = FontAwesome.Solid.StepBackward,
                 Size = new Vector2(16),
@@ -65,7 +57,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
                 }
             });
             
-            _icons.Add(_playButton = new ClickableSpriteIcon
+            _icons.Add(new ClickableSpriteIcon
             {
                 Icon = FontAwesome.Solid.Play,
                 Size = new Vector2(16),
@@ -93,7 +85,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
                 }
             });
             
-            _icons.Add(_pauseButton = new ClickableSpriteIcon
+            _icons.Add(new ClickableSpriteIcon
             {
                 Icon = FontAwesome.Solid.Pause,
                 Size = new Vector2(16),
@@ -127,7 +119,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
                 }
             });
             
-            _icons.Add(_stopButton = new ClickableSpriteIcon
+            _icons.Add(new ClickableSpriteIcon
             {
                 Icon = FontAwesome.Solid.Stop,
                 Size = new Vector2(16),
@@ -145,7 +137,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
                 }
             });
             
-            _icons.Add(_skipButton = new ClickableSpriteIcon
+            _icons.Add(new ClickableSpriteIcon
             {
                 Icon = FontAwesome.Solid.StepForward,
                 Size = new Vector2(16),
@@ -163,7 +155,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
                 }
             });
             
-            _icons.Add(_infoButton = new ClickableSpriteIcon
+            _icons.Add(new ClickableSpriteIcon
             {
                 Icon = FontAwesome.Solid.Info,
                 Size = new Vector2(16),
@@ -177,7 +169,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
                 }
             });
             
-            _icons.Add(_collectionButton = new ClickableSpriteIcon
+            _icons.Add(new ClickableSpriteIcon
             {
                 Icon = FontAwesome.Solid.Bars,
                 Size = new Vector2(16),
@@ -203,10 +195,12 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
             _progressbar.Current.ValueChanged += e =>
             {
                 var track = _beatmapManager?.WorkingBeatmap?.Value?.Track;
-                if (track != null && (_progressbar.IsDragging || _progressbar.JustClicked))
+                if (track == null)
+                    return;
+
+                if (_progressbar.IsDragged)
                 {
                     track.Seek(e.NewValue * track.Length);
-                    _progressbar.JustClicked = false;
                 }
             };
             
@@ -216,10 +210,10 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
         protected override void Update()
         {
             var track = _beatmapManager?.WorkingBeatmap?.Value?.Track;
-            if (track != null && !_progressbar.IsDragging)
-            {
-                _progressbar.Current.Value = track.CurrentTime / track.Length;
-            }
+            if (track == null)
+                return;
+
+            _progressbar.Current.Value = track.CurrentTime / track.Length;
         }
     }
 }
