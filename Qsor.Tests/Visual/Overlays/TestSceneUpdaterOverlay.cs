@@ -6,7 +6,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays;
 
 namespace Qsor.Tests.Visual.Overlays
 {
-    public class TestSceneUpdaterOverlay : TestScene
+    public partial class TestSceneUpdaterOverlay : TestScene
     {
         [BackgroundDependencyLoader]
         private void Load()

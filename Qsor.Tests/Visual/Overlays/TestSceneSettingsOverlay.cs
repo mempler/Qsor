@@ -7,7 +7,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays.Settings;
 
 namespace Qsor.Tests.Visual.Overlays
 {
-    public class TestSceneSettingsOverlay : TestScene
+    public partial class TestSceneSettingsOverlay : TestScene
     {
         [BackgroundDependencyLoader]
         private void Load(TextureStore ts)

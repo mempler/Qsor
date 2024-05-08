@@ -2,7 +2,7 @@
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Categories
 {
-    public class SettingsSkinCategory : SettingsCategoryContainer
+    public partial class SettingsSkinCategory : SettingsCategoryContainer
     {
         public override string Name => "Skin";
         public override IconUsage Icon => FontAwesome.Solid.PaintBrush;

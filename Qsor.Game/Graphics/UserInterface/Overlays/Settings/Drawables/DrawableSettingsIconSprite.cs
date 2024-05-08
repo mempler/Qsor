@@ -9,7 +9,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables
 {
-    public class DrawableSettingsIconSprite : CompositeDrawable
+    public partial class DrawableSettingsIconSprite : CompositeDrawable
     {
         
         [Resolved]

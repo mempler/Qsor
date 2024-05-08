@@ -2,7 +2,7 @@
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Categories
 {
-    public class SettingsGameplayCategory : SettingsCategoryContainer
+    public partial class SettingsGameplayCategory : SettingsCategoryContainer
     {
         public override string Name => "Gameplay";
         public override IconUsage Icon => FontAwesome.Regular.Circle;

@@ -11,7 +11,7 @@ using osuTK.Graphics;
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables
 {
     [Cached]
-    public class DrawableSettingsMenu : CompositeDrawable
+    public partial class DrawableSettingsMenu : CompositeDrawable
     {
         private readonly BindableList<SettingsCategoryContainer> _categories = new();
         private SearchContainer _searchContainer;

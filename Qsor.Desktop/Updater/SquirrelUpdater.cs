@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Threading;
 using Newtonsoft.Json;
 using osu.Framework.Allocation;
@@ -9,11 +10,13 @@ using osu.Framework.IO.Network;
 using osu.Framework.Platform;
 using Qsor.Game.Updater;
 using Squirrel;
+using Squirrel.Sources;
 
 namespace Qsor.Desktop.Updater
 {
     [Cached]
-    public class SquirrelUpdater : Game.Updater.Updater
+    [SupportedOSPlatform("windows")]
+    public partial class SquirrelUpdater : Game.Updater.Updater, IDisposable
     {
         [Resolved]
         private Storage Storage { get; set; }
@@ -27,11 +30,9 @@ namespace Qsor.Desktop.Updater
         [BackgroundDependencyLoader]
         private async void Load()
         {
-            var jwr = new JsonWebRequest<GitHubRelease>("https://api.github.com/repos/mempler/Qsor/releases/latest");
-            
-            await jwr.PerformAsync();
-            
-            _updateManager = new UpdateManager($"https://github.com/mempler/Qsor/releases/download/{jwr.ResponseObject.TagName}/");
+            const string GITHUB_ACCESS_TOKEN = null; // TODO: fill in your GitHub access token here
+
+            _updateManager = new UpdateManager(new GithubSource("https://github.com/mempler/Qsor/", GITHUB_ACCESS_TOKEN, true), "qsor");
         }
         
         public override async void CheckAvailable()
@@ -74,7 +75,13 @@ namespace Qsor.Desktop.Updater
 
             BindableStatus.Value = UpdaterStatus.Ready;
         }
-        
+
+        protected override void Dispose(bool isDisposing)
+        {
+            base.Dispose(isDisposing);
+            _updateManager?.Dispose();
+        }
+
         public class GitHubRelease
         {
             [JsonProperty("tag_name")]

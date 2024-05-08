@@ -9,7 +9,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays.Notification.Drawables;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification
 {
-    public class NotificationOverlay : CompositeDrawable
+    public partial class NotificationOverlay : CompositeDrawable
     {
         private FillFlowContainer<DrawableNotification> _drawableNotifications;
         
@@ -72,7 +72,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Notification
 
         internal void RemoveBigNotification(DrawableBigNotification notification)
         {
-            RemoveInternal(notification);
+            RemoveInternal(notification, true);
         }
     }
 }

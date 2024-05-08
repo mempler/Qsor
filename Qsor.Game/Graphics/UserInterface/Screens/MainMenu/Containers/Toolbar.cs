@@ -7,7 +7,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays;
 
 namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Containers
 {
-    public class Toolbar : CompositeDrawable
+    public partial class Toolbar : CompositeDrawable
     {
         [BackgroundDependencyLoader]
         private void Load()

@@ -5,9 +5,9 @@ using osu.Framework.Platform;
 
 namespace Qsor.Game.Online
 {
-    public class BeatmapMirrorAccess
+    public partial class BeatmapMirrorAccess : IDependencyInjectionCandidate
     {
-        private const string BeatmapMirror = "https://chimu.moe";
+        private const string BeatmapMirror = "https://api.nerinyan.moe";
 
         [Resolved]
         private Storage Storage { get; set; }

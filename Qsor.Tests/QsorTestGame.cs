@@ -5,7 +5,7 @@ using Qsor.Game;
 
 namespace Qsor.Tests
 {
-    public class QsorTestGame : QsorBaseGame
+    public partial class QsorTestGame : QsorBaseGame
     {
         [BackgroundDependencyLoader]
         private void Load()

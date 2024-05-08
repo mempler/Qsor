@@ -8,7 +8,7 @@ using Qsor.Game;
 
 namespace Qsor.Tests.Visual
 {
-    public class TestSceneQsorGame : TestScene
+    public partial class TestSceneQsorGame : TestScene
     {
         [BackgroundDependencyLoader]
         private void Load()

@@ -23,7 +23,7 @@ using Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables;
 
 namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
 {
-    public class MainMenuScreen : Screen
+    public partial class MainMenuScreen : Screen
     {
         private BackgroundImageContainer _background;
         private DrawableQsorLogo _drawableQsorLogo;
@@ -104,7 +104,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
             beatmapManager.WorkingBeatmap.Value?.Play();
         }
         
-        public override void OnEntering(IScreen last)
+        public override void OnEntering(ScreenTransitionEvent e)
         {
             _clock.Start();
             
@@ -130,7 +130,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
             });
         }
 
-        public override bool OnExiting(IScreen next)
+        public override bool OnExiting(ScreenExitEvent e)
         {
             this.FadeOutFromOne(2500, Easing.OutExpo);
             return true;

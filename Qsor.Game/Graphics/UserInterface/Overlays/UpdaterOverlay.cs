@@ -8,7 +8,7 @@ using osuTK;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays
 {
-    public class UpdaterOverlay : CompositeDrawable
+    public partial class UpdaterOverlay : CompositeDrawable
     {
         private SpriteText _statusText;
         private SpriteIcon _spinningIcon;

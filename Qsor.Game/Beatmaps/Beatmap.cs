@@ -7,7 +7,7 @@ using Component = osu.Framework.Graphics.Component;
 
 namespace Qsor.Game.Beatmaps
 {
-    public class Beatmap : Component
+    public partial class Beatmap : Component
     {
         public class GeneralSection
         {

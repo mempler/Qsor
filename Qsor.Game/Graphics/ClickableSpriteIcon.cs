@@ -5,7 +5,7 @@ using osu.Framework.Localisation;
 
 namespace Qsor.Game.Graphics
 {
-    public class ClickableSpriteIcon : SpriteIcon, IHasTooltip
+    public partial class ClickableSpriteIcon : SpriteIcon, IHasTooltip
     {
         public LocalisableString TooltipText { get; set; }
 

@@ -13,7 +13,7 @@ using Qsor.Game.Online.Users;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays
 {
-    public class UserOverlay : CompositeDrawable
+    public partial class UserOverlay : CompositeDrawable
     {
         private TextFlowContainer _textFlowContainer;
         private DrawableAvatar _avatar;

@@ -1,20 +1,13 @@
-﻿using System.Threading.Tasks;
-using osu.Framework;
-using osu.Framework.Development;
-using Qsor.Desktop.Updater;
-using Qsor.Game;
+﻿using osu.Framework;
 
 namespace Qsor.Desktop
 {
     internal static class Program
     {
-        public static async Task Main(params string[] args)
+        public static void Main(params string[] args)
         {
-            using var host = Host.GetSuitableHost("Qsor");
-            using var game = new QsorGame(args)
-            {
-                Updater = !DebugUtils.IsDebugBuild && RuntimeInfo.OS == RuntimeInfo.Platform.Windows ? new SquirrelUpdater() : null
-            };
+            using var host = Host.GetSuitableDesktopHost("Qsor");
+            using var game = new QsorGameDesktop(args);
             
             host.Run(game);
         }

@@ -9,7 +9,7 @@ using osu.Framework.Localisation;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables.Objects
 {
-    public abstract class DrawableSettingsObject<T> : CompositeDrawable, IRequireHighFrequencyMousePosition, IHasTooltip
+    public abstract partial class DrawableSettingsObject<T> : CompositeDrawable, IRequireHighFrequencyMousePosition, IHasTooltip
     {
         public readonly Bindable<LocalisableString> Label = new(string.Empty);
         public readonly Bindable<LocalisableString> ToolTip = new(string.Empty);

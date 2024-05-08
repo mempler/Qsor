@@ -11,7 +11,7 @@ using osuTK;
 
 namespace Qsor.Game.Graphics.Containers
 {
-    public class ParallaxContainer : Container, IRequireHighFrequencyMousePosition
+    public partial class ParallaxContainer : Container, IRequireHighFrequencyMousePosition
     {
         public const float DefaultParallaxAmount = 0.02f;
 

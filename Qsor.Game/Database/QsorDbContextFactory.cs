@@ -120,7 +120,11 @@ namespace Qsor.Game.Database
         }
 
         private QsorDbContext CreateContext()
-            => new(_storage.GetDatabaseConnectionString("qsor")) {Database = {AutoTransactionsEnabled = false}};
+            => new(_storage.GetDatabaseConnectionString("qsor")) {
+                Database = {
+                    AutoTransactionBehavior = Microsoft.EntityFrameworkCore.AutoTransactionBehavior.Always
+                }
+            };
 
         public void ResetDatabase()
         {

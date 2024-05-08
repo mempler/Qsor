@@ -3,7 +3,7 @@
 namespace Qsor.Game.Updater
 {
    [Cached]
-   public class DummyUpdater : Updater
+   public partial class DummyUpdater : Updater
    {
       public override void CheckAvailable()
       {

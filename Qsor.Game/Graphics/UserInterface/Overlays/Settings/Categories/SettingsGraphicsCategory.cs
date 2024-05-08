@@ -3,7 +3,7 @@ using osu.Framework.Graphics.Sprites;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Categories
 {
-    public class SettingsGraphicsCategory : SettingsCategoryContainer
+    public partial class SettingsGraphicsCategory : SettingsCategoryContainer
     {
         public override string Name => "Graphics";
         public override IconUsage Icon => FontAwesome.Solid.Desktop;

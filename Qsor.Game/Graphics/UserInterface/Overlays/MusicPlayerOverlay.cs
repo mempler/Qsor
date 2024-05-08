@@ -8,7 +8,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays.Notification;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays
 {
-    public class MusicPlayerOverlay : CompositeDrawable
+    public partial class MusicPlayerOverlay : CompositeDrawable
     {
         private FillFlowContainer<Drawable> _flow;
         private FillFlowContainer<ClickableSpriteIcon> _icons;

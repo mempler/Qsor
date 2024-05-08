@@ -9,7 +9,7 @@ using Qsor.Game.Beatmaps;
 
 namespace Qsor.Game.Graphics.Containers
 {
-    public class BeatSyncedContainer : Container
+    public partial class BeatSyncedContainer : Container
     {
         protected readonly IBindable<WorkingBeatmap> Beatmap = new Bindable<WorkingBeatmap>();
 

@@ -6,7 +6,7 @@ using osu.Framework.Input.Bindings;
 
 namespace Qsor.Game.Input
 {
-    public class GlobalKeyBindingInputHandler : KeyBindingContainer<GlobalAction>, IHandleGlobalKeyboardInput
+    public partial class GlobalKeyBindingInputHandler : KeyBindingContainer<GlobalAction>, IHandleGlobalKeyboardInput
     {
         private readonly Drawable _handler;
 

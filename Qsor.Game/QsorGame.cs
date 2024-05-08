@@ -11,7 +11,7 @@ using Qsor.Game.Input;
 namespace Qsor.Game
 {
     [Cached]
-    public class QsorGame : QsorBaseGame, IKeyBindingHandler<GlobalAction>
+    public partial class QsorGame : QsorBaseGame, IKeyBindingHandler<GlobalAction>
     {
         private GlobalKeyBindingInputHandler _keyBindingInputHandler;
 
@@ -23,8 +23,7 @@ namespace Qsor.Game
 
             Window.Title = $"Qsor - {Version}";
             
-            AddInternal(_keyBindingInputHandler = new GlobalKeyBindingInputHandler(this));
-            
+            Add(_keyBindingInputHandler = new GlobalKeyBindingInputHandler(this));
             
             if (!DebugUtils.IsDebugBuild)
             {

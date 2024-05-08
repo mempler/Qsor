@@ -7,7 +7,7 @@ using Qsor.Game.Online.Users;
 
 namespace Qsor.Tests.Visual.Overlays
 {
-    public class TestSceneUserOverlay : TestScene
+    public partial class TestSceneUserOverlay : TestScene
     {
          [BackgroundDependencyLoader]
          private void Load()

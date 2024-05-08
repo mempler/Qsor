@@ -8,7 +8,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.Containers
 {
-    public class BackgroundImageContainer : BufferedContainer
+    public partial class BackgroundImageContainer : BufferedContainer
     {
         private Sprite _backgroundImage;
 
@@ -25,8 +25,6 @@ namespace Qsor.Game.Graphics.Containers
                 FillMode = FillMode.Fill
             };
             
-            CacheDrawnFrameBuffer = true;
-
             BackgroundColour = Color4.Black;
             Colour = new Color4(1,1,1, .5f);
             BlurSigma = new Vector2(5f);

@@ -10,7 +10,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables;
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings
 {
     [Cached]
-    public class SettingsOverlay : CompositeDrawable
+    public partial class SettingsOverlay : CompositeDrawable
     {
         private readonly BindableList<SettingsCategoryContainer> _categories = new();
 

@@ -5,7 +5,7 @@ using Qsor.Game.Online.Users;
 
 namespace Qsor.Game.Graphics.UserInterface.Online.Drawables
 {
-    public class DrawableLevelBar : DrawableProgressbar
+    public partial class DrawableLevelBar : DrawableProgressbar
     {
         private readonly User _user;
 

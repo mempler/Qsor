@@ -7,7 +7,7 @@ using Qsor.Game.Graphics.Drawables;
 
 namespace Qsor.Game.Graphics
 {
-    public class DragableProgressbar : DrawableProgressbar, IHasTooltip
+    public partial class DragableProgressbar : DrawableProgressbar, IHasTooltip
     {
         public LocalisableString TooltipText { get; set; }
         

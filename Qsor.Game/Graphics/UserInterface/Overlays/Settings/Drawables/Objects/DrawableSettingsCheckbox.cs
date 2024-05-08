@@ -10,7 +10,7 @@ using osuTK.Graphics;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables.Objects
 {
-    public class DrawableSettingsCheckbox : DrawableSettingsObject<bool>
+    public partial class DrawableSettingsCheckbox : DrawableSettingsObject<bool>
     {
         private SpriteText _label;
         
@@ -47,7 +47,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables.Objects
             return true;
         }
         
-        private class DrawableSettingsCheckboxNode : CompositeDrawable
+        private partial class DrawableSettingsCheckboxNode : CompositeDrawable
         {
             public readonly Bindable<bool> Checked = new();
 

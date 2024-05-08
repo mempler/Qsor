@@ -9,7 +9,7 @@ using osuTK;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables
 {
-    public class DrawableSettingsSubCategory : CompositeDrawable
+    public partial class DrawableSettingsSubCategory : CompositeDrawable
     {
         public Bindable<LocalisableString> Label = new(string.Empty);
         private SpriteText _label;

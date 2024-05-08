@@ -11,7 +11,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays.Notification;
 
 namespace Qsor.Tests.Visual.Overlays
 {
-    public class TestSceneNotificationOverlay : TestScene
+    public partial class TestSceneNotificationOverlay : TestScene
     {
         private LipsumGenerator _lipsumGenerator;
         private NotificationOverlay _notificationOverlay;
