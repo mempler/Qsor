@@ -5,6 +5,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
 using osuTK;
+using Qsor.Game.Updater;
 
 namespace Qsor.Game.Graphics.UserInterface.Overlays
 {
@@ -16,7 +17,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
         public LocalisableString Text { get => _statusText.Text; set => _statusText.Text = value; }
         
         [Resolved]
-        private Updater.UpdateManager Updater { get; set; }
+        private UpdateManager UpdateManager { get; set; }
         
         [BackgroundDependencyLoader]
         private void Load()
@@ -64,7 +65,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
 
         protected override bool OnClick(ClickEvent e)
         {
-            Updater.UpdateGame();
+            UpdateManager.UpdateGame();
             
             return true;
         }

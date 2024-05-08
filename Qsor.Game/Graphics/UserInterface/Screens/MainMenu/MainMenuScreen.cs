@@ -18,6 +18,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays;
 using Qsor.Game.Graphics.UserInterface.Overlays.Notification;
 using Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Containers;
 using Qsor.Game.Graphics.UserInterface.Screens.MainMenu.Drawables;
+using Qsor.Game.Updater;
 
 namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
 {
@@ -38,7 +39,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
         private Storage Storage { get; set; }
         
         [Resolved]
-        private Updater.UpdateManager Updater { get; set; }
+        private UpdateManager UpdateManager { get; set; }
 
         [Resolved] 
         private GameHost Host { get; set; }
@@ -124,7 +125,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
                     Color4.Gray, 10000, () => Host.OpenUrlExternally($"https://github.com/osuAkatsuki/Qsor/releases/tag/{QsorBaseGame.Version}"));
 
                 if (!DebugUtils.IsDebugBuild)
-                    Updater.CheckAvailable();
+                    UpdateManager.CheckAvailable();
             });
         }
 

@@ -15,7 +15,7 @@ public partial class QsorGameDesktop : QsorGame
     {
     }
 
-    protected override Game.Updater.UpdateManager CreateUpdater()
+    protected override UpdateManager CreateUpdater()
     {
         if (DebugUtils.IsDebugBuild)
             return new DummyUpdater();

@@ -37,7 +37,7 @@ namespace Qsor.Game
         protected SettingsOverlay SettingsOverlay;
         protected TooltipContainer TooltipContainer;
         
-        public Updater.UpdateManager Updater;
+        public UpdateManager UpdateManager;
         
         private DependencyContainer _dependencies;
         
@@ -78,13 +78,13 @@ namespace Qsor.Game
                 _dependencies.Cache(BeatmapManager = new BeatmapManager());
                 Dependencies.Inject(BeatmapManager);
                 
-                Updater ??= CreateUpdater();
+                UpdateManager ??= CreateUpdater();
                 UpdaterOverlay = new UpdaterOverlay();
             
                 _dependencies.Cache(UpdaterOverlay);
-                _dependencies.CacheAs(Updater);
+                _dependencies.CacheAs(UpdateManager);
                 
-                LoadComponent(Updater);
+                LoadComponent(UpdateManager);
             }
 
             // Add our Resources/ directory
@@ -110,7 +110,7 @@ namespace Qsor.Game
             TooltipContainer.Add(NotificationOverlay);
         }
 
-        protected virtual Updater.UpdateManager CreateUpdater() => new DummyUpdater();
+        protected virtual UpdateManager CreateUpdater() => new DummyUpdater();
 
         protected override void Dispose(bool isDisposing)
         {
