@@ -4,7 +4,7 @@
 
 ## Qsor
 
-[![Official Discord](https://discordapp.com/api/guilds/795260754759778344/widget.png?style=shield)](https://discord.gg/9JnqPSrPpz) [![CodeFactor](https://www.codefactor.io/repository/github/mempler/qsor/badge)](https://www.codefactor.io/repository/github/mempler/qsor) [![Build status](https://ci.appveyor.com/api/projects/status/0jec4r3nxqa6nq8g?svg=true)](https://ci.appveyor.com/project/mempler/qsor)
+[![Official Discord](https://discordapp.com/api/guilds/1237661234073960531/widget.png?style=shield)](https://discord.gg/ujNk7sVQCt) [![CodeFactor](https://www.codefactor.io/repository/github/mempler/qsor/badge)](https://www.codefactor.io/repository/github/mempler/qsor) [![Build status](https://ci.appveyor.com/api/projects/status/0jec4r3nxqa6nq8g?svg=true)](https://ci.appveyor.com/project/mempler/qsor)
 
 for people who wan't the nostalgic feeling of osu!Stable once osu!Lazer gets released.
 

@@ -1,5 +1,5 @@
 ﻿version: '{build}'
-image: Visual Studio 2019
+image: Visual Studio 2022
 configuration: Release
 init:
   - ps: Update-AppveyorBuild -Version "$(Get-Date -format yyyy.Mdd).$env:appveyor_build_number"
@@ -12,9 +12,6 @@ dotnet_csproj:
   assembly_version: '{version}'
   file_version: '{version}'
   informational_version: '{version}'
-environment:
-  WEBHOOK_URL:
-    secure: 5iyntOmaNX1ztZQHITwehOjGHrTQW9SzqnqigVtYWGtGU43vHAGJjptusYTBZS13GdkJ/9G6uUrDqRoQPPkrdJnx59C9YKZK1qI4zRxuoPNUkoocP0+oPU50C+HgqF+z1+/ORoWrJxDPJCk58x3zFy6DPVBdHn1w9KrFRgMbRpQ=
 before_build:
   - ps: dotnet restore
 build:
