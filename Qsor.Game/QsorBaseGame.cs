@@ -37,7 +37,7 @@ namespace Qsor.Game
         protected SettingsOverlay SettingsOverlay;
         protected TooltipContainer TooltipContainer;
         
-        public Updater.Updater Updater;
+        public Updater.UpdateManager Updater;
         
         private DependencyContainer _dependencies;
         
@@ -110,7 +110,7 @@ namespace Qsor.Game
             TooltipContainer.Add(NotificationOverlay);
         }
 
-        protected virtual Updater.Updater CreateUpdater() => new DummyUpdater();
+        protected virtual Updater.UpdateManager CreateUpdater() => new DummyUpdater();
 
         protected override void Dispose(bool isDisposing)
         {

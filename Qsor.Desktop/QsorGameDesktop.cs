@@ -15,7 +15,7 @@ public partial class QsorGameDesktop : QsorGame
     {
     }
 
-    protected override Game.Updater.Updater CreateUpdater()
+    protected override Game.Updater.UpdateManager CreateUpdater()
     {
         if (DebugUtils.IsDebugBuild)
             return new DummyUpdater();
@@ -25,7 +25,7 @@ public partial class QsorGameDesktop : QsorGame
             case RuntimeInfo.Platform.Windows:
                 Debug.Assert(OperatingSystem.IsWindows()); // To silence the "only supported on Windows" warning
 
-                return new SquirrelUpdater();
+                return new SquirrelUpdateManager();
 
             default:
                 return new DummyUpdater();

@@ -16,7 +16,7 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays
         public LocalisableString Text { get => _statusText.Text; set => _statusText.Text = value; }
         
         [Resolved]
-        private Updater.Updater Updater { get; set; }
+        private Updater.UpdateManager Updater { get; set; }
         
         [BackgroundDependencyLoader]
         private void Load()

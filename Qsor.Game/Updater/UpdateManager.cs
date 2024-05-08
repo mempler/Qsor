@@ -8,7 +8,7 @@ using Qsor.Game.Graphics.UserInterface.Overlays;
 namespace Qsor.Game.Updater
 {
     [Cached]
-    public abstract partial class Updater : Component
+    public abstract partial class UpdateManager : Component
     {
         public readonly Bindable<UpdaterStatus> BindableStatus = new();
         public readonly BindableFloat BindableProgress = new();

@@ -10,20 +10,18 @@ using osu.Framework.Platform;
 using Qsor.Game.Updater;
 using Squirrel;
 using Squirrel.Sources;
+using UpdateManager = Qsor.Game.Updater.UpdateManager;
 
 namespace Qsor.Desktop.Updater
 {
     [Cached]
     [SupportedOSPlatform("windows")]
-    public partial class SquirrelUpdater : Game.Updater.Updater, IDisposable
+    public partial class SquirrelUpdateManager : UpdateManager, IDisposable
     {
-        [Resolved]
-        private Storage Storage { get; set; }
-        
         [Resolved]
         private GameHost Host { get; set; }
 
-        private UpdateManager _updateManager;
+        private Squirrel.UpdateManager _updateManager;
         
 
         [BackgroundDependencyLoader]
@@ -31,7 +29,7 @@ namespace Qsor.Desktop.Updater
         {
             const string GITHUB_ACCESS_TOKEN = null; // TODO: fill in your GitHub access token here
 
-            _updateManager = new UpdateManager(new GithubSource("https://github.com/mempler/Qsor/", GITHUB_ACCESS_TOKEN, true), "qsor");
+            _updateManager = new Squirrel.UpdateManager(new GithubSource("https://github.com/mempler/Qsor/", GITHUB_ACCESS_TOKEN, true), "qsor");
         }
         
         public override async void CheckAvailable()
@@ -50,10 +48,7 @@ namespace Qsor.Desktop.Updater
         {
             if (BindableStatus.Value == UpdaterStatus.Ready)
             {
-                var entry = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
-                if (entry == null)
-                    throw new NullReferenceException();
-                
+                var entry = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? throw new NullReferenceException();
                 var path = Path.Join(entry, "../");
                 
                 Console.WriteLine(path);

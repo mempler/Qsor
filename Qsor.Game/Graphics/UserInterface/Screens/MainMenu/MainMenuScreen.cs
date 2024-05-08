@@ -38,7 +38,7 @@ namespace Qsor.Game.Graphics.UserInterface.Screens.MainMenu
         private Storage Storage { get; set; }
         
         [Resolved]
-        private Updater.Updater Updater { get; set; }
+        private Updater.UpdateManager Updater { get; set; }
 
         [Resolved] 
         private GameHost Host { get; set; }
