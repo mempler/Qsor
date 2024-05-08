@@ -110,13 +110,13 @@ namespace Qsor.Game.Graphics.UserInterface.Overlays.Settings.Drawables.Objects
 
             protected override void OnFocus(FocusEvent e)
             {
-                this.TransformTo(nameof(BorderColour), (SRGBColour)Color4.White, 100);
+                this.TransformTo(nameof(BorderColour), (ColourInfo)Color4.White, 100);
                 base.OnFocus(e);
             }
 
             protected override void OnFocusLost(FocusLostEvent e)
             {
-                this.TransformTo(nameof(BorderColour), (SRGBColour)Color4.DarkGray, 100);
+                this.TransformTo(nameof(BorderColour), (ColourInfo)Color4.DarkGray, 100);
                 base.OnFocusLost(e);
             }
         }
